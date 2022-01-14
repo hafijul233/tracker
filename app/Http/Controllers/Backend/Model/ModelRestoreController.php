@@ -30,7 +30,7 @@ class ModelRestoreController extends Controller
     public function __invoke($route, $id, ModelRestoreRequest $request)
     {
         if ($request->user()->can($route . '.restore')) {
-            return view('model.restore', [
+            return view('backend.model.restore', [
                 'route' => [$route . '.restore', $id],
                 'method' => 'patch'
             ]);
