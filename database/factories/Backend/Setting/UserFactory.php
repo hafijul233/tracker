@@ -48,6 +48,9 @@ class UserFactory extends Factory
         $fileUploadService = new FileUploadService();
 
         return $this->afterCreating(function (User $user) use ($fileUploadService) {
+            if ($user->id > 1):
+                $user->parent_id = ($user->id - 1);
+            endif;
             //attach role
             $user->roles()->attach(Constant::GUEST_ROLE_ID);
             //add profile image

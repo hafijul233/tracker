@@ -2,9 +2,11 @@
 
 namespace App\Models\Backend\Setting;
 
+use App\Models\Backend\Shipment\Item;
 use App\Supports\Constant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -136,8 +138,27 @@ class User extends Authenticatable implements HasMedia, Auditable
         return $this->permissions()->pluck('id')->toArray();
     }
 
-    public function receivers()
+    /**
+     * @return HasMany
+     */
+    public function receivers(): HasMany
+    {
+        return $this->hasMany(User::class, 'parent_id', 'id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function senders(): HasMany
     {
         return $this->hasMany(User::class, 'id', 'parent_id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function items(): HasMany
+    {
+        return $this->hasMany(Item::class, 'user_id', 'id');
     }
 }

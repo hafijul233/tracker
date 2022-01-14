@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
+use App\Supports\Constant;
 use Illuminate\Database\Migrations\Migration;
-use Modules\Core\Supports\Constant;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateItemsTable extends Migration
 {
@@ -20,8 +20,10 @@ class CreateItemsTable extends Migration
         //Table Structure
         Schema::create('items', function (Blueprint $table) {
             $table->id();
-            
-
+            $table->foreignId('user_id')->index();
+            $table->string('name');
+            $table->string('description')->nullable();
+            $table->double('rate', 10, 3)->default(0)->nullable();
             $table->enum('enabled', array_keys(Constant::ENABLED_OPTIONS))
                             ->default(Constant::ENABLED_OPTION)->nullable();
             $table->foreignId('created_by')->index()->nullable();

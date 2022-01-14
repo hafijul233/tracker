@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
+use App\Supports\Constant;
 use Illuminate\Database\Migrations\Migration;
-use Modules\Core\Supports\Constant;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateBranchesTable extends Migration
 {

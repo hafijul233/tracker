@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
+use App\Supports\Constant;
 use Illuminate\Database\Migrations\Migration;
-use Modules\Core\Supports\Constant;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateInvoicesTable extends Migration
 {
@@ -20,7 +20,12 @@ class CreateInvoicesTable extends Migration
         //Table Structure
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            
+            $table->foreignId('sender_id')->nullable();
+            $table->json('sender_info')->nullable();
+            $table->foreignId('receiver_id')->nullable();
+            $table->json('receiver_info')->nullable();
+            $table->foreignId('pickup_check_point_id')->nullable();
+            $table->foreignId('drop_off_check_point_id')->nullable();
 
             $table->enum('enabled', array_keys(Constant::ENABLED_OPTIONS))
                             ->default(Constant::ENABLED_OPTION)->nullable();
