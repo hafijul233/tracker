@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backend\Setting;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Setting\CityRequest;
+use App\Http\Requests\Backend\Setting\CityRequest;
 use App\Services\Auth\AuthenticatedSessionService;
 use App\Services\Backend\Setting\CityService;
 use App\Supports\Utility;
@@ -11,6 +11,7 @@ use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -253,5 +254,28 @@ class CityController extends Controller
             return $cityExport->map($city);
         });
 
+    }
+
+
+    /**
+     * Display a detail of the resource.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function ajax(Request $request): JsonResponse
+    {
+        $filters = $request->except('page');
+
+        $cities = $this->cityService->getAllCities($filters)->toArray();
+
+        if(count($cities) > 0):
+            $jsonReturn = ['status' => true, 'data' => $cities];
+        else :
+            $jsonReturn = ['status' => false, 'data' => []];
+        endif;
+
+        return response()->json($jsonReturn, 200);
     }
 }

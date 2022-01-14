@@ -73,7 +73,7 @@ old('address.address', $defaultAddress->address ?? null), false,
          ['placeholder' => 'Please select a state', 'class' => 'form-control custom-select select2', 'id' => 'state_id']) !!}
 
             {!! \Form::nSelect('address[city_id]', 'City',[], old('address.city_id', $defaultAddress->city_id ?? config('contact.default.city')), true,
-['placeholder' => 'Please select a city', 'class' => 'form-control custom-select select2', 'id' => 'city_id']) !!}
+['placeholder' => 'Please select a city', 'class' => 'form-control custom-select', 'id' => 'city_id']) !!}
 
             {!! \Form::nText('address[post_code]', 'Post/Zip Code',
 old('address.post_code', $defaultAddress->address ?? null), false) !!}
@@ -99,8 +99,8 @@ old('address.post_code', $defaultAddress->address ?? null), false) !!}
         const state_ajax_route = '{{ route('backend.settings.states.ajax') }}';
         const city_ajax_route = '{{ route('backend.settings.cities.ajax') }}';
 
-        var selected_state_id = {{ old('address.state_id', $defaultAddress->state_id ?? config('contact.default.state')) }};
-        var selected_city_id = {{ old('address.city_id', $defaultAddress->city_id ?? config('contact.default.city')) }};
+        var selected_state_id = '{{ old('address.state_id', $defaultAddress->state_id ?? config('contact.default.state')) }}';
+        var selected_city_id = '{{ old('address.city_id', $defaultAddress->city_id ?? config('contact.default.city')) }}';
 
         /**
          * @param dest target object
@@ -184,17 +184,16 @@ old('address.post_code', $defaultAddress->address ?? null), false) !!}
         /**
          *
          * @param requestData request object
-         * @param src country object
-         * @param dest dropdown of branch
+         * @param target dropdown of branch
          * @param selected prefill a options
          */
-        function populateCityDropdown(requestData, src, dest, selected = null) {
+        function populateCityDropdown(requestData, target, selected = null) {
             $.get(city_ajax_route, requestData,
                 function (response) {
                     if (response.status === true) {
-                        dropdownFiller(dest, response.data, 'id', 'name', selected, 'Please Select City');
+                        dropdownFiller(target, response.data, 'id', 'name', selected, 'Please Select City');
                     } else {
-                        dropdownCleaner(dest, 'Please Select City');
+                        dropdownCleaner(target, 'Please Select City');
                     }
                 }, 'json');
         }
@@ -214,12 +213,16 @@ old('address.post_code', $defaultAddress->address ?? null), false) !!}
             $("#state_id").change(function () {
                 var state_id = $(this).val();
                 populateCityDropdown({
-                    'state'
-                })
+                    "state": state_id,
+                    "enabled": "yes"
+                }, $("#city_id"), selected_city_id);
             });
 
             if (selected_state_id.length > 0) {
-
+                populateCityDropdown({
+                    "state": selected_state_id,
+                    "enabled": "yes"
+                }, $("#city_id"), selected_city_id);
             }
 
             $("#customer-form").validate({
