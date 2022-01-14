@@ -3,7 +3,7 @@
 namespace App\Exports\Backend\Setting;
 
 use App\Abstracts\Export\FastExcelExport;
-use App\Models\Setting\User;
+use App\Models\Backend\Setting\User;
 use Box\Spout\Common\Exception\InvalidArgumentException;
 use Illuminate\Database\Eloquent\Collection;
 use function config;
@@ -48,9 +48,10 @@ class UserExport extends FastExcelExport
     {
         $roles = $roles->pluck('name')->toArray();
 
-        if (count($roles) > 0)
+        if (count($roles) > 0) {
             return implode(', ', $roles);
-        else
-            return 'Not Assigned';
+        }
+
+        return 'Not Assigned';
     }
 }

@@ -5,7 +5,7 @@ namespace App\Services\Backend\Setting;
 
 
 use App\Abstracts\Service\Service;
-use App\Exports\Backend\Setting\CityExport;
+use App\Exports\Backend\Setting\UserExport;
 use App\Models\Backend\Setting\User;
 use App\Repositories\Eloquent\Backend\Setting\UserRepository;
 use App\Services\Backend\Common\FileUploadService;
@@ -171,7 +171,7 @@ class UserService extends Service
             unset($requestData['password']);
         }
 
-        \DB::beginTransaction();
+        DB::beginTransaction();
         try {
             //check if user is available or not
             if ($selectUserModel = $this->getUserById($id)) {
@@ -181,22 +181,22 @@ class UserService extends Service
                     $this->attachAvatarImage($selectUserModel, $photo, true)
                 ) {
                     $selectUserModel->save();
-                    \DB::commit();
+                    DB::commit();
                     return ['status' => true, 'message' => __('User Information Updated'),
                         'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
                 } else {
-                    \DB::rollBack();
+                    DB::rollBack();
                     return ['status' => false, 'message' => __('User Information Update Failed'),
                         'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
                 }
             } else {
-                \DB::rollBack();
+                DB::rollBack();
                 return ['status' => false, 'message' => __('Invalid User ID Update Failed'),
                     'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Alert!'];
             }
         } catch (Exception $exception) {
             $this->userRepository->handleException($exception);
-            \DB::rollBack();
+            DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
         }
@@ -209,20 +209,20 @@ class UserService extends Service
      */
     public function destroyUser($id): array
     {
-        \DB::beginTransaction();
+        DB::beginTransaction();
         try {
             if ($this->userRepository->delete($id)) {
-                \DB::commit();
+                DB::commit();
                 return ['status' => true, 'message' => __('User is Trashed'),
                     'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
             } else {
-                \DB::rollBack();
+                DB::rollBack();
                 return ['status' => false, 'message' => __('User is Delete Failed'),
                     'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
             }
         } catch (\Exception $exception) {
             $this->userRepository->handleException($exception);
-            \DB::rollBack();
+            DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
         }
@@ -258,21 +258,21 @@ class UserService extends Service
      */
     public function restoreUser($id): array
     {
-        \DB::beginTransaction();
+        DB::beginTransaction();
         try {
             if ($this->userRepository->restore($id)) {
-                \DB::commit();
+                DB::commit();
                 return ['status' => true, 'message' => __('User is Restored'),
                     'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
 
             } else {
-                \DB::rollBack();
+                DB::rollBack();
                 return ['status' => false, 'message' => __('User is Restoration Failed'),
                     'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
             }
         } catch (Exception $exception) {
             $this->userRepository->handleException($exception);
-            \DB::rollBack();
+            DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
         }
@@ -282,12 +282,12 @@ class UserService extends Service
      * Export Object for Export Download
      *
      * @param array $filters
-     * @return CityExport
+     * @return UserExport
      * @throws Exception
      * @throws InvalidArgumentException
      */
-    public function exportUser(array $filters = []): CityExport
+    public function exportUser(array $filters = []): UserExport
     {
-        return (new CityExport($this->userRepository->getAllUserWith($filters)));
+        return (new UserExport($this->userRepository->getAllUserWith($filters)));
     }
 }
