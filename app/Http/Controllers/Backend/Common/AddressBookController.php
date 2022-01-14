@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * @class AddressBookController
- * @package $NAMESPACE$
+ * @package App\Http\Controllers\Backend\Common
  */
 class AddressBookController extends Controller
 {

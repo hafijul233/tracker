@@ -36,7 +36,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="card card-default">
-                    @if(!empty($addressbooks))
+                    @if(!empty($addressBooks))
                         <div class="card-body p-0">
                             {!! \Html::cardSearch('search', 'backend.common.address-books.index',
                             ['placeholder' => 'Search AddressBook Name etc.',
@@ -48,18 +48,47 @@
                                         <th class="align-middle">
                                             @sortablelink('id', '#')
                                         </th>
-                                        <th>@sortablelink('name', 'Name')</th>
+                                        @if(\App\Services\Auth\AuthenticatedSessionService::isSuperAdmin())
+                                            <th class="align-middle">
+                                                @sortablelink('user.name', 'User')
+                                            </th>
+                                        @endif
+                                        <th>@sortablelink('type', 'Type')</th>
+                                        <th>@sortablelink('name', 'Representative')</th>
+                                        <th>@sortablelink('phone', 'Contact')</th>
+                                        <th>Address</th>
                                         <th class="text-center">@sortablelink('enabled', 'Enabled')</th>
                                         <th class="text-center">@sortablelink('created_at', 'Created')</th>
                                         <th class="text-center">Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @forelse($addressbooks as $index => $addressbook)
+                                    @forelse($addressBooks as $index => $addressbook)
                                         <tr @if($addressbook->deleted_at != null) class="table-danger" @endif>
                                             <td class="exclude-search align-middle">
                                                 {{ $addressbook->id }}
                                             </td>
+                                            @if(\App\Services\Auth\AuthenticatedSessionService::isSuperAdmin())
+                                                <td class="text-left pl-0">
+                                                    <div class="media">
+                                                        <img class="align-self-center mr-1 img-circle direct-chat-img elevation-1"
+                                                             src="{{ $addressbook->user->getFirstMediaUrl('avatars') }}" alt="{{ $addressbook->user->name }}">
+                                                        <div class="media-body">
+                                                            <p class="my-0">
+                                                                @if(auth()->user()->can('backend.settings.users.show') || $addressbook->user->id == auth()->user()->id)
+                                                                    <a href="{{ route('backend.settings.users.show', $addressbook->user->id) }}">
+                                                                        {{ $addressbook->user->name }}
+                                                                    </a>
+                                                                @else
+                                                                    {{ $addressbook->user->name }}
+                                                                @endif
+                                                            </p>
+                                                            <p class="mb-0 small">{{ $addressbook->user->username }}</p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            @endif
+                                            <td>{{ config("contact.address_type.{$addressbook->type}") }}</td>
                                             <td class="text-left">
                                                 @can('backend.common.address-books.show')
                                                     <a href="{{ route('backend.common.address-books.show', $addressbook->id) }}">
@@ -69,6 +98,8 @@
                                                     {{ $addressbook->name }}
                                                 @endcan
                                             </td>
+                                            <td>{{ $addressbook->phone }}</td>
+                                            <td>{{ \App\Supports\Utility::getAddressBlock($addressbook) }}</td>
                                             <td class="text-center exclude-search">
                                                 {!! \Html::enableToggle($addressbook) !!}
                                             </td>
@@ -87,7 +118,7 @@
                             </div>
                         </div>
                         <div class="card-footer bg-transparent pb-0">
-                            {!! \App\Supports\CHTML::pagination($addressbooks) !!}
+                            {!! \App\Supports\CHTML::pagination($addressBooks) !!}
                         </div>
                     @else
                         <div class="card-body min-vh-100">

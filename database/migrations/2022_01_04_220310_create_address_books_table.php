@@ -27,6 +27,8 @@ class CreateAddressBooksTable extends Migration
             $table->string('address');
             $table->string('post_code')->nullable();
             $table->string('remark')->nullable();
+            $table->enum('fallback', array_keys(Constant::ENABLED_OPTIONS))
+                ->default(Constant::ENABLED_OPTION)->nullable();
             $table->enum('enabled', array_keys(Constant::ENABLED_OPTIONS))
                 ->default(Constant::ENABLED_OPTION)->nullable();
             $table->foreignId('city_id')->index()->nullable();

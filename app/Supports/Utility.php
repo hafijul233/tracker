@@ -3,6 +3,7 @@
 
 namespace App\Supports;
 
+use App\Models\Backend\Common\AddressBook;
 use App\Repositories\Eloquent\Backend\Setting\UserRepository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -146,4 +147,31 @@ class Utility
         return $routes;
     }
 
+    /**
+     * @param AddressBook $addressBook
+     * @return string
+     */
+    public static function getAddressBlock(AddressBook $addressBook): string
+    {
+
+        $address = ($addressBook->address ?? null) . ', ';
+
+        if (!empty($addressBook->post_code)):
+            $address .= ($addressBook->post_code . ', ');
+        endif;
+
+        if (!empty($addressBook->city_id)):
+            $address .= ($addressBook->city->name . ', ');
+        endif;
+
+        if (!empty($addressBook->state_id)):
+            $address .= ($addressBook->state->name . ', ');
+        endif;
+
+        if (!empty($addressBook->country_id)):
+            $address .= ($addressBook->country->name . ', ' . $addressBook->country->iso3 . '.');
+        endif;
+
+        return $address;
+    }
 }

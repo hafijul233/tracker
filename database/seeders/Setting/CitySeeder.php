@@ -2,7 +2,6 @@
 
 namespace Database\Seeders\Setting;
 
-use App\Models\Backend\Setting\Country;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
@@ -21,7 +20,9 @@ class CitySeeder extends Seeder
         Model::unguard();
         DB::disableQueryLog();
         DB::table('cities')->truncate();
-        $countryIdArray = Country::all()->pluck('id')->toArray();
+        DB::unprepared(file_get_contents(__DIR__ . '/cities/019.sql'));
+        DB::enableQueryLog();
+/*        $countryIdArray = Country::all()->pluck('id')->toArray();
         foreach ($countryIdArray as $countryId) {
             $filename = __DIR__ . DIRECTORY_SEPARATOR . "cities" . DIRECTORY_SEPARATOR . str_pad($countryId, 3, "0", STR_PAD_LEFT) . '.sql';
             try {
@@ -32,11 +33,11 @@ class CitySeeder extends Seeder
                         sleep(1);
                         $this->command->info("Time : " . date("H:i:s") . " Country : " . $countryId);
                     }
-                }/* else
-                    throw new FileNotFoundException("File Not Found. Location: " . $filename);*/
+                } else
+                    throw new FileNotFoundException("File Not Found. Location: " . $filename);
             } catch (\PDOException $exception) {
                 throw new \PDOException($exception->getMessage());
             }
-        }
+        }*/
     }
 }

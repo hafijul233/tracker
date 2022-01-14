@@ -81,8 +81,6 @@
                                                         <p class="mb-0 small">{{ $user->username }}</p>
                                                     </div>
                                                 </div>
-
-
                                             </td>
                                             <td class="text-center">{{ $user->mobile ?? '-' }}</td>
                                             <td class="text-center">

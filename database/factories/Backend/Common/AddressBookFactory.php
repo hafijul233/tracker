@@ -29,9 +29,9 @@ class AddressBookFactory extends Factory
             'post_code' => $this->faker->postcode(),
             'remark' => $this->faker->paragraph(2),
             'enabled' => Constant::ENABLED_OPTION,
-            'city_id' => null,
-            'state_id' => 771,//Dhaka
-            'country_id' => 18 //Bangladesh
+            'city_id' => config('contact.default.city'),
+            'state_id' => config('contact.default.state'),//Dhaka
+            'country_id' => config('contact.default.country') //Bangladesh
         ];
     }
 }

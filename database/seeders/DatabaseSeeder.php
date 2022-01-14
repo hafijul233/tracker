@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Database\Seeders\Setting\CitySeeder;
 use Database\Seeders\Setting\CountrySeeder;
 use Database\Seeders\Setting\OccupationSeeder;
 use Database\Seeders\Setting\PermissionSeeder;
@@ -25,6 +26,7 @@ class DatabaseSeeder extends Seeder
         Model::unguard();
         $this->call(CountrySeeder::class);
         $this->call(StateSeeder::class);
+        $this->call(CitySeeder::class);
         $this->call(OccupationSeeder::class);
 
         $this->call(PermissionSeeder::class);
@@ -32,5 +34,6 @@ class DatabaseSeeder extends Seeder
         $this->call(RolePermissionSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(UserRegisterSeeder::class);
+
     }
 }
