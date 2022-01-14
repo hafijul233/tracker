@@ -1,20 +1,10 @@
 @extends('layouts.app')
 
-@section('title', $user->name ?? 'Details')
-
-@push('plugin-style')
-
-@endpush
-
-@push('page-style')
-
-@endpush
-
 @section('content')
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-3">
-                @include('backend.setting.user.partials.user-card', $user)
+                @include('layouts.includes.profile-sidebar', $user)
             </div>
             <div class="col-md-9">
                 <div class="card">

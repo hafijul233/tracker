@@ -46,13 +46,14 @@
         @endif
 
         <div class="list-group list-group-flush mt-3">
-            <a href="#" class="list-group-item list-group-item-action active">
-                Cras justo odio
+            <a href="{{ route('backend.settings.users.show', $user->id) }}"
+               class="rounded list-group-item list-group-item-action @if(\Route::is('backend.settings.users.show')) active @endif">
+                <span class="@if(\Route::is('backend.settings.users.show')) font-weight-bold @endif">
+                <i class="fa fa-user-circle mr-2"></i>
+                    Profile Detail
+                </span>
             </a>
-            <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
-            <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
-            <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
-            <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>
+
         </div>
     </div>
     <!-- /.card-body -->
