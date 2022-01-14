@@ -73,41 +73,41 @@
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label class="d-block">Name</label>
-                                        <p class="fw-bolder">{{ $state->name ?? null }}</p>
+                                        <p class="font-weight-bold">{{ $state->name ?? null }}</p>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="d-block">Native</label>
-                                        <p class="fw-bolder">{!! $state->native ?? null  !!}</p>
+                                        <p class="font-weight-bold">{!! $state->native ?? null  !!}</p>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="d-block">Country</label>
-                                        <p class="fw-bolder">{{ $state->country->name ?? null }}</p>
+                                        <p class="font-weight-bold">{{ $state->country->name ?? null }}</p>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="d-block">Region</label>
-                                        <p class="fw-bolder">{{ $state->country->region ?? null }}</p>
+                                        <p class="font-weight-bold">{{ $state->country->region ?? null }}</p>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="d-block">Sub-Region</label>
-                                        <p class="fw-bolder">{{ $state->country->subregion ?? null }}</p>
+                                        <p class="font-weight-bold">{{ $state->country->subregion ?? null }}</p>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="d-block">Latitude</label>
-                                        <p class="fw-bolder">{{ $state->latitude ?? null }}</p>
+                                        <p class="font-weight-bold">{{ $state->latitude ?? null }}</p>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="d-block">Longitude</label>
-                                        <p class="fw-bolder">{{ $state->longitude ?? null }}</p>
+                                        <p class="font-weight-bold">{{ $state->longitude ?? null }}</p>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="d-block">Enabled</label>
-                                        <p class="fw-bolder">{{ \App\Supports\Constant::ENABLED_OPTIONS[$state->enabled] }}</p>
+                                        <p class="font-weight-bold">{{ \App\Supports\Constant::ENABLED_OPTIONS[$state->enabled] }}</p>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12">
                                         <label class="d-block">Remarks</label>
-                                        <p class="fw-bolder">{{ $state->remarks ?? null }}</p>
+                                        <p class="font-weight-bold">{{ $state->remarks ?? null }}</p>
                                     </div>
                                 </div>
                             </div>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Customers')
+@section('title', 'Users')
 
 @push('meta')
 
@@ -27,8 +27,8 @@
 @section('breadcrumbs', \Breadcrumbs::render())
 
 @section('actions')
-    {!! \Html::linkButton('Add Customer', 'backend.shipment.customers.create', [], 'fas fa-plus', 'success') !!}
-    {!! \Html::bulkDropdown('backend.shipment.customers', 0, ['color' => 'warning']) !!}
+    {!! \Html::linkButton('Add User', 'backend.settings.users.create', [], 'fas fa-plus', 'success') !!}
+    {!! \Html::bulkDropdown('backend.settings.users', 0, ['color' => 'warning']) !!}
 
 @endsection
 
@@ -39,11 +39,11 @@
                 <div class="card card-default">
                     @if(!empty($customers))
                         <div class="card-body p-0">
-                            {!! \Html::cardSearch('search', 'backend.shipment.customers.index',
+                            {!! \Html::cardSearch('search', 'backend.settings.users.index',
         ['placeholder' => 'Search Role Name, Code, Guard, Status, etc.',
-        'class' => 'form-control', 'id' => 'search', 'data-target-table' => 'customer-table']) !!}
+        'class' => 'form-control', 'id' => 'search', 'data-target-table' => 'user-table']) !!}
                             <div class="table-responsive">
-                                <table class="table table-hover mb-0" id="customer-table">
+                                <table class="table table-hover mb-0" id="user-table">
                                     <thead class="thead-light">
                                     <tr>
                                         <th class="align-middle">
@@ -67,25 +67,26 @@
                                             <td class="text-left pl-0">
                                                 <div class="media">
                                                     <img class="align-self-center mr-1 img-circle direct-chat-img elevation-1"
-                                                         src="{{ $customer->getFirstMediaUrl('avatars') }}"
-                                                         alt="{{ $customer->name }}">
+                                                         src="{{ $customer->getFirstMediaUrl('avatars') }}" alt="{{ $customer->name }}">
                                                     <div class="media-body">
                                                         <p class="my-0">
-                                                            @if(auth()->user()->can('backend.shipment.customers.show') || $customer->id == auth()->user()->id)
-                                                                <a href="{{ route('backend.shipment.customers.show', $customer->id) }}">
+                                                            @if(auth()->user()->can('backend.settings.users.show') || $customer->id == auth()->user()->id)
+                                                                <a href="{{ route('backend.settings.users.show', $customer->id) }}">
                                                                     {{ $customer->name }}
                                                                 </a>
                                                             @else
                                                                 {{ $customer->name }}
                                                             @endif
                                                         </p>
-                                                        <p class="mb-0 small">{{ $customer->customername }}</p>
+                                                        <p class="mb-0 small">{{ $customer->username }}</p>
                                                     </div>
                                                 </div>
+
+
                                             </td>
                                             <td class="text-center">{{ $customer->mobile ?? '-' }}</td>
                                             <td class="text-center">
-                                                {!! \App\Supports\CHTML::displayTags($customer->roles->pluck('name')->toArray(), 'fas fa-customer-secret') !!}
+                                                {!! \App\Supports\CHTML::displayTags($customer->roles->pluck('name')->toArray(), 'fas fa-user-secret') !!}
                                             </td>
                                             <td class="text-left">{{ $customer->email ?? '-' }}</td>
                                             <td class="text-center exclude-search">
@@ -93,7 +94,7 @@
                                             </td>
                                             <td class="text-center">{{ $customer->created_at->format(config('backend.datetime')) ?? '' }}</td>
                                             <td class="exclude-search pr-3 text-center align-middle">
-                                                {!! \Html::actionDropdown('backend.shipment.customers', $customer->id, array_merge(['show', 'edit'], ($customer->deleted_at == null) ? ['delete'] : ['restore'])) !!}
+                                                {!! \Html::actionDropdown('backend.settings.users', $customer->id, array_merge(['show', 'edit'], ($customer->deleted_at == null) ? ['delete'] : ['restore'])) !!}
                                             </td>
                                         </tr>
                                     @empty
@@ -108,7 +109,6 @@
                         <div class="card-footer bg-transparent pb-0">
                             {!! \App\Supports\CHTML::pagination($customers) !!}
                         </div>
-
                     @else
                         <div class="card-body min-vh-100">
 
@@ -119,7 +119,7 @@
         </div>
     </div>
     <!-- /.container-fluid -->
-    {!! \App\Supports\CHTML::confirmModal('Customer', ['export', 'delete', 'restore']) !!}
+    {!! \App\Supports\CHTML::confirmModal('User', ['export', 'delete', 'restore']) !!}
 @endsection
 
 

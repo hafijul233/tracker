@@ -75,21 +75,21 @@
                                 <div class="row mb-3">
                                     <div class="col-md-4">
                                         <label class="d-block">Name</label>
-                                        <p class="fw-bolder">{{ $role->name ?? null }}</p>
+                                        <p class="font-weight-bold">{{ $role->name ?? null }}</p>
                                     </div>
                                     <div class="col-md-4">
                                         <label class="d-block">Guard(s)</label>
-                                        <p class="fw-bolder">{{ $role->guard_name ?? null }}</p>
+                                        <p class="font-weight-bold">{{ $role->guard_name ?? null }}</p>
                                     </div>
                                     <div class="col-md-4">
                                         <label class="d-block">Enabled</label>
-                                        <p class="fw-bolder">{{ \App\Supports\Constant::ENABLED_OPTIONS[$role->enabled] ?? null }}</p>
+                                        <p class="font-weight-bold">{{ \App\Supports\Constant::ENABLED_OPTIONS[$role->enabled] ?? null }}</p>
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-12">
                                         <label class="d-block">Remarks</label>
-                                        <p class="fw-bolder">{{ $role->remarks ?? null }}</p>
+                                        <p class="font-weight-bold">{{ $role->remarks ?? null }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -103,7 +103,7 @@
                                             </p>
                                         </div>
                                     @empty
-                                        <div class="col-12 text-center fw-bolder">This Role Don't have any
+                                        <div class="col-12 text-center font-weight-bold">This Role Don't have any
                                             Permission/Privileges
                                         </div>
                                     @endforelse

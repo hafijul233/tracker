@@ -59,25 +59,25 @@
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label class="d-block">Name</label>
-                                        <p class="fw-bolder">{{ $catalog->name ?? null }}</p>
+                                        <p class="font-weight-bold">{{ $catalog->name ?? null }}</p>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="d-block">Model</label>
-                                        <p class="fw-bolder">{{ class_basename($catalog->model_type) }}</p>
+                                        <p class="font-weight-bold">{{ class_basename($catalog->model_type) }}</p>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="d-block">Location</label>
-                                        <p class="fw-bolder">{{ $catalog->model_type }}</p>
+                                        <p class="font-weight-bold">{{ $catalog->model_type }}</p>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="d-block">Enabled</label>
-                                        <p class="fw-bolder">{{ \App\Supports\Constant::ENABLED_OPTIONS[$catalog->enabled] }}</p>
+                                        <p class="font-weight-bold">{{ \App\Supports\Constant::ENABLED_OPTIONS[$catalog->enabled] }}</p>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12">
                                         <label class="d-block">Remarks</label>
-                                        <p class="fw-bolder">{{ $catalog->remarks ?? null }}</p>
+                                        <p class="font-weight-bold">{{ $catalog->remarks ?? null }}</p>
                                     </div>
                                 </div>
                             </div>

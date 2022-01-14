@@ -59,17 +59,17 @@
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label class="d-block">Name</label>
-                                        <p class="fw-bolder">{{ $label->name ?? null }}</p>
+                                        <p class="font-weight-bold">{{ $label->name ?? null }}</p>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="d-block">Enabled</label>
-                                        <p class="fw-bolder">{{ \App\Supports\Constant::ENABLED_OPTIONS[$label->enabled] }}</p>
+                                        <p class="font-weight-bold">{{ \App\Supports\Constant::ENABLED_OPTIONS[$label->enabled] }}</p>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12">
                                         <label class="d-block">Remarks</label>
-                                        <p class="fw-bolder">{{ $label->remarks ?? null }}</p>
+                                        <p class="font-weight-bold">{{ $label->remarks ?? null }}</p>
                                     </div>
                                 </div>
                             </div>

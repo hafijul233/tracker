@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Customer')
+@section('title', 'Edit User')
 
 @push('meta')
 
@@ -22,20 +22,19 @@
 
 @endpush
 
-
-@section('breadcrumbs', \Breadcrumbs::render(Route::getCurrentRoute()->getName(), $customer))
+@section('breadcrumbs', Breadcrumbs::render(Route::getCurrentRoute()->getName(), $customer))
 
 @section('actions')
-    {!! \Html::backButton('core.settings.customers.index') !!}
+    {!! \Html::backButton('backend.settings.users.index') !!}
 @endsection
 
 @section('content')
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-12">
-                <div class="card">
-                    {!! \Form::open(['route' => ['core.settings.customers.update', $customer->id], 'method' => 'put', 'id' => 'customer-form']) !!}
-                    @include('setting.customer.form')
+            <div class="col-12">
+                <div class="card card-default">
+                    {!! \Form::open(['route' => ['backend.settings.users.update', $customer->id], 'files' => true, 'id' => 'user-form', 'method' => 'put']) !!}
+                    @include('backend.setting.user.form')
                     {!! \Form::close() !!}
                 </div>
             </div>
@@ -43,10 +42,10 @@
     </div>
 @endsection
 
-
-@push('plugin-script')
+@push('component-script')
 
 @endpush
+
 
 @push('page-script')
 

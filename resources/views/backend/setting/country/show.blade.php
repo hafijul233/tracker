@@ -73,44 +73,44 @@
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label class="d-block">Name</label>
-                                        <p class="fw-bolder">{{ $country->name ?? null }}</p>
+                                        <p class="font-weight-bold">{{ $country->name ?? null }}</p>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="d-block">Native</label>
-                                        <p class="fw-bolder">{!! $country->native ?? null  !!}</p>
+                                        <p class="font-weight-bold">{!! $country->native ?? null  !!}</p>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="d-block">ISO Alpha-2 Code</label>
-                                        <p class="fw-bolder">{{ $country->iso2 ?? null }}</p>
+                                        <p class="font-weight-bold">{{ $country->iso2 ?? null }}</p>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="d-block">ISO Alpha-3 Code</label>
-                                        <p class="fw-bolder">{{ $country->iso3 ?? null }}</p>
+                                        <p class="font-weight-bold">{{ $country->iso3 ?? null }}</p>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="d-block">Phone Code</label>
-                                        <p class="fw-bolder">{{ $country->phone_code ?? null }}</p>
+                                        <p class="font-weight-bold">{{ $country->phone_code ?? null }}</p>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="d-block">Numeric Code</label>
-                                        <p class="fw-bolder">{{ $country->numeric_code ?? null }}</p>
+                                        <p class="font-weight-bold">{{ $country->numeric_code ?? null }}</p>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="d-block">States</label>
-                                        <p class="fw-bolder">{{ $country->total_states ?? null }}</p>
+                                        <p class="font-weight-bold">{{ $country->total_states ?? null }}</p>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="d-block">Cities</label>
-                                        <p class="fw-bolder">{{ $country->total_cities ?? null }}</p>
+                                        <p class="font-weight-bold">{{ $country->total_cities ?? null }}</p>
                                     </div>
 
                                     <div class="col-md-6">
                                         <label class="d-block">Capital</label>
-                                        <p class="fw-bolder">{{ $country->capital ?? null }}</p>
+                                        <p class="font-weight-bold">{{ $country->capital ?? null }}</p>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="d-block">Currency</label>
-                                        <p class="fw-bolder">
+                                        <p class="font-weight-bold">
                                             {{ $country->currency ?? null }}
                                             @if($country->currency_symbol != null)
                                                 ({!! $country->currency_symbol !!})
@@ -119,23 +119,23 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label class="d-block">Region</label>
-                                        <p class="fw-bolder">{{ $country->region ?? null }}</p>
+                                        <p class="font-weight-bold">{{ $country->region ?? null }}</p>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="d-block">Sub-Region</label>
-                                        <p class="fw-bolder">{{ $country->subregion ?? null }}</p>
+                                        <p class="font-weight-bold">{{ $country->subregion ?? null }}</p>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="d-block">Latitude</label>
-                                        <p class="fw-bolder">{{ $country->latitude ?? null }}</p>
+                                        <p class="font-weight-bold">{{ $country->latitude ?? null }}</p>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="d-block">Longitude</label>
-                                        <p class="fw-bolder">{{ $country->longitude ?? null }}</p>
+                                        <p class="font-weight-bold">{{ $country->longitude ?? null }}</p>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="d-block">Flag Emoji</label>
-                                        <p class="fw-bolder">
+                                        <p class="font-weight-bold">
                                             {{ $country->emoji ?? null }}
 
                                             @if($country->emojiU != null)
@@ -145,7 +145,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label class="d-block">Enabled</label>
-                                        <p class="fw-bolder">{{ \App\Supports\Constant::ENABLED_OPTIONS[$country->enabled] }}</p>
+                                        <p class="font-weight-bold">{{ \App\Supports\Constant::ENABLED_OPTIONS[$country->enabled] }}</p>
                                     </div>
                                 </div>
                                 <div class="row mb-3">
@@ -206,7 +206,7 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <label class="d-block">Remarks</label>
-                                        <p class="fw-bolder">{{ $country->remarks ?? null }}</p>
+                                        <p class="font-weight-bold">{{ $country->remarks ?? null }}</p>
                                     </div>
                                 </div>
                             </div>
