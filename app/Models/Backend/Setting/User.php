@@ -2,6 +2,7 @@
 
 namespace App\Models\Backend\Setting;
 
+use App\Models\Backend\Common\AddressBook;
 use App\Models\Backend\Shipment\Item;
 use App\Supports\Constant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -160,5 +161,13 @@ class User extends Authenticatable implements HasMedia, Auditable
     public function items(): HasMany
     {
         return $this->hasMany(Item::class, 'user_id', 'id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function addressBooks(): HasMany
+    {
+        return $this->hasMany(AddressBook::class, 'user_id', 'id');
     }
 }
