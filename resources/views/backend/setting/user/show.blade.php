@@ -22,7 +22,7 @@
 
 @endpush
 
-@section('breadcrumbs', Breadcrumbs::render(\Route::getCurrentRoute()->getName(), $user))
+@section('breadcrumbs', \Breadcrumbs::render(\Route::getCurrentRoute()->getName(), $user))
 
 @section('actions')
     {!! \Html::backButton('backend.settings.users.index') !!}

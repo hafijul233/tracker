@@ -89,6 +89,9 @@ class UserService extends Service
         //hash user password
         $requestData['password'] = Utility::hashPassword(($requestData['password'] ?? Constant::PASSWORD));
 
+        //force password reset
+        $requestData['force_pass_reset'] = true;
+
         DB::beginTransaction();
         try {
             if ($newUser = $this->userRepository->create($requestData)) {
@@ -160,6 +163,10 @@ class UserService extends Service
         //hash user password
         if (!empty($requestData['password'])) {
             $requestData['password'] = Utility::hashPassword($requestData['password']);
+
+            //force password reset
+            $requestData['force_pass_reset'] = true;
+
         } else {
             unset($requestData['password']);
         }

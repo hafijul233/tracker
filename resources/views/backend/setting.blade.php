@@ -30,8 +30,7 @@
 @section('breadcrumbs', \Breadcrumbs::render())
 
 @section('actions')
-    {!! \Html::linkButton('Add Setting', 'backend.settings.create', [], 'fas fa-plus', 'success') !!}
-    {!! \Html::bulkDropdown('backend.settings', 0, ['color' => 'warning']) !!}
+    {!! \Html::backButton('backend') !!}
 @endsection
 
 @section('content')
@@ -39,12 +38,6 @@
         <div class="row">
             <div class="col-12">
                 <div class="card card-default">
-                    <div class="card-header p-0 border-bottom-0">
-                        {!! \Html::cardSearch('search', 'backend.settings.index',
-['placeholder' => 'Search Setting Name, Module, etc.',
-'class' => 'form-control', 'id' => 'search', 'data-target-table' => 'user-table']) !!}
-
-                    </div>
                     @if(!empty($settings))
                         <div class="card-body min-vh-100 pt-0">
                             <div class="row">
