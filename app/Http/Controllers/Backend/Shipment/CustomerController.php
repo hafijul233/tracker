@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Backend\Shipment;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\Shipment\CustomerRequest;
 use App\Services\Auth\AuthenticatedSessionService;
+use App\Services\Backend\Setting\RoleService;
 use App\Services\Backend\Shipment\CustomerService;
+use App\Supports\Constant;
 use App\Supports\Utility;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
@@ -25,26 +27,33 @@ class CustomerController extends Controller
      * @var AuthenticatedSessionService
      */
     private $authenticatedSessionService;
-    
+
     /**
      * @var CustomerService
      */
     private $customerService;
+    /**
+     * @var RoleService
+     */
+    private $roleService;
 
     /**
      * CustomerController Constructor
      *
      * @param AuthenticatedSessionService $authenticatedSessionService
      * @param CustomerService $customerService
+     * @param RoleService $roleService
      */
     public function __construct(AuthenticatedSessionService $authenticatedSessionService,
-                                CustomerService              $customerService)
+                                CustomerService             $customerService,
+                                RoleService                 $roleService)
     {
 
         $this->authenticatedSessionService = $authenticatedSessionService;
         $this->customerService = $customerService;
+        $this->roleService = $roleService;
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -55,7 +64,7 @@ class CustomerController extends Controller
     {
         $filters = $request->except('page');
         $customers = $this->customerService->customerPaginate($filters);
-        
+
         return view('backend.shipment.customer.index', [
             'customers' => $customers
         ]);
@@ -65,10 +74,18 @@ class CustomerController extends Controller
      * Show the form for creating a new resource.
      *
      * @return Application|Factory|View
+     * @throws Exception
      */
     public function create()
     {
-        return view('backend.shipment.customer.create');
+        $roles = $this->roleService->roleDropdown([
+            'id' => [Constant::SENDER_ROLE_ID, Constant::RECEIVER_ROLE_ID],
+            'enabled' => Constant::ENABLED_OPTION
+        ]);
+
+        return view('backend.shipment.customer.create', [
+            'roles' => $roles
+        ]);
     }
 
     /**

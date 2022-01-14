@@ -8,7 +8,6 @@ use App\Services\Auth\AuthenticatedSessionService;
 use App\Services\Backend\Setting\CountryService;
 use App\Services\Backend\Setting\RoleService;
 use App\Services\Backend\Setting\UserService;
-use App\Supports\Constant;
 use App\Supports\Utility;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
@@ -44,17 +43,14 @@ class UserController extends Controller
      * @param AuthenticatedSessionService $authenticatedSessionService
      * @param UserService $userService
      * @param RoleService $roleService
-     * @param CountryService $countryService
      */
     public function __construct(AuthenticatedSessionService $authenticatedSessionService,
                                 UserService                 $userService,
-                                RoleService                 $roleService,
-                                CountryService              $countryService)
+                                RoleService                 $roleService)
     {
         $this->userService = $userService;
         $this->authenticatedSessionService = $authenticatedSessionService;
         $this->roleService = $roleService;
-        $this->countryService = $countryService;
     }
 
     /**
@@ -82,11 +78,9 @@ class UserController extends Controller
     public function create(): View
     {
         $roles = $this->roleService->roleDropdown();
-        $countries = $this->countryService->getCountryDropdown(['enabled' => Constant::ENABLED_OPTION]);
 
         return view('backend.setting.user.create', [
-            'roles' => $roles,
-            'countries' => $countries
+            'roles' => $roles
         ]);
     }
 
@@ -144,13 +138,11 @@ class UserController extends Controller
         if ($user = $this->userService->getUserById($id)) {
             $roles = $this->roleService->roleDropdown();
             $user_roles = $user->roles()->pluck('id')->toArray() ?? [];
-            $countries = $this->countryService->getCountryDropdown(['enabled' => Constant::ENABLED_OPTION]);
 
             return view('backend.setting.user.edit', [
                 'user' => $user,
                 'roles' => $roles,
-                'user_roles' => $user_roles,
-                'countries' => $countries
+                'user_roles' => $user_roles
             ]);
         }
 

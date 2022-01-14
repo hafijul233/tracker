@@ -119,6 +119,14 @@ class RoleRepository extends EloquentRepository
             $query->orderBy($filters['sort'], $filters['direction']);
         endif;
 
+        if (isset($filters['id']) && !empty($filters['id'])) :
+            if (is_array($filters['id'])):
+                $query->whereIn('id', $filters['id']);
+            else :
+                $query->where('id', $filters['id']);
+            endif;
+        endif;
+
 
         if ($is_sortable == true) :
             $query->sortable();
@@ -158,7 +166,7 @@ class RoleRepository extends EloquentRepository
      * @return Builder[]|Collection
      * @throws Exception
      */
-    public function getAllRoleWith(array $filters = [], array $eagerRelations = [], bool $is_sortable = false)
+    public function getAllWith(array $filters = [], array $eagerRelations = [], bool $is_sortable = false)
     {
         $query = $this->getQueryBuilder();
         try {

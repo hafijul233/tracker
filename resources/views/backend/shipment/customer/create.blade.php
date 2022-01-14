@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Add User')
+@section('title', 'Add Customer')
 
 @push('meta')
 
@@ -26,7 +26,7 @@
 @section('breadcrumbs', Breadcrumbs::render(Route::getCurrentRoute()->getName()))
 
 @section('actions')
-    {!! \Html::backButton('backend.settings.users.index') !!}
+    {!! \Html::backButton('backend.shipment.customers.index') !!}
 @endsection
 
 @section('content')
@@ -34,7 +34,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    {!! \Form::open(['route' => 'backend.settings.users.store', 'files' => true, 'id' => 'user-form']) !!}
+                    {!! \Form::open(['route' => 'backend.shipment.customers.store', 'files' => true, 'id' => 'user-form']) !!}
                     @include('backend.setting.user.form')
                     {!! \Form::close() !!}
                 </div>

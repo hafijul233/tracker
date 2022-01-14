@@ -10,7 +10,7 @@
             {!! \Form::nText('name', 'Name', old('name', $customer->name ?? null), true) !!}
         </div>
         <div class="col-md-6">
-            {!! \Form::nText('username', 'Username', old('username', $customer->username ?? null),
+            {!! \Form::nText('username', 'Customername', old('username', $customer->username ?? null),
                 (config('auth.credential_field') == \App\Supports\Constant::LOGIN_USERNAME)) !!}
         </div>
     </div>

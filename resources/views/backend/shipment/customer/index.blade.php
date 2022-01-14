@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Users')
+@section('title', 'Customers')
 
 @push('meta')
 
@@ -22,13 +22,11 @@
 
 @endpush
 
-
-
 @section('breadcrumbs', \Breadcrumbs::render())
 
 @section('actions')
-    {!! \Html::linkButton('Add User', 'backend.settings.users.create', [], 'fas fa-plus', 'success') !!}
-    {!! \Html::bulkDropdown('backend.settings.users', 0, ['color' => 'warning']) !!}
+    {!! \Html::linkButton('Add Customer', 'backend.shipment.customers.create', [], 'fas fa-plus', 'success') !!}
+    {!! \Html::bulkDropdown('backend.shipment.customers', 0, ['color' => 'warning']) !!}
 
 @endsection
 
@@ -39,7 +37,7 @@
                 <div class="card card-default">
                     @if(!empty($customers))
                         <div class="card-body p-0">
-                            {!! \Html::cardSearch('search', 'backend.settings.users.index',
+                            {!! \Html::cardSearch('search', 'backend.shipment.customers.index',
         ['placeholder' => 'Search Role Name, Code, Guard, Status, etc.',
         'class' => 'form-control', 'id' => 'search', 'data-target-table' => 'user-table']) !!}
                             <div class="table-responsive">
@@ -70,8 +68,8 @@
                                                          src="{{ $customer->getFirstMediaUrl('avatars') }}" alt="{{ $customer->name }}">
                                                     <div class="media-body">
                                                         <p class="my-0">
-                                                            @if(auth()->user()->can('backend.settings.users.show') || $customer->id == auth()->user()->id)
-                                                                <a href="{{ route('backend.settings.users.show', $customer->id) }}">
+                                                            @if(auth()->user()->can('backend.shipment.customers.show') || $customer->id == auth()->user()->id)
+                                                                <a href="{{ route('backend.shipment.customers.show', $customer->id) }}">
                                                                     {{ $customer->name }}
                                                                 </a>
                                                             @else
@@ -94,7 +92,7 @@
                                             </td>
                                             <td class="text-center">{{ $customer->created_at->format(config('backend.datetime')) ?? '' }}</td>
                                             <td class="exclude-search pr-3 text-center align-middle">
-                                                {!! \Html::actionDropdown('backend.settings.users', $customer->id, array_merge(['show', 'edit'], ($customer->deleted_at == null) ? ['delete'] : ['restore'])) !!}
+                                                {!! \Html::actionDropdown('backend.shipment.customers', $customer->id, array_merge(['show', 'edit'], ($customer->deleted_at == null) ? ['delete'] : ['restore'])) !!}
                                             </td>
                                         </tr>
                                     @empty
@@ -119,7 +117,7 @@
         </div>
     </div>
     <!-- /.container-fluid -->
-    {!! \App\Supports\CHTML::confirmModal('User', ['export', 'delete', 'restore']) !!}
+    {!! \App\Supports\CHTML::confirmModal('Customer', ['export', 'delete', 'restore']) !!}
 @endsection
 
 

@@ -45,7 +45,7 @@ class RoleService extends Service
      */
     public function getAllRoles(array $filters = [], array $eagerRelations = [])
     {
-        return $this->roleRepository->getAllRoleWith($filters, $eagerRelations, true);
+        return $this->roleRepository->getAllWith($filters, $eagerRelations, true);
     }
 
     /**
@@ -133,13 +133,15 @@ class RoleService extends Service
     /**
      * @param array $filters
      * @return array
+     * @throws Exception
      */
     public function roleDropdown(array $filters = []): array
     {
-        $roleCollection = $this->roleRepository->all();
+        $roleCollection = $this->roleRepository->getAllWith($filters);
         $roles = [];
-        foreach ($roleCollection as $role)
+        foreach ($roleCollection as $role) {
             $roles[$role->id] = $role['name'];
+        }
 
         return $roles;
     }
