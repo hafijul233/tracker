@@ -1,21 +1,25 @@
 <?php
 
+use App\Models\Backend\Common\AddressBook;
+use App\Models\Backend\Setting\Barcode;
 use App\Models\Backend\Setting\Catalog;
 use App\Models\Backend\Setting\City;
+use App\Models\Backend\Setting\Cost;
 use App\Models\Backend\Setting\Country;
 use App\Models\Backend\Setting\Occupation;
 use App\Models\Backend\Setting\Permission;
 use App\Models\Backend\Setting\Role;
+use App\Models\Backend\Setting\Sms;
+use App\Models\Backend\Setting\SmsTemplate;
 use App\Models\Backend\Setting\State;
 use App\Models\Backend\Setting\User;
-use App\Models\Backend\Shipment\Customer;
 use App\Models\Backend\Shipment\Invoice;
 use App\Models\Backend\Shipment\Item;
 use App\Models\Backend\Shipment\Transaction;
-use App\Models\Backend\Shipment\TruckLoad;
-use App\Models\Backend\Transpoprt\CheckPoint;
-use App\Models\Backend\Transpoprt\Driver;
-use App\Models\Backend\Transpoprt\Vehicle;
+use App\Models\Backend\Transport\CheckPoint;
+use App\Models\Backend\Transport\Driver;
+use App\Models\Backend\Transport\TruckLoad;
+use App\Models\Backend\Transport\Vehicle;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Diglactic\Breadcrumbs\Generator as BreadcrumbTrail;
 
@@ -491,12 +495,12 @@ Breadcrumbs::for('backend.shipment.customers.show', function (BreadcrumbTrail $t
 
     $trail->parent('backend.shipment.customers.index');
 
-    $customer = ($customer instanceof Customer) ? $customer : $customer[0];
+    $customer = ($customer instanceof User) ? $customer : $customer[0];
 
     $trail->push($customer->name, route('backend.shipment.customers.show', $customer->id));
 });
 
-Breadcrumbs::for('backend.shipment.customers.edit', function (BreadcrumbTrail $trail, Customer $customer) {
+Breadcrumbs::for('backend.shipment.customers.edit', function (BreadcrumbTrail $trail, User $customer) {
 
     $trail->parent('backend.shipment.customers.show', [$customer]);
 
@@ -596,38 +600,6 @@ Breadcrumbs::for('backend.shipment.transactions.edit', function (BreadcrumbTrail
     $trail->parent('backend.shipment.transactions.show', [$transaction]);
 
     $trail->push('Edit Transaction', route('backend.shipment.transactions.edit', $transaction->id));
-});
-
-/****************************************** TruckLoad ******************************************/
-
-Breadcrumbs::for('backend.shipment.track-loads.index', function (BreadcrumbTrail $trail) {
-
-    $trail->parent('backend.shipment');
-
-    $trail->push('TrackLoads', route('backend.shipment.track-loads.index'));
-});
-
-Breadcrumbs::for('backend.shipment.track-loads.create', function (BreadcrumbTrail $trail) {
-
-    $trail->parent('backend.shipment.track-loads.index');
-
-    $trail->push('Add TruckLoad', route('backend.shipment.track-loads.create'));
-});
-
-Breadcrumbs::for('backend.shipment.track-loads.show', function (BreadcrumbTrail $trail, $trackLoad) {
-
-    $trail->parent('backend.shipment.track-loads.index');
-
-    $trackLoad = ($trackLoad instanceof TruckLoad) ? $trackLoad : $trackLoad[0];
-
-    $trail->push($trackLoad->name, route('backend.shipment.track-loads.show', $trackLoad->id));
-});
-
-Breadcrumbs::for('backend.shipment.track-loads.edit', function (BreadcrumbTrail $trail, TruckLoad $trackLoad) {
-
-    $trail->parent('backend.shipment.track-loads.show', [$trackLoad]);
-
-    $trail->push('Edit TruckLoad', route('backend.shipment.track-loads.edit', $trackLoad->id));
 });
 
 /****************************************** Transport ******************************************/
@@ -735,6 +707,38 @@ Breadcrumbs::for('backend.transport.check-points.edit', function (BreadcrumbTrai
     $trail->push('Edit CheckPoint', route('backend.transport.check-points.edit', $checkPoint->id));
 });
 
+/****************************************** TruckLoad ******************************************/
+
+Breadcrumbs::for('backend.transport.track-loads.index', function (BreadcrumbTrail $trail) {
+
+    $trail->parent('backend.transport');
+
+    $trail->push('TrackLoads', route('backend.transport.track-loads.index'));
+});
+
+Breadcrumbs::for('backend.transport.track-loads.create', function (BreadcrumbTrail $trail) {
+
+    $trail->parent('backend.transport.track-loads.index');
+
+    $trail->push('Add TruckLoad', route('backend.transport.track-loads.create'));
+});
+
+Breadcrumbs::for('backend.transport.track-loads.show', function (BreadcrumbTrail $trail, $trackLoad) {
+
+    $trail->parent('backend.transport.track-loads.index');
+
+    $trackLoad = ($trackLoad instanceof TruckLoad) ? $trackLoad : $trackLoad[0];
+
+    $trail->push($trackLoad->name, route('backend.transport.track-loads.show', $trackLoad->id));
+});
+
+Breadcrumbs::for('backend.transport.track-loads.edit', function (BreadcrumbTrail $trail, TruckLoad $trackLoad) {
+
+    $trail->parent('backend.transport.track-loads.show', [$trackLoad]);
+
+    $trail->push('Edit TruckLoad', route('backend.transport.track-loads.edit', $trackLoad->id));
+});
+
 /****************************************** Organization ******************************************/
 
 Breadcrumbs::for('backend.organization', function (BreadcrumbTrail $trail) {
@@ -808,3 +812,33 @@ Breadcrumbs::for('backend.organization.employees.edit', function (BreadcrumbTrai
     $trail->push('Edit Employee', route('backend.organization.employees.edit', $employee->id));
 });
 
+/****************************************** Address Book ******************************************/
+Breadcrumbs::for('backend.common.address-books.index', function (BreadcrumbTrail $trail) {
+
+    $trail->parent('backend');
+
+    $trail->push('Address Books', route('backend.common.address-books.index'));
+});
+
+Breadcrumbs::for('backend.common.address-books.create', function (BreadcrumbTrail $trail) {
+
+    $trail->parent('backend.common.address-books.index');
+
+    $trail->push('Add Address Book', route('backend.common.address-books.create'));
+});
+
+Breadcrumbs::for('backend.common.address-books.show', function (BreadcrumbTrail $trail, $addressBook) {
+
+    $trail->parent('backend.common.address-books.index');
+
+    $addressBook = ($addressBook instanceof AddressBook) ? $addressBook : $addressBook[0];
+
+    $trail->push($addressBook->name, route('backend.common.address-books.show', $addressBook->id));
+});
+
+Breadcrumbs::for('backend.common.address-books.edit', function (BreadcrumbTrail $trail, AddressBook $addressBook) {
+
+    $trail->parent('backend.common.address-books.show', [$addressBook]);
+
+    $trail->push('Edit Address Book', route('backend.common.address-books.edit', $addressBook->id));
+});

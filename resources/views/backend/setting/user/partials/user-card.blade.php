@@ -6,7 +6,8 @@
 <div class="card border-0">
     <div class="card-body box-profile border-0">
         <div class="text-center">
-            <a data-remote="{{ $user->getFirstMediaUrl('avatars') }}" data-toggle="lightbox" data-title="{{ $user->name }}" data-type="image">
+            <a data-remote="{{ $user->getFirstMediaUrl('avatars') }}" data-toggle="lightbox"
+               data-title="{{ $user->name }}" data-type="image">
                 <img class="profile-user-img img-fluid img-circle"
                      src="{{ $user->getFirstMediaUrl('avatars') }}"
                      alt="{{ $user->name }}" width="128">
@@ -17,41 +18,42 @@
             {{ $user->name }}
         </h3>
 
-        <p class="text-muted text-center mb-3">
-            @<span>{{ $user->username }}</span>
-        </p>
+        @if($user->roles->count() > 0)
+            <p class="text-muted text-center mb-3">
+                {{ implode(", ", $user->roles->pluck('name')->toArray()) }}
+            </p>
+        @endif
+
+        @if($user->username != null)
+            <div class="d-flex align-items-center justify-content-between pb-1 font-weight-bold text-dark">
+                Username
+                <span class="text-muted font-weight-normal">{{ $user->username }}</span>
+            </div>
+        @endif
 
         @if($user->email != null)
-            <strong><i class="fas fa-envelope mr-1"></i> Email Address</strong>
-            <p class="text-muted">
-                {{ $user->email }}
-            </p>
-            <hr>
+            <div class="d-flex align-items-center justify-content-between pb-1 font-weight-bold text-dark">
+                Email
+                <span class="text-muted font-weight-normal">{{ $user->email }}</span>
+            </div>
         @endif
 
         @if($user->mobile != null)
-            <strong><i class="fas fa-mobile mr-1"></i> Mobile Number</strong>
-            <p class="text-muted">
-                {{ $user->mobile }}
-            </p>
-            <hr>
+            <div class="d-flex align-items-center justify-content-between pb-1 font-weight-bold text-dark">
+                Mobile
+                <span class="text-muted font-weight-normal">{{ $user->mobile }}</span>
+            </div>
         @endif
 
-        @if($user->roles->count() > 0)
-            <strong><i class="fas fa-user-check mr-1"></i> Role(s)</strong>
-            <p class="text-muted">
-                @foreach($user->roles as $role)
-                    <a href="{{ route('backend.settings.roles.show', $role->id) }}">{{ $role->name }}</a>,
-                @endforeach
-            </p>
-            <hr>
-        @endif
-
-        <strong><i class="far fa-file-alt mr-1"></i> Remarks</strong>
-
-        <p class="text-muted">
-            {{ $user->remarks }}
-        </p>
+        <div class="list-group list-group-flush mt-3">
+            <a href="#" class="list-group-item list-group-item-action active">
+                Cras justo odio
+            </a>
+            <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+            <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+            <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
+            <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>
+        </div>
     </div>
     <!-- /.card-body -->
 </div>

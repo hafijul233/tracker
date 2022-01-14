@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repositories\Eloquent\Backend\Common;
+namespace App\Repositories\Eloquent\Backend\Transport;
 
 use App\Abstracts\Repository\EloquentRepository;
-use App\Models\Backend\Common\AddressBook;
+use App\Models\Backend\Transport\TruckLoad;
 use App\Services\Auth\AuthenticatedSessionService;
 use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -11,20 +11,20 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
- * @class AddressBookRepository
- * @package App\Repositories\Eloquent\Backend\Common
+ * @class TruckLoadRepository
+ * @package App\Repositories\Eloquent\Backend\Shipment
  */
-class AddressBookRepository extends EloquentRepository
+class TruckLoadRepository extends EloquentRepository
 {
     /**
-     * AddressBookRepository constructor.
+     * TruckLoadRepository constructor.
      */
     public function __construct()
     {
         /**
          * Set the model that will be used for repo
          */
-        parent::__construct(new AddressBook);
+        parent::__construct(new TruckLoad);
     }
 
     /**
@@ -44,10 +44,6 @@ class AddressBookRepository extends EloquentRepository
 
         if (!empty($filters['enabled'])) :
             $query->where('enabled', '=', $filters['enabled']);
-        endif;
-
-        if (!empty($filters['user_id'])) :
-            $query->where('user_id', '=', $filters['user_id']);
         endif;
 
         if (!empty($filters['sort']) && !empty($filters['direction'])) :

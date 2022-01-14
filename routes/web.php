@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\Backend\Common\AddressBookController;
 use App\Http\Controllers\Backend\Common\NotificationController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\Model\ModelEnabledController;
@@ -28,11 +29,11 @@ use App\Http\Controllers\Backend\Shipment\CustomerController;
 use App\Http\Controllers\Backend\Shipment\InvoiceController;
 use App\Http\Controllers\Backend\Shipment\ItemController;
 use App\Http\Controllers\Backend\Shipment\TransactionController;
-use App\Http\Controllers\Backend\Shipment\TruckLoadController;
 use App\Http\Controllers\Backend\ShipmentController;
-use App\Http\Controllers\Backend\Transpoprt\CheckPointController;
-use App\Http\Controllers\Backend\Transpoprt\DriverController;
-use App\Http\Controllers\Backend\Transpoprt\VehicleController;
+use App\Http\Controllers\Backend\Transport\CheckPointController;
+use App\Http\Controllers\Backend\Transport\DriverController;
+use App\Http\Controllers\Backend\Transport\TruckLoadController;
+use App\Http\Controllers\Backend\Transport\VehicleController;
 use App\Http\Controllers\Backend\TransportController;
 use Illuminate\Support\Facades\Route;
 
@@ -133,9 +134,18 @@ Route::prefix('backend')->group(function () {
             Route::get('delete/{route}/{id}', ModelSoftDeleteController::class)->name('delete');
             Route::get('restore/{route}/{id}', ModelRestoreController::class)->name('restore');
             Route::get('enabled', ModelEnabledController::class)->name('enabled');
-
             //Notification
             Route::resource('notifications', NotificationController::class);
+
+            //Address Book
+            Route::resource('address-books', AddressBookController::class)->where(['address-book' => '([0-9]+)']);
+            Route::prefix('address-books')->name('address-books.')->group(function () {
+                Route::patch('{address-book}/restore', [AddressBookController::class, 'restore'])->name('restore');
+                Route::get('export', [AddressBookController::class, 'export'])->name('export');
+                Route::get('import', [AddressBookController::class, 'import'])->name('import');
+                Route::post('import', [AddressBookController::class, 'importBulk']);
+                Route::post('print', [AddressBookController::class, 'print'])->name('print');
+            });
         });
 
         //Shipment
@@ -182,17 +192,6 @@ Route::prefix('backend')->group(function () {
                 Route::post('print', [TransactionController::class, 'print'])->name('print');
                 Route::get('ajax', [TransactionController::class, 'ajax'])->name('ajax')->middleware('ajax');
             });
-
-            //Track Loads
-            Route::resource('truck-loads', TruckLoadController::class)->where(['truck-load' => '([0-9]+)']);
-            Route::prefix('truck-loads')->name('truck-loads.')->group(function () {
-                Route::patch('{truck-load}/restore', [TruckLoadController::class, 'restore'])->name('restore');
-                Route::get('export', [TruckLoadController::class, 'export'])->name('export');
-                Route::get('import', [TruckLoadController::class, 'import'])->name('import');
-                Route::post('import', [TruckLoadController::class, 'importBulk']);
-                Route::post('print', [TruckLoadController::class, 'print'])->name('print');
-                Route::get('ajax', [TruckLoadController::class, 'ajax'])->name('ajax')->middleware('ajax');
-            });
         });
 
         //Transport
@@ -228,6 +227,17 @@ Route::prefix('backend')->group(function () {
                 Route::post('import', [CheckPointController::class, 'importBulk']);
                 Route::post('print', [CheckPointController::class, 'print'])->name('print');
                 Route::get('ajax', [CheckPointController::class, 'ajax'])->name('ajax')->middleware('ajax');
+            });
+
+            //Track Loads
+            Route::resource('truck-loads', TruckLoadController::class)->where(['truck-load' => '([0-9]+)']);
+            Route::prefix('truck-loads')->name('truck-loads.')->group(function () {
+                Route::patch('{truck-load}/restore', [TruckLoadController::class, 'restore'])->name('restore');
+                Route::get('export', [TruckLoadController::class, 'export'])->name('export');
+                Route::get('import', [TruckLoadController::class, 'import'])->name('import');
+                Route::post('import', [TruckLoadController::class, 'importBulk']);
+                Route::post('print', [TruckLoadController::class, 'print'])->name('print');
+                Route::get('ajax', [TruckLoadController::class, 'ajax'])->name('ajax')->middleware('ajax');
             });
         });
 

@@ -6,11 +6,13 @@ use App\Abstracts\Service\Service;
 use App\Exports\Backend\Common\AddressBookExport;
 use App\Models\Backend\Common\AddressBook;
 use App\Repositories\Eloquent\Backend\Common\AddressBookRepository;
+use App\Services\Auth\AuthenticatedSessionService;
 use App\Supports\Constant;
 use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
@@ -20,7 +22,7 @@ use Throwable;
  */
 class AddressBookService extends Service
 {
-/**
+    /**
      * @var AddressBookRepository
      */
     private $addressBookRepository;
@@ -37,7 +39,7 @@ class AddressBookService extends Service
 
     /**
      * Get All AddressBook models as collection
-     * 
+     *
      * @param array $filters
      * @param array $eagerRelations
      * @return Builder[]|Collection
@@ -50,7 +52,7 @@ class AddressBookService extends Service
 
     /**
      * Create AddressBook Model Pagination
-     * 
+     *
      * @param array $filters
      * @param array $eagerRelations
      * @return LengthAwarePaginator
@@ -58,12 +60,16 @@ class AddressBookService extends Service
      */
     public function addressBookPaginate(array $filters = [], array $eagerRelations = []): LengthAwarePaginator
     {
+        if (!AuthenticatedSessionService::isSuperAdmin()):
+            $filters['user_id'] = Auth::user()->id;
+        endif;
+
         return $this->addressBookRepository->paginateWith($filters, $eagerRelations, true);
     }
 
     /**
      * Show AddressBook Model
-     * 
+     *
      * @param int $id
      * @param bool $purge
      * @return mixed
@@ -76,7 +82,7 @@ class AddressBookService extends Service
 
     /**
      * Save AddressBook Model
-     * 
+     *
      * @param array $inputs
      * @return array
      * @throws Exception
@@ -106,7 +112,7 @@ class AddressBookService extends Service
 
     /**
      * Update AddressBook Model
-     * 
+     *
      * @param array $inputs
      * @param $id
      * @return array
@@ -141,7 +147,7 @@ class AddressBookService extends Service
 
     /**
      * Destroy AddressBook Model
-     * 
+     *
      * @param $id
      * @return array
      * @throws Throwable
@@ -170,7 +176,7 @@ class AddressBookService extends Service
 
     /**
      * Restore AddressBook Model
-     * 
+     *
      * @param $id
      * @return array
      * @throws Throwable

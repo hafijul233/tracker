@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Backend\Common;
+namespace App\Http\Controllers\Backend\Transport;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Backend\Common\AddressBookRequest;
+use App\Http\Requests\Backend\Transport\CheckPointRequest;
 use App\Services\Auth\AuthenticatedSessionService;
-use App\Services\Backend\Common\AddressBookService;
+use App\Services\Backend\Transport\CheckPointService;
 use App\Supports\Utility;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
@@ -16,10 +16,10 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
- * @class AddressBookController
+ * @class CheckPointController
  * @package $NAMESPACE$
  */
-class AddressBookController extends Controller
+class CheckPointController extends Controller
 {
     /**
      * @var AuthenticatedSessionService
@@ -27,22 +27,22 @@ class AddressBookController extends Controller
     private $authenticatedSessionService;
     
     /**
-     * @var AddressBookService
+     * @var CheckPointService
      */
-    private $addressBookService;
+    private $checkpointService;
 
     /**
-     * AddressBookController Constructor
+     * CheckPointController Constructor
      *
      * @param AuthenticatedSessionService $authenticatedSessionService
-     * @param AddressBookService $addressBookService
+     * @param CheckPointService $checkpointService
      */
     public function __construct(AuthenticatedSessionService $authenticatedSessionService,
-                                AddressBookService              $addressBookService)
+                                CheckPointService              $checkpointService)
     {
 
         $this->authenticatedSessionService = $authenticatedSessionService;
-        $this->addressBookService = $addressBookService;
+        $this->checkpointService = $checkpointService;
     }
     
     /**
@@ -54,10 +54,10 @@ class AddressBookController extends Controller
     public function index(Request $request)
     {
         $filters = $request->except('page');
-        $addressBooks = $this->addressBookService->addressBookPaginate($filters);
+        $checkpoints = $this->checkpointService->checkpointPaginate($filters);
 
-        return view('backend.common.address-book.index', [
-            'addressBooks' => $addressBooks
+        return view('backend.transpoprt.checkpoint.index', [
+            'checkpoints' => $checkpoints
         ]);
     }
 
@@ -68,22 +68,22 @@ class AddressBookController extends Controller
      */
     public function create()
     {
-        return view('backend.common.address-book.create');
+        return view('backend.transpoprt.checkpoint.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param AddressBookRequest $request
+     * @param CheckPointRequest $request
      * @return RedirectResponse
      * @throws Exception|\Throwable
      */
-    public function store(AddressBookRequest $request): RedirectResponse
+    public function store(CheckPointRequest $request): RedirectResponse
     {
-        $confirm = $this->addressBookService->storeAddressBook($request->except('_token'));
+        $confirm = $this->checkpointService->storeCheckPoint($request->except('_token'));
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('contact.backend.common.address-books.index');
+            return redirect()->route('contact.backend.transpoprt.checkpoints.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -99,10 +99,10 @@ class AddressBookController extends Controller
      */
     public function show($id)
     {
-        if ($addressBook = $this->addressBookService->getAddressBookById($id)) {
-            return view('backend.common.address-book.show', [
-                'addressBook' => $addressBook,
-                'timeline' => Utility::modelAudits($addressBook)
+        if ($checkpoint = $this->checkpointService->getCheckPointById($id)) {
+            return view('backend.transpoprt.checkpoint.show', [
+                'checkpoint' => $checkpoint,
+                'timeline' => Utility::modelAudits($checkpoint)
             ]);
         }
 
@@ -118,9 +118,9 @@ class AddressBookController extends Controller
      */
     public function edit($id)
     {
-        if ($addressBook = $this->addressBookService->getAddressBookById($id)) {
-            return view('backend.common.address-book.edit', [
-                'addressBook' => $addressBook
+        if ($checkpoint = $this->checkpointService->getCheckPointById($id)) {
+            return view('backend.transpoprt.checkpoint.edit', [
+                'checkpoint' => $checkpoint
             ]);
         }
 
@@ -130,18 +130,18 @@ class AddressBookController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param AddressBookRequest $request
+     * @param CheckPointRequest $request
      * @param  $id
      * @return RedirectResponse
      * @throws \Throwable
      */
-    public function update(AddressBookRequest $request, $id): RedirectResponse
+    public function update(CheckPointRequest $request, $id): RedirectResponse
     {
-        $confirm = $this->addressBookService->updateAddressBook($request->except('_token', 'submit', '_method'), $id);
+        $confirm = $this->checkpointService->updateCheckPoint($request->except('_token', 'submit', '_method'), $id);
 
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('contact.backend.common.address-books.index');
+            return redirect()->route('contact.backend.transpoprt.checkpoints.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -160,14 +160,14 @@ class AddressBookController extends Controller
     {
         if ($this->authenticatedSessionService->validate($request)) {
 
-            $confirm = $this->addressBookService->destroyAddressBook($id);
+            $confirm = $this->checkpointService->destroyCheckPoint($id);
 
             if ($confirm['status'] == true) {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('contact.backend.common.address-books.index');
+            return redirect()->route('contact.backend.transpoprt.checkpoints.index');
         }
         abort(403, 'Wrong user credentials');
     }
@@ -184,14 +184,14 @@ class AddressBookController extends Controller
     {
         if ($this->authenticatedSessionService->validate($request)) {
 
-            $confirm = $this->addressBookService->restoreAddressBook($id);
+            $confirm = $this->checkpointService->restoreCheckPoint($id);
 
             if ($confirm['status'] == true) {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('contact.backend.common.address-books.index');
+            return redirect()->route('contact.backend.transpoprt.checkpoints.index');
         }
         abort(403, 'Wrong user credentials');
     }
@@ -206,12 +206,12 @@ class AddressBookController extends Controller
     {
         $filters = $request->except('page');
 
-        $addressBookExport = $this->addressBookService->exportAddressBook($filters);
+        $checkpointExport = $this->checkpointService->exportCheckPoint($filters);
 
-        $filename = 'AddressBook-' . date('Ymd-His') . '.' . ($filters['format'] ?? 'xlsx');
+        $filename = 'CheckPoint-' . date('Ymd-His') . '.' . ($filters['format'] ?? 'xlsx');
 
-        return $addressBookExport->download($filename, function ($addressBook) use ($addressBookExport) {
-            return $addressBookExport->map($addressBook);
+        return $checkpointExport->download($filename, function ($checkpoint) use ($checkpointExport) {
+            return $checkpointExport->map($checkpoint);
         });
 
     }
@@ -223,7 +223,7 @@ class AddressBookController extends Controller
      */
     public function import()
     {
-        return view('backend.common.address-book.import');
+        return view('backend.transpoprt.checkpointimport');
     }
 
     /**
@@ -235,10 +235,10 @@ class AddressBookController extends Controller
     public function importBulk(Request $request)
     {
         $filters = $request->except('page');
-        $addressBooks = $this->addressBookService->getAllAddressBooks($filters);
+        $checkpoints = $this->checkpointService->getAllCheckPoints($filters);
 
-        return view('backend.common.address-book.index', [
-            'addressBooks' => $addressBooks
+        return view('backend.transpoprt.checkpointindex', [
+            'checkpoints' => $checkpoints
         ]);
     }
 
@@ -252,12 +252,12 @@ class AddressBookController extends Controller
     {
         $filters = $request->except('page');
 
-        $addressBookExport = $this->addressBookService->exportAddressBook($filters);
+        $checkpointExport = $this->checkpointService->exportCheckPoint($filters);
 
-        $filename = 'AddressBook-' . date('Ymd-His') . '.' . ($filters['format'] ?? 'xlsx');
+        $filename = 'CheckPoint-' . date('Ymd-His') . '.' . ($filters['format'] ?? 'xlsx');
 
-        return $addressBookExport->download($filename, function ($addressBook) use ($addressBookExport) {
-            return $addressBookExport->map($addressBook);
+        return $checkpointExport->download($filename, function ($checkpoint) use ($checkpointExport) {
+            return $checkpointExport->map($checkpoint);
         });
 
     }

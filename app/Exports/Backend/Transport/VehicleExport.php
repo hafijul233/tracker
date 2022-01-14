@@ -3,7 +3,7 @@
 namespace App\Exports\Backend\Transport;
 
 use App\Abstracts\Export\FastExcelExport;
-use App\Models\Backend\Transpoprt\Vehicle;
+use App\Models\Backend\Transport\Vehicle;
 use Box\Spout\Common\Exception\InvalidArgumentException;
 
 /**

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Backend\Common;
+namespace App\Http\Controllers\Backend\Transport;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Backend\Common\AddressBookRequest;
+use App\Http\Requests\Backend\Shipment\TruckLoadRequest;
 use App\Services\Auth\AuthenticatedSessionService;
-use App\Services\Backend\Common\AddressBookService;
+use App\Services\Backend\Transport\TruckLoadService;
 use App\Supports\Utility;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
@@ -16,10 +16,10 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
- * @class AddressBookController
+ * @class TruckLoadController
  * @package $NAMESPACE$
  */
-class AddressBookController extends Controller
+class TruckLoadController extends Controller
 {
     /**
      * @var AuthenticatedSessionService
@@ -27,22 +27,22 @@ class AddressBookController extends Controller
     private $authenticatedSessionService;
     
     /**
-     * @var AddressBookService
+     * @var TruckLoadService
      */
-    private $addressBookService;
+    private $truckloadService;
 
     /**
-     * AddressBookController Constructor
+     * TruckLoadController Constructor
      *
      * @param AuthenticatedSessionService $authenticatedSessionService
-     * @param AddressBookService $addressBookService
+     * @param TruckLoadService $truckloadService
      */
     public function __construct(AuthenticatedSessionService $authenticatedSessionService,
-                                AddressBookService              $addressBookService)
+                                TruckLoadService            $truckloadService)
     {
 
         $this->authenticatedSessionService = $authenticatedSessionService;
-        $this->addressBookService = $addressBookService;
+        $this->truckloadService = $truckloadService;
     }
     
     /**
@@ -54,10 +54,10 @@ class AddressBookController extends Controller
     public function index(Request $request)
     {
         $filters = $request->except('page');
-        $addressBooks = $this->addressBookService->addressBookPaginate($filters);
+        $truckloads = $this->truckloadService->truckloadPaginate($filters);
 
-        return view('backend.common.address-book.index', [
-            'addressBooks' => $addressBooks
+        return view('backend.shipment.truckload.index', [
+            'truckloads' => $truckloads
         ]);
     }
 
@@ -68,22 +68,22 @@ class AddressBookController extends Controller
      */
     public function create()
     {
-        return view('backend.common.address-book.create');
+        return view('backend.shipment.truckload.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param AddressBookRequest $request
+     * @param TruckLoadRequest $request
      * @return RedirectResponse
      * @throws Exception|\Throwable
      */
-    public function store(AddressBookRequest $request): RedirectResponse
+    public function store(TruckLoadRequest $request): RedirectResponse
     {
-        $confirm = $this->addressBookService->storeAddressBook($request->except('_token'));
+        $confirm = $this->truckloadService->storeTrackLoad($request->except('_token'));
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('contact.backend.common.address-books.index');
+            return redirect()->route('contact.backend.shipment.truckloads.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -99,10 +99,10 @@ class AddressBookController extends Controller
      */
     public function show($id)
     {
-        if ($addressBook = $this->addressBookService->getAddressBookById($id)) {
-            return view('backend.common.address-book.show', [
-                'addressBook' => $addressBook,
-                'timeline' => Utility::modelAudits($addressBook)
+        if ($truckload = $this->truckloadService->getTrackLoadById($id)) {
+            return view('backend.shipment.truckload.show', [
+                'truckload' => $truckload,
+                'timeline' => Utility::modelAudits($truckload)
             ]);
         }
 
@@ -118,9 +118,9 @@ class AddressBookController extends Controller
      */
     public function edit($id)
     {
-        if ($addressBook = $this->addressBookService->getAddressBookById($id)) {
-            return view('backend.common.address-book.edit', [
-                'addressBook' => $addressBook
+        if ($truckload = $this->truckloadService->getTrackLoadById($id)) {
+            return view('backend.shipment.truckload.edit', [
+                'truckload' => $truckload
             ]);
         }
 
@@ -130,18 +130,18 @@ class AddressBookController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param AddressBookRequest $request
+     * @param TruckLoadRequest $request
      * @param  $id
      * @return RedirectResponse
      * @throws \Throwable
      */
-    public function update(AddressBookRequest $request, $id): RedirectResponse
+    public function update(TruckLoadRequest $request, $id): RedirectResponse
     {
-        $confirm = $this->addressBookService->updateAddressBook($request->except('_token', 'submit', '_method'), $id);
+        $confirm = $this->truckloadService->updateTrackLoad($request->except('_token', 'submit', '_method'), $id);
 
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('contact.backend.common.address-books.index');
+            return redirect()->route('contact.backend.shipment.truckloads.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -160,14 +160,14 @@ class AddressBookController extends Controller
     {
         if ($this->authenticatedSessionService->validate($request)) {
 
-            $confirm = $this->addressBookService->destroyAddressBook($id);
+            $confirm = $this->truckloadService->destroyTrackLoad($id);
 
             if ($confirm['status'] == true) {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('contact.backend.common.address-books.index');
+            return redirect()->route('contact.backend.shipment.truckloads.index');
         }
         abort(403, 'Wrong user credentials');
     }
@@ -184,14 +184,14 @@ class AddressBookController extends Controller
     {
         if ($this->authenticatedSessionService->validate($request)) {
 
-            $confirm = $this->addressBookService->restoreAddressBook($id);
+            $confirm = $this->truckloadService->restoreTrackLoad($id);
 
             if ($confirm['status'] == true) {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('contact.backend.common.address-books.index');
+            return redirect()->route('contact.backend.shipment.truckloads.index');
         }
         abort(403, 'Wrong user credentials');
     }
@@ -206,12 +206,12 @@ class AddressBookController extends Controller
     {
         $filters = $request->except('page');
 
-        $addressBookExport = $this->addressBookService->exportAddressBook($filters);
+        $truckloadExport = $this->truckloadService->exportTrackLoad($filters);
 
-        $filename = 'AddressBook-' . date('Ymd-His') . '.' . ($filters['format'] ?? 'xlsx');
+        $filename = 'TruckLoad-' . date('Ymd-His') . '.' . ($filters['format'] ?? 'xlsx');
 
-        return $addressBookExport->download($filename, function ($addressBook) use ($addressBookExport) {
-            return $addressBookExport->map($addressBook);
+        return $truckloadExport->download($filename, function ($truckload) use ($truckloadExport) {
+            return $truckloadExport->map($truckload);
         });
 
     }
@@ -223,7 +223,7 @@ class AddressBookController extends Controller
      */
     public function import()
     {
-        return view('backend.common.address-book.import');
+        return view('backend.shipment.truckloadimport');
     }
 
     /**
@@ -235,10 +235,10 @@ class AddressBookController extends Controller
     public function importBulk(Request $request)
     {
         $filters = $request->except('page');
-        $addressBooks = $this->addressBookService->getAllAddressBooks($filters);
+        $truckloads = $this->truckloadService->getAllTrackLoads($filters);
 
-        return view('backend.common.address-book.index', [
-            'addressBooks' => $addressBooks
+        return view('backend.shipment.truckloadindex', [
+            'truckloads' => $truckloads
         ]);
     }
 
@@ -252,12 +252,12 @@ class AddressBookController extends Controller
     {
         $filters = $request->except('page');
 
-        $addressBookExport = $this->addressBookService->exportAddressBook($filters);
+        $truckloadExport = $this->truckloadService->exportTrackLoad($filters);
 
-        $filename = 'AddressBook-' . date('Ymd-His') . '.' . ($filters['format'] ?? 'xlsx');
+        $filename = 'TruckLoad-' . date('Ymd-His') . '.' . ($filters['format'] ?? 'xlsx');
 
-        return $addressBookExport->download($filename, function ($addressBook) use ($addressBookExport) {
-            return $addressBookExport->map($addressBook);
+        return $truckloadExport->download($filename, function ($truckload) use ($truckloadExport) {
+            return $truckloadExport->map($truckload);
         });
 
     }

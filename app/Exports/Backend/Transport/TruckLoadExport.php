@@ -3,17 +3,17 @@
 namespace App\Exports\Backend\Transport;
 
 use App\Abstracts\Export\FastExcelExport;
-use App\Models\Backend\Transport\CheckPoint;
+use App\Models\Backend\Shipment\TruckLoad;
 use Box\Spout\Common\Exception\InvalidArgumentException;
 
 /**
- * @class CheckPointExport
- * @package App\Exports\Backend\Transport
+ * @class TruckLoadExport
+ * @package App\Exports\Backend\Shipment
  */
-class CheckPointExport extends FastExcelExport
+class TruckLoadExport extends FastExcelExport
 {
     /**
-     * CheckPointExport constructor.
+     * TruckLoadExport constructor.
      *
      * @param null $data
      * @throws InvalidArgumentException
@@ -26,7 +26,7 @@ class CheckPointExport extends FastExcelExport
     }
 
     /**
-     * @param CheckPoint $row
+     * @param TruckLoad $row
      * @return array
      */
     public function map($row): array

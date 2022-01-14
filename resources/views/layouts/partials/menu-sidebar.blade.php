@@ -34,6 +34,16 @@
                     </a>
                 </li>
 
+                @can('backend.common.address-books.index')
+                    <li class="nav-item">
+                        <a href="{{ route('backend.common.address-books.index') }}"
+                           class="nav-link @if(\Route::is('backend.common.address-books.*')) active @endif">
+                            <i class="fas fa-address-book nav-icon"></i>
+                            <p>Address Book</p>
+                        </a>
+                    </li>
+                @endcan
+
                 @canany([
     'backend.shipment.customers.index',
     'backend.shipment.items.index',
@@ -88,24 +98,15 @@
                                     </a>
                                 </li>
                             @endcan
-
-                            @can('backend.shipment.truck-loads.index')
-                                <li class="nav-item">
-                                    <a href="{{ route('backend.shipment.truck-loads.index') }}"
-                                       class="nav-link @if(\Route::is('backend.shipment.truck-loads.*')) active @endif">
-                                        <i class="fas fa-truck-loading nav-icon"></i>
-                                        <p>Truck Loads</p>
-                                    </a>
-                                </li>
-                            @endcan
-
                         </ul>
                     </li>
                 @endcan
 
+
                 @canany([
     'backend.transport.vehicles.index',
     'backend.transport.drivers.index',
+    'backend.transport.truck-loads.index',
     'backend.transport.check-points.index'])
                     <li class="nav-item @if(\Route::is('backend.transport.*')) menu-open @endif">
                         <a href="#" class="nav-link @if(\Route::is('backend.transport.*')) active @endif">
@@ -114,8 +115,7 @@
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
-                        <ul class="nav nav-treeview"
-                            @if(\Route::is('backend.transport.*')) style="display: block;" @endif>
+                        <ul class="nav nav-treeview" @if(\Route::is('backend.transport.*')) style="display: block;" @endif>
                             @can('backend.transport.vehicles.index')
                                 <li class="nav-item">
                                     <a href="{{ route('backend.transport.vehicles.index') }}"
@@ -142,6 +142,16 @@
                                        class="nav-link @if(\Route::is('backend.transport.check-points.*')) active @endif">
                                         <i class="fas fa-map-marked nav-icon"></i>
                                         <p>Check Points</p>
+                                    </a>
+                                </li>
+                            @endcan
+
+                            @can('backend.transport.truck-loads.index')
+                                <li class="nav-item">
+                                    <a href="{{ route('backend.transport.truck-loads.index') }}"
+                                       class="nav-link @if(\Route::is('backend.transport.truck-loads.*')) active @endif">
+                                        <i class="fas fa-truck-loading nav-icon"></i>
+                                        <p>Truck Loads</p>
                                     </a>
                                 </li>
                             @endcan
