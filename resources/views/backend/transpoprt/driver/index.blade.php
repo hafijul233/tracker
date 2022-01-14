@@ -87,7 +87,7 @@
                             </div>
                         </div>
                         <div class="card-footer bg-transparent pb-0">
-                            {!! \Modules\Core\Supports\CHTML::pagination($drivers) !!}
+                            {!! \App\Supports\CHTML::pagination($drivers) !!}
                         </div>
                     @else
                         <div class="card-body min-vh-100">
@@ -99,7 +99,7 @@
         </div>
     </div>
     <!-- /.container-fluid -->
-    {!! \Modules\Core\Supports\CHTML::confirmModal('Driver', ['export', 'delete', 'restore']) !!}
+    {!! \App\Supports\CHTML::confirmModal('Driver', ['export', 'delete', 'restore']) !!}
 @endsection
 
 

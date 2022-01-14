@@ -87,7 +87,7 @@
                             </div>
                         </div>
                         <div class="card-footer bg-transparent pb-0">
-                            {!! \Modules\Core\Supports\CHTML::pagination($smss) !!}
+                            {!! \App\Supports\CHTML::pagination($smss) !!}
                         </div>
                     @else
                         <div class="card-body min-vh-100">
@@ -99,7 +99,7 @@
         </div>
     </div>
     <!-- /.container-fluid -->
-    {!! \Modules\Core\Supports\CHTML::confirmModal('Sms', ['export', 'delete', 'restore']) !!}
+    {!! \App\Supports\CHTML::confirmModal('Sms', ['export', 'delete', 'restore']) !!}
 @endsection
 
 

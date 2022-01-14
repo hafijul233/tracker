@@ -87,7 +87,7 @@
                             </div>
                         </div>
                         <div class="card-footer bg-transparent pb-0">
-                            {!! \Modules\Core\Supports\CHTML::pagination($checkpoints) !!}
+                            {!! \App\Supports\CHTML::pagination($checkpoints) !!}
                         </div>
                     @else
                         <div class="card-body min-vh-100">
@@ -99,7 +99,7 @@
         </div>
     </div>
     <!-- /.container-fluid -->
-    {!! \Modules\Core\Supports\CHTML::confirmModal('CheckPoint', ['export', 'delete', 'restore']) !!}
+    {!! \App\Supports\CHTML::confirmModal('CheckPoint', ['export', 'delete', 'restore']) !!}
 @endsection
 
 

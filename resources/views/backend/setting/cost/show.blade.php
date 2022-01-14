@@ -63,7 +63,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label class="d-block">Enabled</label>
-                                        <p class="fw-bolder">{{ \Modules\Core\Supports\Constant::ENABLED_OPTIONS[$cost->enabled] }}</p>
+                                        <p class="fw-bolder">{{ \App\Supports\Constant::ENABLED_OPTIONS[$cost->enabled] }}</p>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -82,7 +82,7 @@
             </div>
         </div>
     </div>
-    {!! \Modules\Core\Supports\CHTML::confirmModal('Cost', ['delete', 'restore']) !!}
+    {!! \App\Supports\CHTML::confirmModal('Cost', ['delete', 'restore']) !!}
 @endsection
 
 

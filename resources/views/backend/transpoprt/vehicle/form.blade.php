@@ -4,8 +4,8 @@
             {!! \Form::nText('name', 'Name', old('name', $vehicle->name ?? null), true) !!}
         </div>
         <div class="col-md-4">
-            {!! \Form::nSelect('enabled', 'Enabled', \Modules\Core\Supports\Constant::ENABLED_OPTIONS,
-                old('enabled', ($vehicle->enabled ?? \Modules\Core\Supports\Constant::ENABLED_OPTION)), true) !!}
+            {!! \Form::nSelect('enabled', 'Enabled', \App\Supports\Constant::ENABLED_OPTIONS,
+                old('enabled', ($vehicle->enabled ?? \App\Supports\Constant::ENABLED_OPTION)), true) !!}
         </div>
     </div>
     <div class="row">
