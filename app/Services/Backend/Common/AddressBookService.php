@@ -1,37 +1,38 @@
 <?php
 
-namespace Modules\Contact\Services\Backend\Common;
+namespace App\Services\Backend\Common;
 
+use App\Abstracts\Service\Service;
+use App\Exports\Backend\Common\AddressBookExport;
+use App\Models\Backend\Common\AddressBook;
+use App\Repositories\Eloquent\Backend\Common\AddressBookRepository;
+use App\Supports\Constant;
 use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
-use Modules\Core\Abstracts\Service\Service;
-use Modules\Core\Supports\Constant;
-use Modules\Contact\Models\Backend\Common\AddressBook;
-use Modules\Contact\Repositories\Eloquent\Backend\Common\AddressBookRepository;
 use Throwable;
 
 /**
  * @class AddressBookService
- * @package Modules\Contact\Services\Backend\Common
+ * @package App\Services\Backend\Common
  */
 class AddressBookService extends Service
 {
 /**
      * @var AddressBookRepository
      */
-    private $addressbookRepository;
+    private $addressBookRepository;
 
     /**
      * AddressBookService constructor.
-     * @param AddressBookRepository $addressbookRepository
+     * @param AddressBookRepository $addressBookRepository
      */
-    public function __construct(AddressBookRepository $addressbookRepository)
+    public function __construct(AddressBookRepository $addressBookRepository)
     {
-        $this->addressbookRepository = $addressbookRepository;
-        $this->addressbookRepository->itemsPerPage = 10;
+        $this->addressBookRepository = $addressBookRepository;
+        $this->addressBookRepository->itemsPerPage = 10;
     }
 
     /**
@@ -44,7 +45,7 @@ class AddressBookService extends Service
      */
     public function getAllAddressBooks(array $filters = [], array $eagerRelations = [])
     {
-        return $this->addressbookRepository->getWith($filters, $eagerRelations, true);
+        return $this->addressBookRepository->getWith($filters, $eagerRelations, true);
     }
 
     /**
@@ -55,9 +56,9 @@ class AddressBookService extends Service
      * @return LengthAwarePaginator
      * @throws Exception
      */
-    public function addressbookPaginate(array $filters = [], array $eagerRelations = []): LengthAwarePaginator
+    public function addressBookPaginate(array $filters = [], array $eagerRelations = []): LengthAwarePaginator
     {
-        return $this->addressbookRepository->paginateWith($filters, $eagerRelations, true);
+        return $this->addressBookRepository->paginateWith($filters, $eagerRelations, true);
     }
 
     /**
@@ -70,7 +71,7 @@ class AddressBookService extends Service
      */
     public function getAddressBookById($id, bool $purge = false)
     {
-        return $this->addressbookRepository->show($id, $purge);
+        return $this->addressBookRepository->show($id, $purge);
     }
 
     /**
@@ -85,7 +86,7 @@ class AddressBookService extends Service
     {
         DB::beginTransaction();
         try {
-            $newAddressBook = $this->addressbookRepository->create($inputs);
+            $newAddressBook = $this->addressBookRepository->create($inputs);
             if ($newAddressBook instanceof AddressBook) {
                 DB::commit();
                 return ['status' => true, 'message' => __('New AddressBook Created'),
@@ -96,7 +97,7 @@ class AddressBookService extends Service
                     'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
             }
         } catch (Exception $exception) {
-            $this->addressbookRepository->handleException($exception);
+            $this->addressBookRepository->handleException($exception);
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
@@ -115,9 +116,9 @@ class AddressBookService extends Service
     {
         DB::beginTransaction();
         try {
-            $addressbook = $this->addressbookRepository->show($id);
-            if ($addressbook instanceof AddressBook) {
-                if ($this->addressbookRepository->update($inputs, $id)) {
+            $addressBook = $this->addressBookRepository->show($id);
+            if ($addressBook instanceof AddressBook) {
+                if ($this->addressBookRepository->update($inputs, $id)) {
                     DB::commit();
                     return ['status' => true, 'message' => __('AddressBook Info Updated'),
                         'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
@@ -131,7 +132,7 @@ class AddressBookService extends Service
                     'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Alert!'];
             }
         } catch (Exception $exception) {
-            $this->addressbookRepository->handleException($exception);
+            $this->addressBookRepository->handleException($exception);
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
@@ -149,7 +150,7 @@ class AddressBookService extends Service
     {
         DB::beginTransaction();
         try {
-            if ($this->addressbookRepository->delete($id)) {
+            if ($this->addressBookRepository->delete($id)) {
                 DB::commit();
                 return ['status' => true, 'message' => __('AddressBook is Trashed'),
                     'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
@@ -160,7 +161,7 @@ class AddressBookService extends Service
                     'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
             }
         } catch (Exception $exception) {
-            $this->addressbookRepository->handleException($exception);
+            $this->addressBookRepository->handleException($exception);
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
@@ -178,7 +179,7 @@ class AddressBookService extends Service
     {
         DB::beginTransaction();
         try {
-            if ($this->addressbookRepository->restore($id)) {
+            if ($this->addressBookRepository->restore($id)) {
                 DB::commit();
                 return ['status' => true, 'message' => __('AddressBook is Restored'),
                     'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
@@ -189,7 +190,7 @@ class AddressBookService extends Service
                     'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
             }
         } catch (Exception $exception) {
-            $this->addressbookRepository->handleException($exception);
+            $this->addressBookRepository->handleException($exception);
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
@@ -205,6 +206,6 @@ class AddressBookService extends Service
      */
     public function exportAddressBook(array $filters = []): AddressBookExport
     {
-        return (new AddressBookExport($this->addressbookRepository->getWith($filters)));
+        return (new AddressBookExport($this->addressBookRepository->getWith($filters)));
     }
 }

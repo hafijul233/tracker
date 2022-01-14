@@ -1,18 +1,18 @@
 <?php
 
-namespace Modules\Contact\Repositories\Eloquent\Backend\Common;
+namespace App\Repositories\Eloquent\Backend\Common;
 
+use App\Abstracts\Repository\EloquentRepository;
+use App\Models\Backend\Common\AddressBook;
+use App\Services\Auth\AuthenticatedSessionService;
 use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Modules\Auth\Services\AuthenticatedSessionService;
-use Modules\Core\Abstracts\Repository\EloquentRepository;
-use Modules\Contact\Models\Backend\Common\AddressBook;
 
 /**
  * @class AddressBookRepository
- * @package Modules\Contact\Repositories\Eloquent\Backend\Common
+ * @package App\Repositories\Eloquent\Backend\Common
  */
 class AddressBookRepository extends EloquentRepository
 {

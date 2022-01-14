@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\Contact\Http\Requests\Backend\Common;
+namespace App\Http\Requests\Backend\Common;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * @class AddressBookRequest
- * @package Modules\Contact\Http\Requests\Backend\Common
+ * @package App\Http\Requests\Backend\Common
  */
 class AddressBookRequest extends FormRequest
 {

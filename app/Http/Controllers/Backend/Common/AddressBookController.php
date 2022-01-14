@@ -1,19 +1,19 @@
 <?php
 
-namespace Modules\Contact\Http\Controllers\Backend\Common;
+namespace App\Http\Controllers\Backend\Common;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Backend\Common\AddressBookRequest;
+use App\Services\Auth\AuthenticatedSessionService;
+use App\Services\Backend\Common\AddressBookService;
+use App\Supports\Utility;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Modules\Auth\Services\AuthenticatedSessionService;
-use Modules\Core\Supports\Utility;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-use Modules\Contact\Services\Backend\Common\AddressBookService;
-use Modules\Contact\Http\Requests\Backend\Common\AddressBookRequest;
 
 /**
  * @class AddressBookController
@@ -29,20 +29,20 @@ class AddressBookController extends Controller
     /**
      * @var AddressBookService
      */
-    private $addressbookService;
+    private $addressBookService;
 
     /**
      * AddressBookController Constructor
      *
      * @param AuthenticatedSessionService $authenticatedSessionService
-     * @param AddressBookService $addressbookService
+     * @param AddressBookService $addressBookService
      */
     public function __construct(AuthenticatedSessionService $authenticatedSessionService,
-                                AddressBookService              $addressbookService)
+                                AddressBookService              $addressBookService)
     {
 
         $this->authenticatedSessionService = $authenticatedSessionService;
-        $this->addressbookService = $addressbookService;
+        $this->addressBookService = $addressBookService;
     }
     
     /**
@@ -54,10 +54,10 @@ class AddressBookController extends Controller
     public function index(Request $request)
     {
         $filters = $request->except('page');
-        $addressbooks = $this->addressbookService->addressbookPaginate($filters);
+        $addressBooks = $this->addressBookService->addressBookPaginate($filters);
 
-        return view('contact::backend.common.addressbook.index', [
-            'addressbooks' => $addressbooks
+        return view('contact::backend.common.address-book.index', [
+            'addressBooks' => $addressBooks
         ]);
     }
 
@@ -68,7 +68,7 @@ class AddressBookController extends Controller
      */
     public function create()
     {
-        return view('contact::backend.common.addressbook.create');
+        return view('contact::backend.common.address-book.create');
     }
 
     /**
@@ -80,10 +80,10 @@ class AddressBookController extends Controller
      */
     public function store(AddressBookRequest $request): RedirectResponse
     {
-        $confirm = $this->addressbookService->storeAddressBook($request->except('_token'));
+        $confirm = $this->addressBookService->storeAddressBook($request->except('_token'));
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('contact.backend.common.addressbooks.index');
+            return redirect()->route('contact.backend.common.address-books.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -99,10 +99,10 @@ class AddressBookController extends Controller
      */
     public function show($id)
     {
-        if ($addressbook = $this->addressbookService->getAddressBookById($id)) {
-            return view('contact::backend.common.addressbook.show', [
-                'addressbook' => $addressbook,
-                'timeline' => Utility::modelAudits($addressbook)
+        if ($addressBook = $this->addressBookService->getAddressBookById($id)) {
+            return view('contact::backend.common.address-book.show', [
+                'addressBook' => $addressBook,
+                'timeline' => Utility::modelAudits($addressBook)
             ]);
         }
 
@@ -118,9 +118,9 @@ class AddressBookController extends Controller
      */
     public function edit($id)
     {
-        if ($addressbook = $this->addressbookService->getAddressBookById($id)) {
-            return view('contact::backend.common.addressbook.edit', [
-                'addressbook' => $addressbook
+        if ($addressBook = $this->addressBookService->getAddressBookById($id)) {
+            return view('contact::backend.common.address-book.edit', [
+                'addressBook' => $addressBook
             ]);
         }
 
@@ -137,11 +137,11 @@ class AddressBookController extends Controller
      */
     public function update(AddressBookRequest $request, $id): RedirectResponse
     {
-        $confirm = $this->addressbookService->updateAddressBook($request->except('_token', 'submit', '_method'), $id);
+        $confirm = $this->addressBookService->updateAddressBook($request->except('_token', 'submit', '_method'), $id);
 
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('contact.backend.common.addressbooks.index');
+            return redirect()->route('contact.backend.common.address-books.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -160,14 +160,14 @@ class AddressBookController extends Controller
     {
         if ($this->authenticatedSessionService->validate($request)) {
 
-            $confirm = $this->addressbookService->destroyAddressBook($id);
+            $confirm = $this->addressBookService->destroyAddressBook($id);
 
             if ($confirm['status'] == true) {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('contact.backend.common.addressbooks.index');
+            return redirect()->route('contact.backend.common.address-books.index');
         }
         abort(403, 'Wrong user credentials');
     }
@@ -184,14 +184,14 @@ class AddressBookController extends Controller
     {
         if ($this->authenticatedSessionService->validate($request)) {
 
-            $confirm = $this->addressbookService->restoreAddressBook($id);
+            $confirm = $this->addressBookService->restoreAddressBook($id);
 
             if ($confirm['status'] == true) {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('contact.backend.common.addressbooks.index');
+            return redirect()->route('contact.backend.common.address-books.index');
         }
         abort(403, 'Wrong user credentials');
     }
@@ -206,12 +206,12 @@ class AddressBookController extends Controller
     {
         $filters = $request->except('page');
 
-        $addressbookExport = $this->addressbookService->exportAddressBook($filters);
+        $addressBookExport = $this->addressBookService->exportAddressBook($filters);
 
         $filename = 'AddressBook-' . date('Ymd-His') . '.' . ($filters['format'] ?? 'xlsx');
 
-        return $addressbookExport->download($filename, function ($addressbook) use ($addressbookExport) {
-            return $addressbookExport->map($addressbook);
+        return $addressBookExport->download($filename, function ($addressBook) use ($addressBookExport) {
+            return $addressBookExport->map($addressBook);
         });
 
     }
@@ -223,7 +223,7 @@ class AddressBookController extends Controller
      */
     public function import()
     {
-        return view('contact::backend.common.addressbookimport');
+        return view('contact::backend.common.address-book.import');
     }
 
     /**
@@ -235,10 +235,10 @@ class AddressBookController extends Controller
     public function importBulk(Request $request)
     {
         $filters = $request->except('page');
-        $addressbooks = $this->addressbookService->getAllAddressBooks($filters);
+        $addressBooks = $this->addressBookService->getAllAddressBooks($filters);
 
-        return view('contact::backend.common.addressbookindex', [
-            'addressbooks' => $addressbooks
+        return view('contact::backend.common.address-book.index', [
+            'addressBooks' => $addressBooks
         ]);
     }
 
@@ -252,12 +252,12 @@ class AddressBookController extends Controller
     {
         $filters = $request->except('page');
 
-        $addressbookExport = $this->addressbookService->exportAddressBook($filters);
+        $addressBookExport = $this->addressBookService->exportAddressBook($filters);
 
         $filename = 'AddressBook-' . date('Ymd-His') . '.' . ($filters['format'] ?? 'xlsx');
 
-        return $addressbookExport->download($filename, function ($addressbook) use ($addressbookExport) {
-            return $addressbookExport->map($addressbook);
+        return $addressBookExport->download($filename, function ($addressBook) use ($addressBookExport) {
+            return $addressBookExport->map($addressBook);
         });
 
     }

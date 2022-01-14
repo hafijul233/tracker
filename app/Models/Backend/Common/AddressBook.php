@@ -1,19 +1,22 @@
 <?php
 
-namespace Modules\Contact\Models\Backend\Common;
+namespace App\Models\Backend\Common;
 
+use App\Models\Backend\Setting\City;
+use App\Models\Backend\Setting\Country;
+use App\Models\Backend\Setting\State;
+use App\Models\Backend\Setting\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kyslik\ColumnSortable\Sortable;
-use Modules\Core\Models\Setting\User;
 use OwenIt\Auditing\Auditable as AuditableTrait;
 use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @class AddressBook
- * @package Modules\Contact\Models\Backend\Common
+ * @package App\Models\Backend\Common
  */
 class AddressBook extends Model implements Auditable
 {
@@ -22,7 +25,7 @@ class AddressBook extends Model implements Auditable
     /**
      * @var string $table
      */
-    protected $table = '';
+    protected $table = 'address_books';
 
     /**
      * @var string $primaryKey
@@ -36,7 +39,7 @@ class AddressBook extends Model implements Auditable
      *
      * @var array
      */
-    protected $fillable = [ /*****/'enabled', 'created_by', 'updated_by', 'deleted_by'];
+    protected $fillable = [ 'user_id', 'type', 'phone', 'name', 'address', 'post_code', 'remark', 'enabled', 'city_id', 'state_id', 'country_id', 'created_by', 'updated_by', 'deleted_by'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -60,15 +63,6 @@ class AddressBook extends Model implements Auditable
     protected $attributes = [
         'enabled' => 'yes'
     ];
-
-    /************************ Static Factory ************************/
-
-    /*
-    protected static function newFactory()
-    {
-        return \Modules\Contact\Database\Factories\Backend/Common/AddressBookFactory::new();
-    }
-    */
 
     /************************ Audit Relations ************************/
 
@@ -94,5 +88,37 @@ class AddressBook extends Model implements Auditable
     public function deletedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'deleted_by');
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function city(): BelongsTo
+    {
+        return $this->belongsTo(City::class);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function state(): BelongsTo
+    {
+        return $this->belongsTo(State::class);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class);
     }
 }

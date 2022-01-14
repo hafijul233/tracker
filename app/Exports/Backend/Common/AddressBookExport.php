@@ -1,15 +1,14 @@
 <?php
 
-namespace Modules\Contact\Exports\Backend\Common;
+namespace App\Exports\Backend\Common;
 
+use App\Abstracts\Export\FastExcelExport;
+use App\Models\Backend\Common\AddressBook;
 use Box\Spout\Common\Exception\InvalidArgumentException;
-use Modules\Core\Abstracts\Export\FastExcelExport;
-use Modules\Core\Models\Setting\Permission;
-use Modules\Contact\Models\Backend\Common\AddressBook;
 
 /**
  * @class AddressBookExport
- * @package Modules\Contact\Exports\Backend\Common
+ * @package App\Exports\Backend\Common
  */
 class AddressBookExport extends FastExcelExport
 {
