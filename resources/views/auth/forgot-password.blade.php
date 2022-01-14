@@ -64,9 +64,12 @@
                 </div>
                 {!! \Form::close() !!}
 
-                <p class="mt-3 mb-1">
-                    <a href="{{ route('auth.login') }}">Login</a>
-                </p>
+                @if(Route::has('auth.login'))
+                    <p class="mb-0">
+                        <a href="{{ route('auth.login') }}" class="text-center">I already have a membership? Login</a>
+                    </p>
+                @endif
+
                 @if(Route::has('auth.register') && config('auth.allow_register'))
                     <p class="mb-0">
                         <a href="{{ route('auth.register') }}" class="text-center">Register a new membership</a>

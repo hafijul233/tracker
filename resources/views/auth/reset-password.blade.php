@@ -69,7 +69,7 @@
                         <!-- /.col -->
                     @endif
                     <div class="@if(!config('auth.allow_remembering')) offset-8 @endif col-4">
-                        <button type="submit" class="btn btn-primary btn-block">{{ __('Log in') }}</button>
+                        <button type="submit" class="btn btn-success btn-block">{{ __('Reset') }}</button>
                     </div>
                     <!-- /.col -->
                 </div>
@@ -88,9 +88,9 @@
                 --}}
             <!-- /.social-auth-links -->
 
-                @if (Route::has('auth.password.request') && config('auth.allow_password_reset'))
-                    <p class="mb-1">
-                        <a href="{{ route('auth.password.request') }}">I forgot my password</a>
+                @if(Route::has('auth.login'))
+                    <p class="mb-0">
+                        <a href="{{ route('auth.login') }}" class="text-center">Login as different user</a>
                     </p>
                 @endif
 

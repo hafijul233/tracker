@@ -41,6 +41,7 @@ class User extends Authenticatable implements HasMedia, Auditable
         'home_page',
         'locale',
         'enabled',
+        'force_pass_reset',
         'email_verified_at',
         'parent_id',
         'created_by',

@@ -165,7 +165,7 @@ class UserService extends Service
             $requestData['password'] = Utility::hashPassword($requestData['password']);
 
             //force password reset
-            $requestData['force_pass_reset'] = true;
+            $requestData['force_pass_reset'] = 1;
 
         } else {
             unset($requestData['password']);

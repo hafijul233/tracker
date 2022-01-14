@@ -5,7 +5,6 @@ namespace App\Services\Auth;
 
 use App\Models\Backend\Setting\User;
 use App\Repositories\Eloquent\Backend\Setting\UserRepository;
-use App\Services\Backend\Setting\UserService;
 use App\Supports\Constant;
 use App\Supports\Utility;
 use Illuminate\Support\Facades\Auth;
@@ -43,7 +42,7 @@ class PasswordResetService
     }
 
     /**
-     * @param array $inputs
+     * @param array $credentials
      * @return array
      */
     public function updatePassword(array $credentials): array
@@ -53,6 +52,7 @@ class PasswordResetService
             function ($user) use ($credentials) {
                 $confirmation = $this->userRepository->update([
                     'password' => Utility::hashPassword($credentials['password']),
+                    'force_pass_reset' => 0,
                     'remember_token' => Str::random(60),
                 ], $user->id);
                 //event(new PasswordReset($user));

@@ -17,7 +17,19 @@ use Illuminate\Support\Str;
  */
 class AuthenticatedSessionService
 {
-    public $request;
+    /**
+     * @var PasswordResetService
+     */
+    private $passwordResetService;
+
+    /**
+     * @param PasswordResetService $passwordResetService
+     * @return void
+     */
+    public function __construct(PasswordResetService $passwordResetService)
+    {
+        $this->passwordResetService = $passwordResetService;
+    }
 
     /**
      * Handle an incoming auth request.
@@ -27,8 +39,6 @@ class AuthenticatedSessionService
      */
     public function attemptLogin(LoginRequest $request): array
     {
-        $this->request = $request;
-
         $authConfirmation = $this->ensureIsNotRateLimited($request);
 
         if ($authConfirmation['status'] == true) {
@@ -112,7 +122,11 @@ class AuthenticatedSessionService
      */
     public static function isSuperAdmin(): bool
     {
-        return (Auth::user()->hasRole(Constant::SUPER_ADMIN_ROLE));
+        if ($authUser = Auth::user()) {
+            return ($authUser->hasRole(Constant::SUPER_ADMIN_ROLE));
+        }
+
+        return false;
     }
 
     /**
@@ -121,7 +135,12 @@ class AuthenticatedSessionService
      */
     public static function isUserEnabled(): bool
     {
-        return (Auth::user()->enabled == Constant::ENABLED_OPTION);
+
+        if ($authUser = Auth::user()) {
+            return ($authUser->enabled == Constant::ENABLED_OPTION);
+        }
+
+        return false;
     }
 
 
@@ -132,7 +151,11 @@ class AuthenticatedSessionService
      */
     public function hasForcePasswordReset(): bool
     {
-        return (bool)Auth::user()->force_pass_reset;
+        if ($authUser = Auth::user()) {
+            return (bool)$authUser->force_pass_reset;
+        }
+
+        return false;
     }
 
     /**
@@ -159,18 +182,15 @@ class AuthenticatedSessionService
         }
 
         //authentication is OTP
-        if (!isset($authInfo['password'])) {
-            $confirmation = $this->otpBasedLogin($authInfo, $remember_me);
-        } //Normal Login
+        $confirmation = (!isset($authInfo['password']))
+            ? $this->otpBasedLogin($authInfo, $remember_me)
+            : $this->credentialBasedLogin($authInfo, $remember_me);
 
-        else {
-            $confirmation = $this->credentialBasedLogin($authInfo, $remember_me);
-        }
-
-        if ($confirmation['status'] == true) {
+        if ($confirmation['status'] === true) {
 
             //is user is banned to log in
             if (!self::isUserEnabled()) {
+
                 //logout from all guard
                 Auth::logout();
                 $confirmation = ['status' => false,
@@ -179,15 +199,18 @@ class AuthenticatedSessionService
                     'title' => 'Alert!'];
 
             } else if ($this->hasForcePasswordReset()) {
-
-                //limited to laravel package
+                //make this user as guest to reset password
                 Auth::logout();
-                //redirect if password need to reset
+
+                //create reset token
+                $tokenInfo = $this->passwordResetService->createPasswordResetToken($authInfo);
+
+                //reset message
                 $confirmation = ['status' => true,
                     'message' => __('auth.login.forced'),
                     'level' => Constant::MSG_TOASTR_WARNING,
                     'title' => 'Notification!',
-                    'landing_page' => route('auth.password.reset', ['token'], false)];
+                    'landing_page' => route('auth.password.reset', $tokenInfo['token'])];
 
             } else {
                 //set the auth user redirect page
