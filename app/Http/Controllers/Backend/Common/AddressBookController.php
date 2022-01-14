@@ -83,7 +83,7 @@ class AddressBookController extends Controller
         $confirm = $this->addressBookService->storeAddressBook($request->except('_token'));
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('contact.backend.common.address-books.index');
+            return redirect()->route('backend.common.address-books.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -141,7 +141,7 @@ class AddressBookController extends Controller
 
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('contact.backend.common.address-books.index');
+            return redirect()->route('backend.common.address-books.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -167,7 +167,7 @@ class AddressBookController extends Controller
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('contact.backend.common.address-books.index');
+            return redirect()->route('backend.common.address-books.index');
         }
         abort(403, 'Wrong user credentials');
     }
@@ -191,7 +191,7 @@ class AddressBookController extends Controller
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('contact.backend.common.address-books.index');
+            return redirect()->route('backend.common.address-books.index');
         }
         abort(403, 'Wrong user credentials');
     }

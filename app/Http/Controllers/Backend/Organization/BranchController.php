@@ -83,7 +83,7 @@ class BranchController extends Controller
         $confirm = $this->branchService->storeBranch($request->except('_token'));
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('contact.backend.organization.branchs.index');
+            return redirect()->route('backend.organization.branchs.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -141,7 +141,7 @@ class BranchController extends Controller
 
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('contact.backend.organization.branchs.index');
+            return redirect()->route('backend.organization.branchs.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -167,7 +167,7 @@ class BranchController extends Controller
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('contact.backend.organization.branchs.index');
+            return redirect()->route('backend.organization.branchs.index');
         }
         abort(403, 'Wrong user credentials');
     }
@@ -191,7 +191,7 @@ class BranchController extends Controller
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('contact.backend.organization.branchs.index');
+            return redirect()->route('backend.organization.branchs.index');
         }
         abort(403, 'Wrong user credentials');
     }

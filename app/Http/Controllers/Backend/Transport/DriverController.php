@@ -83,7 +83,7 @@ class DriverController extends Controller
         $confirm = $this->driverService->storeDriver($request->except('_token'));
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('contact.backend.transpoprt.drivers.index');
+            return redirect()->route('backend.transpoprt.drivers.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -141,7 +141,7 @@ class DriverController extends Controller
 
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('contact.backend.transpoprt.drivers.index');
+            return redirect()->route('backend.transpoprt.drivers.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -167,7 +167,7 @@ class DriverController extends Controller
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('contact.backend.transpoprt.drivers.index');
+            return redirect()->route('backend.transpoprt.drivers.index');
         }
         abort(403, 'Wrong user credentials');
     }
@@ -191,7 +191,7 @@ class DriverController extends Controller
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('contact.backend.transpoprt.drivers.index');
+            return redirect()->route('backend.transpoprt.drivers.index');
         }
         abort(403, 'Wrong user credentials');
     }

@@ -83,7 +83,7 @@ class ItemController extends Controller
         $confirm = $this->itemService->storeItem($request->except('_token'));
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('contact.backend.shipment.items.index');
+            return redirect()->route('backend.shipment.items.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -141,7 +141,7 @@ class ItemController extends Controller
 
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('contact.backend.shipment.items.index');
+            return redirect()->route('backend.shipment.items.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -167,7 +167,7 @@ class ItemController extends Controller
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('contact.backend.shipment.items.index');
+            return redirect()->route('backend.shipment.items.index');
         }
         abort(403, 'Wrong user credentials');
     }
@@ -191,7 +191,7 @@ class ItemController extends Controller
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('contact.backend.shipment.items.index');
+            return redirect()->route('backend.shipment.items.index');
         }
         abort(403, 'Wrong user credentials');
     }

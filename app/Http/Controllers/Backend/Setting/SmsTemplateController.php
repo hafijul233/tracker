@@ -83,7 +83,7 @@ class SmsTemplateController extends Controller
         $confirm = $this->smstemplateService->storeSmsTemplate($request->except('_token'));
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('contact.backend.setting.smstemplates.index');
+            return redirect()->route('backend.setting.smstemplates.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -141,7 +141,7 @@ class SmsTemplateController extends Controller
 
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('contact.backend.setting.smstemplates.index');
+            return redirect()->route('backend.setting.smstemplates.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -167,7 +167,7 @@ class SmsTemplateController extends Controller
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('contact.backend.setting.smstemplates.index');
+            return redirect()->route('backend.setting.smstemplates.index');
         }
         abort(403, 'Wrong user credentials');
     }
@@ -191,7 +191,7 @@ class SmsTemplateController extends Controller
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('contact.backend.setting.smstemplates.index');
+            return redirect()->route('backend.setting.smstemplates.index');
         }
         abort(403, 'Wrong user credentials');
     }

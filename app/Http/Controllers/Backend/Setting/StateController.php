@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backend\Setting;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Setting\StateRequest;
+use App\Http\Requests\Backend\Setting\StateRequest;
 use App\Services\Auth\AuthenticatedSessionService;
 use App\Services\Backend\Setting\StateService;
 use App\Supports\Utility;

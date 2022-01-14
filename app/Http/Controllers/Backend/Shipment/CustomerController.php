@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * @class CustomerController
- * @package pp\Http\Controllers\Backend\Shipment
+ * @package App\Http\Controllers\Backend\Shipment
  */
 class CustomerController extends Controller
 {
@@ -112,14 +112,12 @@ class CustomerController extends Controller
     {
         $inputs = $request->except('_token');
 
-        dd($inputs);
-
         $photo = $request->file('photo');
 
         $confirm = $this->customerService->storeCustomer($inputs, $photo);
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('contact.backend.shipment.customers.index');
+            return redirect()->route('backend.shipment.customers.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -177,7 +175,7 @@ class CustomerController extends Controller
 
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('contact.backend.shipment.customers.index');
+            return redirect()->route('backend.shipment.customers.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -203,7 +201,7 @@ class CustomerController extends Controller
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('contact.backend.shipment.customers.index');
+            return redirect()->route('backend.shipment.customers.index');
         }
         abort(403, 'Wrong user credentials');
     }
@@ -227,7 +225,7 @@ class CustomerController extends Controller
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('contact.backend.shipment.customers.index');
+            return redirect()->route('backend.shipment.customers.index');
         }
         abort(403, 'Wrong user credentials');
     }

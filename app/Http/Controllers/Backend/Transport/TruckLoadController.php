@@ -83,7 +83,7 @@ class TruckLoadController extends Controller
         $confirm = $this->truckloadService->storeTrackLoad($request->except('_token'));
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('contact.backend.shipment.truckloads.index');
+            return redirect()->route('backend.shipment.truckloads.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -141,7 +141,7 @@ class TruckLoadController extends Controller
 
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('contact.backend.shipment.truckloads.index');
+            return redirect()->route('backend.shipment.truckloads.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -167,7 +167,7 @@ class TruckLoadController extends Controller
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('contact.backend.shipment.truckloads.index');
+            return redirect()->route('backend.shipment.truckloads.index');
         }
         abort(403, 'Wrong user credentials');
     }
@@ -191,7 +191,7 @@ class TruckLoadController extends Controller
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('contact.backend.shipment.truckloads.index');
+            return redirect()->route('backend.shipment.truckloads.index');
         }
         abort(403, 'Wrong user credentials');
     }

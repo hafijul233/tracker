@@ -5,6 +5,7 @@ namespace App\Services\Backend\Shipment;
 use App\Abstracts\Service\Service;
 use App\Exports\Backend\Shipment\CustomerExport;
 use App\Models\Backend\Setting\User;
+use App\Repositories\Eloquent\Backend\Common\AddressBookRepository;
 use App\Repositories\Eloquent\Backend\Setting\UserRepository;
 use App\Services\Backend\Common\FileUploadService;
 use App\Supports\Constant;
@@ -33,18 +34,26 @@ class CustomerService extends Service
      * @var FileUploadService
      */
     private $fileUploadService;
+    /**
+     * @var AddressBookRepository
+     */
+    private $addressBookRepository;
+
 
     /**
      * CustomerService constructor.
      * @param UserRepository $userRepository
      * @param FileUploadService $fileUploadService
+     * @param AddressBookRepository $addressBookRepository
      */
-    public function __construct(UserRepository    $userRepository,
-                                FileUploadService $fileUploadService)
+    public function __construct(UserRepository        $userRepository,
+                                FileUploadService     $fileUploadService,
+                                AddressBookRepository $addressBookRepository)
     {
         $this->userRepository = $userRepository;
         $this->userRepository->itemsPerPage = 10;
         $this->fileUploadService = $fileUploadService;
+        $this->addressBookRepository = $addressBookRepository;
     }
 
     /**
@@ -114,10 +123,11 @@ class CustomerService extends Service
 
         DB::beginTransaction();
         try {
-            if ($newUser = $this->userRepository->create($requestData)) {
-                if (($newUser instanceof User) &&
+            if ($newCustomer = $this->userRepository->create($requestData)) {
+                if (($newCustomer instanceof User) &&
                     $this->userRepository->manageRoles($roleId) &&
-                    $this->attachAvatarImage($newUser, $photo)) {
+                    $this->attachAvatarImage($newCustomer, $photo) &&
+                $this->storeCustomerAddress($newCustomer, $requestData)) {
                     DB::commit();
                     return ['status' => true, 'message' => __('New Customer Created'),
                         'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
@@ -137,6 +147,44 @@ class CustomerService extends Service
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
         }
+    }
+
+
+    /**
+     * @param User $customer
+     * @param array $requestData
+     * @return bool
+     * @throws Exception
+     */
+    public function storeCustomerAddress(User $customer, array $requestData): bool
+    {
+        foreach ($requestData['address']['type'] as $type):
+            try {
+                $address = [
+                    'user_id' => $customer->id,
+                    'type' => $type,
+                    'phone' => $requestData['address']['phone'] ?? null,
+                    'name' => $requestData['name'] ?? null,
+                    'address' => $requestData['address']['address'] ?? null,
+                    'post_code' => $requestData['address']['post_code'] ?? null,
+                    'remark' => $requestData['remarks'] ?? null,
+                    'enabled' => Constant::ENABLED_OPTION,
+                    'city_id' => $requestData['address']['city_id'] ?? config('contact.default.city'),
+                    'state_id' => $requestData['address']['state_id'] ?? config('contact.default.state'),
+                    'country_id' => $requestData['address']['country_id'] ?? config('contact.default.country')
+                ];
+
+                if (!$this->addressBookRepository->create($address)):
+                    return false;
+                endif;
+
+            } catch (Exception $exception) {
+                $this->userRepository->handleException($exception);
+                return false;
+            }
+        endforeach;
+
+        return true;
     }
 
     /**

@@ -83,7 +83,7 @@ class CheckPointController extends Controller
         $confirm = $this->checkpointService->storeCheckPoint($request->except('_token'));
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('contact.backend.transpoprt.checkpoints.index');
+            return redirect()->route('backend.transpoprt.checkpoints.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -141,7 +141,7 @@ class CheckPointController extends Controller
 
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('contact.backend.transpoprt.checkpoints.index');
+            return redirect()->route('backend.transpoprt.checkpoints.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -167,7 +167,7 @@ class CheckPointController extends Controller
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('contact.backend.transpoprt.checkpoints.index');
+            return redirect()->route('backend.transpoprt.checkpoints.index');
         }
         abort(403, 'Wrong user credentials');
     }
@@ -191,7 +191,7 @@ class CheckPointController extends Controller
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('contact.backend.transpoprt.checkpoints.index');
+            return redirect()->route('backend.transpoprt.checkpoints.index');
         }
         abort(403, 'Wrong user credentials');
     }

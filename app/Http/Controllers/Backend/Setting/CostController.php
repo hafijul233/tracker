@@ -83,7 +83,7 @@ class CostController extends Controller
         $confirm = $this->costService->storeCost($request->except('_token'));
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('contact.backend.setting.costs.index');
+            return redirect()->route('backend.setting.costs.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -141,7 +141,7 @@ class CostController extends Controller
 
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('contact.backend.setting.costs.index');
+            return redirect()->route('backend.setting.costs.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -167,7 +167,7 @@ class CostController extends Controller
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('contact.backend.setting.costs.index');
+            return redirect()->route('backend.setting.costs.index');
         }
         abort(403, 'Wrong user credentials');
     }
@@ -191,7 +191,7 @@ class CostController extends Controller
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('contact.backend.setting.costs.index');
+            return redirect()->route('backend.setting.costs.index');
         }
         abort(403, 'Wrong user credentials');
     }

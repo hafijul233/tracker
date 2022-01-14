@@ -83,7 +83,7 @@ class InvoiceController extends Controller
         $confirm = $this->invoiceService->storeInvoice($request->except('_token'));
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('contact.backend.shipment.invoices.index');
+            return redirect()->route('backend.shipment.invoices.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -141,7 +141,7 @@ class InvoiceController extends Controller
 
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('contact.backend.shipment.invoices.index');
+            return redirect()->route('backend.shipment.invoices.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -167,7 +167,7 @@ class InvoiceController extends Controller
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('contact.backend.shipment.invoices.index');
+            return redirect()->route('backend.shipment.invoices.index');
         }
         abort(403, 'Wrong user credentials');
     }
@@ -191,7 +191,7 @@ class InvoiceController extends Controller
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('contact.backend.shipment.invoices.index');
+            return redirect()->route('backend.shipment.invoices.index');
         }
         abort(403, 'Wrong user credentials');
     }

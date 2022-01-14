@@ -83,7 +83,7 @@ class EmployeeController extends Controller
         $confirm = $this->employeeService->storeEmployee($request->except('_token'));
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('contact.backend.organization.employees.index');
+            return redirect()->route('backend.organization.employees.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -141,7 +141,7 @@ class EmployeeController extends Controller
 
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('contact.backend.organization.employees.index');
+            return redirect()->route('backend.organization.employees.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -167,7 +167,7 @@ class EmployeeController extends Controller
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('contact.backend.organization.employees.index');
+            return redirect()->route('backend.organization.employees.index');
         }
         abort(403, 'Wrong user credentials');
     }
@@ -191,7 +191,7 @@ class EmployeeController extends Controller
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('contact.backend.organization.employees.index');
+            return redirect()->route('backend.organization.employees.index');
         }
         abort(403, 'Wrong user credentials');
     }

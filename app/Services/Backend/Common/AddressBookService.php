@@ -97,11 +97,11 @@ class AddressBookService extends Service
                 DB::commit();
                 return ['status' => true, 'message' => __('New AddressBook Created'),
                     'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
-            } else {
-                DB::rollBack();
-                return ['status' => false, 'message' => __('New AddressBook Creation Failed'),
-                    'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
             }
+
+            DB::rollBack();
+            return ['status' => false, 'message' => __('New AddressBook Creation Failed'),
+                'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
         } catch (Exception $exception) {
             $this->addressBookRepository->handleException($exception);
             DB::rollBack();
