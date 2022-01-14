@@ -5,8 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-
-class CreateInvoiceItemsTable extends Migration
+class CreateTruckLoadsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -19,11 +18,12 @@ class CreateInvoiceItemsTable extends Migration
         Schema::disableForeignKeyConstraints();
 
         //Table Structure
-        Schema::create('invoice_items', function (Blueprint $table) {
+        Schema::create('truck_loads', function (Blueprint $table) {
             $table->id();
+            
 
             $table->enum('enabled', array_keys(Constant::ENABLED_OPTIONS))
-                  ->default(Constant::ENABLED_OPTION)->nullable();
+                            ->default(Constant::ENABLED_OPTION)->nullable();
             $table->foreignId('created_by')->index()->nullable();
             $table->foreignId('updated_by')->index()->nullable();
             $table->foreignId('deleted_by')->index()->nullable();
@@ -31,9 +31,6 @@ class CreateInvoiceItemsTable extends Migration
             $table->dateTime('updated_at')->nullable();
             $table->dateTime('deleted_at')->nullable();
         });
-
-        //Temporary Disable Foreign Key Constraints
-        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -47,7 +44,7 @@ class CreateInvoiceItemsTable extends Migration
         Schema::disableForeignKeyConstraints();
 
         //Remove Table Structure
-        Schema::dropIfExists('invoice_items');
+        Schema::dropIfExists('truck_loads');
 
         //Temporary Disable Foreign Key Constraints
         Schema::enableForeignKeyConstraints();

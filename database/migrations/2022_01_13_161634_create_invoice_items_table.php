@@ -5,7 +5,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAddressbooksTable extends Migration
+
+class CreateInvoiceItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -18,12 +19,20 @@ class CreateAddressbooksTable extends Migration
         Schema::disableForeignKeyConstraints();
 
         //Table Structure
-        Schema::create('addressbooks', function (Blueprint $table) {
+        Schema::create('invoice_items', function (Blueprint $table) {
             $table->id();
-            
-
+            $table->foreignId('item_id');
+            $table->string('name');
+            $table->double('quantity', 7, 3);
+            $table->string('weight')->nullable();
+            $table->string('dimension')->nullable();
+            $table->double('rate', 15, 4)->default(1);
+            $table->double('subtotal', 15, 4)->default(0);
+            $table->string('discount')->nullable();
+            $table->string('tax')->nullable();
+            $table->double('total', 15, 4);
             $table->enum('enabled', array_keys(Constant::ENABLED_OPTIONS))
-                            ->default(Constant::ENABLED_OPTION)->nullable();
+                  ->default(Constant::ENABLED_OPTION)->nullable();
             $table->foreignId('created_by')->index()->nullable();
             $table->foreignId('updated_by')->index()->nullable();
             $table->foreignId('deleted_by')->index()->nullable();
@@ -31,6 +40,9 @@ class CreateAddressbooksTable extends Migration
             $table->dateTime('updated_at')->nullable();
             $table->dateTime('deleted_at')->nullable();
         });
+
+        //Temporary Disable Foreign Key Constraints
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -44,7 +56,7 @@ class CreateAddressbooksTable extends Migration
         Schema::disableForeignKeyConstraints();
 
         //Remove Table Structure
-        Schema::dropIfExists('addressbooks');
+        Schema::dropIfExists('invoice_items');
 
         //Temporary Disable Foreign Key Constraints
         Schema::enableForeignKeyConstraints();

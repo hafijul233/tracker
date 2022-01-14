@@ -23,7 +23,7 @@ class CreateItemsTable extends Migration
             $table->foreignId('user_id')->index();
             $table->string('name');
             $table->string('description')->nullable();
-            $table->double('rate', 10, 3)->default(0)->nullable();
+            $table->double('rate', 15, 4)->default(0)->nullable();
             $table->enum('enabled', array_keys(Constant::ENABLED_OPTIONS))
                             ->default(Constant::ENABLED_OPTION)->nullable();
             $table->foreignId('created_by')->index()->nullable();

@@ -5,7 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTrackloadsTable extends Migration
+class CreateAddressBooksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -18,12 +18,20 @@ class CreateTrackloadsTable extends Migration
         Schema::disableForeignKeyConstraints();
 
         //Table Structure
-        Schema::create('trackloads', function (Blueprint $table) {
+        Schema::create('address_books', function (Blueprint $table) {
             $table->id();
-            
-
+            $table->foreignId('user_id')->index()->nullable();
+            $table->string('type');
+            $table->string('phone');
+            $table->string('name');
+            $table->string('address');
+            $table->string('post_code')->nullable();
+            $table->string('remark')->nullable();
             $table->enum('enabled', array_keys(Constant::ENABLED_OPTIONS))
-                            ->default(Constant::ENABLED_OPTION)->nullable();
+                ->default(Constant::ENABLED_OPTION)->nullable();
+            $table->foreignId('city_id')->index()->nullable();
+            $table->foreignId('state_id')->index()->nullable();
+            $table->foreignId('country_id')->index()->nullable();
             $table->foreignId('created_by')->index()->nullable();
             $table->foreignId('updated_by')->index()->nullable();
             $table->foreignId('deleted_by')->index()->nullable();
@@ -44,7 +52,7 @@ class CreateTrackloadsTable extends Migration
         Schema::disableForeignKeyConstraints();
 
         //Remove Table Structure
-        Schema::dropIfExists('trackloads');
+        Schema::dropIfExists('address_books');
 
         //Temporary Disable Foreign Key Constraints
         Schema::enableForeignKeyConstraints();
