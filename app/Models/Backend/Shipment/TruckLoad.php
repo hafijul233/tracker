@@ -12,10 +12,10 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
 use OwenIt\Auditing\Contracts\Auditable;
 
 /**
- * @class TrackLoad
+ * @class TruckLoad
  * @package App\Models\Backend\Shipment
  */
-class TrackLoad extends Model implements Auditable
+class TruckLoad extends Model implements Auditable
 {
     use AuditableTrait, HasFactory, SoftDeletes, Sortable;
 

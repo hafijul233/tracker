@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Backend\Shipment;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\Shipment\TrackLoadRequest;
 use App\Services\Auth\AuthenticatedSessionService;
-use App\Services\Backend\Shipment\TrackLoadService;
+use App\Services\Backend\Shipment\TruckLoadService;
 use App\Supports\Utility;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
@@ -16,10 +16,10 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
- * @class TrackLoadController
+ * @class TruckLoadController
  * @package $NAMESPACE$
  */
-class TrackLoadController extends Controller
+class TruckLoadController extends Controller
 {
     /**
      * @var AuthenticatedSessionService
@@ -27,22 +27,22 @@ class TrackLoadController extends Controller
     private $authenticatedSessionService;
     
     /**
-     * @var TrackLoadService
+     * @var TruckLoadService
      */
-    private $trackloadService;
+    private $truckloadService;
 
     /**
-     * TrackLoadController Constructor
+     * TruckLoadController Constructor
      *
      * @param AuthenticatedSessionService $authenticatedSessionService
-     * @param TrackLoadService $trackloadService
+     * @param TruckLoadService $truckloadService
      */
     public function __construct(AuthenticatedSessionService $authenticatedSessionService,
-                                TrackLoadService              $trackloadService)
+                                TruckLoadService            $truckloadService)
     {
 
         $this->authenticatedSessionService = $authenticatedSessionService;
-        $this->trackloadService = $trackloadService;
+        $this->truckloadService = $truckloadService;
     }
     
     /**
@@ -54,10 +54,10 @@ class TrackLoadController extends Controller
     public function index(Request $request)
     {
         $filters = $request->except('page');
-        $trackloads = $this->trackloadService->trackloadPaginate($filters);
+        $truckloads = $this->truckloadService->truckloadPaginate($filters);
 
-        return view('backend.shipment.trackload.index', [
-            'trackloads' => $trackloads
+        return view('backend.shipment.truckload.index', [
+            'truckloads' => $truckloads
         ]);
     }
 
@@ -68,7 +68,7 @@ class TrackLoadController extends Controller
      */
     public function create()
     {
-        return view('backend.shipment.trackload.create');
+        return view('backend.shipment.truckload.create');
     }
 
     /**
@@ -80,10 +80,10 @@ class TrackLoadController extends Controller
      */
     public function store(TrackLoadRequest $request): RedirectResponse
     {
-        $confirm = $this->trackloadService->storeTrackLoad($request->except('_token'));
+        $confirm = $this->truckloadService->storeTrackLoad($request->except('_token'));
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('contact.backend.shipment.trackloads.index');
+            return redirect()->route('contact.backend.shipment.truckloads.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -99,10 +99,10 @@ class TrackLoadController extends Controller
      */
     public function show($id)
     {
-        if ($trackload = $this->trackloadService->getTrackLoadById($id)) {
-            return view('backend.shipment.trackload.show', [
-                'trackload' => $trackload,
-                'timeline' => Utility::modelAudits($trackload)
+        if ($truckload = $this->truckloadService->getTrackLoadById($id)) {
+            return view('backend.shipment.truckload.show', [
+                'truckload' => $truckload,
+                'timeline' => Utility::modelAudits($truckload)
             ]);
         }
 
@@ -118,9 +118,9 @@ class TrackLoadController extends Controller
      */
     public function edit($id)
     {
-        if ($trackload = $this->trackloadService->getTrackLoadById($id)) {
-            return view('backend.shipment.trackload.edit', [
-                'trackload' => $trackload
+        if ($truckload = $this->truckloadService->getTrackLoadById($id)) {
+            return view('backend.shipment.truckload.edit', [
+                'truckload' => $truckload
             ]);
         }
 
@@ -137,11 +137,11 @@ class TrackLoadController extends Controller
      */
     public function update(TrackLoadRequest $request, $id): RedirectResponse
     {
-        $confirm = $this->trackloadService->updateTrackLoad($request->except('_token', 'submit', '_method'), $id);
+        $confirm = $this->truckloadService->updateTrackLoad($request->except('_token', 'submit', '_method'), $id);
 
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('contact.backend.shipment.trackloads.index');
+            return redirect()->route('contact.backend.shipment.truckloads.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -160,14 +160,14 @@ class TrackLoadController extends Controller
     {
         if ($this->authenticatedSessionService->validate($request)) {
 
-            $confirm = $this->trackloadService->destroyTrackLoad($id);
+            $confirm = $this->truckloadService->destroyTrackLoad($id);
 
             if ($confirm['status'] == true) {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('contact.backend.shipment.trackloads.index');
+            return redirect()->route('contact.backend.shipment.truckloads.index');
         }
         abort(403, 'Wrong user credentials');
     }
@@ -184,14 +184,14 @@ class TrackLoadController extends Controller
     {
         if ($this->authenticatedSessionService->validate($request)) {
 
-            $confirm = $this->trackloadService->restoreTrackLoad($id);
+            $confirm = $this->truckloadService->restoreTrackLoad($id);
 
             if ($confirm['status'] == true) {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('contact.backend.shipment.trackloads.index');
+            return redirect()->route('contact.backend.shipment.truckloads.index');
         }
         abort(403, 'Wrong user credentials');
     }
@@ -206,12 +206,12 @@ class TrackLoadController extends Controller
     {
         $filters = $request->except('page');
 
-        $trackloadExport = $this->trackloadService->exportTrackLoad($filters);
+        $truckloadExport = $this->truckloadService->exportTrackLoad($filters);
 
-        $filename = 'TrackLoad-' . date('Ymd-His') . '.' . ($filters['format'] ?? 'xlsx');
+        $filename = 'TruckLoad-' . date('Ymd-His') . '.' . ($filters['format'] ?? 'xlsx');
 
-        return $trackloadExport->download($filename, function ($trackload) use ($trackloadExport) {
-            return $trackloadExport->map($trackload);
+        return $truckloadExport->download($filename, function ($truckload) use ($truckloadExport) {
+            return $truckloadExport->map($truckload);
         });
 
     }
@@ -223,7 +223,7 @@ class TrackLoadController extends Controller
      */
     public function import()
     {
-        return view('backend.shipment.trackloadimport');
+        return view('backend.shipment.truckloadimport');
     }
 
     /**
@@ -235,10 +235,10 @@ class TrackLoadController extends Controller
     public function importBulk(Request $request)
     {
         $filters = $request->except('page');
-        $trackloads = $this->trackloadService->getAllTrackLoads($filters);
+        $truckloads = $this->truckloadService->getAllTrackLoads($filters);
 
-        return view('backend.shipment.trackloadindex', [
-            'trackloads' => $trackloads
+        return view('backend.shipment.truckloadindex', [
+            'truckloads' => $truckloads
         ]);
     }
 
@@ -252,12 +252,12 @@ class TrackLoadController extends Controller
     {
         $filters = $request->except('page');
 
-        $trackloadExport = $this->trackloadService->exportTrackLoad($filters);
+        $truckloadExport = $this->truckloadService->exportTrackLoad($filters);
 
-        $filename = 'TrackLoad-' . date('Ymd-His') . '.' . ($filters['format'] ?? 'xlsx');
+        $filename = 'TruckLoad-' . date('Ymd-His') . '.' . ($filters['format'] ?? 'xlsx');
 
-        return $trackloadExport->download($filename, function ($trackload) use ($trackloadExport) {
-            return $trackloadExport->map($trackload);
+        return $truckloadExport->download($filename, function ($truckload) use ($truckloadExport) {
+            return $truckloadExport->map($truckload);
         });
 
     }

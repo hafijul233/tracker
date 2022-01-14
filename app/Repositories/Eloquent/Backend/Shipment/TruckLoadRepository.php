@@ -3,7 +3,7 @@
 namespace App\Repositories\Eloquent\Backend\Shipment;
 
 use App\Abstracts\Repository\EloquentRepository;
-use App\Models\Backend\Shipment\TrackLoad;
+use App\Models\Backend\Shipment\TruckLoad;
 use App\Services\Auth\AuthenticatedSessionService;
 use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -11,20 +11,20 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
- * @class TrackLoadRepository
+ * @class TruckLoadRepository
  * @package App\Repositories\Eloquent\Backend\Shipment
  */
-class TrackLoadRepository extends EloquentRepository
+class TruckLoadRepository extends EloquentRepository
 {
     /**
-     * TrackLoadRepository constructor.
+     * TruckLoadRepository constructor.
      */
     public function __construct()
     {
         /**
          * Set the model that will be used for repo
          */
-        parent::__construct(new TrackLoad);
+        parent::__construct(new TruckLoad);
     }
 
     /**

@@ -82,7 +82,7 @@
             </div>
         </div>
     </div>
-    {!! \Modules\Core\Supports\CHTML::confirmModal('TrackLoad', ['delete', 'restore']) !!}
+    {!! \Modules\Core\Supports\CHTML::confirmModal('TruckLoad', ['delete', 'restore']) !!}
 @endsection
 
 

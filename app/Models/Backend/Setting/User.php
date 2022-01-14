@@ -3,7 +3,6 @@
 namespace App\Models\Backend\Setting;
 
 use App\Supports\Constant;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -40,6 +39,7 @@ class User extends Authenticatable implements HasMedia, Auditable
         'locale',
         'enabled',
         'email_verified_at',
+        'parent_id',
         'created_by',
         'updated_by',
         'deleted_by'
@@ -136,4 +136,8 @@ class User extends Authenticatable implements HasMedia, Auditable
         return $this->permissions()->pluck('id')->toArray();
     }
 
+    public function receivers()
+    {
+        return $this->hasMany(User::class, 'id', 'parent_id');
+    }
 }

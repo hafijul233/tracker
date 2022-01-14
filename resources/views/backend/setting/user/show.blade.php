@@ -332,6 +332,10 @@
 
 @push('page-script')
     <script>
+        const USER_ID = {{ $user->id }};
+    </script>
+    <script src="{{ asset('assets/js/pages/address-book.js') }}"></script>
+    <script>
         $(function () {
             $.ajax({
                 url: '{{ route('backend.settings.roles.ajax') }}',

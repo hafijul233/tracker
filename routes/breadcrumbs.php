@@ -11,8 +11,8 @@ use App\Models\Backend\Setting\User;
 use App\Models\Backend\Shipment\Customer;
 use App\Models\Backend\Shipment\Invoice;
 use App\Models\Backend\Shipment\Item;
-use App\Models\Backend\Shipment\TrackLoad;
 use App\Models\Backend\Shipment\Transaction;
+use App\Models\Backend\Shipment\TruckLoad;
 use App\Models\Backend\Transpoprt\CheckPoint;
 use App\Models\Backend\Transpoprt\Driver;
 use App\Models\Backend\Transpoprt\Vehicle;
@@ -598,7 +598,7 @@ Breadcrumbs::for('backend.shipment.transactions.edit', function (BreadcrumbTrail
     $trail->push('Edit Transaction', route('backend.shipment.transactions.edit', $transaction->id));
 });
 
-/****************************************** TrackLoad ******************************************/
+/****************************************** TruckLoad ******************************************/
 
 Breadcrumbs::for('backend.shipment.track-loads.index', function (BreadcrumbTrail $trail) {
 
@@ -611,23 +611,23 @@ Breadcrumbs::for('backend.shipment.track-loads.create', function (BreadcrumbTrai
 
     $trail->parent('backend.shipment.track-loads.index');
 
-    $trail->push('Add TrackLoad', route('backend.shipment.track-loads.create'));
+    $trail->push('Add TruckLoad', route('backend.shipment.track-loads.create'));
 });
 
 Breadcrumbs::for('backend.shipment.track-loads.show', function (BreadcrumbTrail $trail, $trackLoad) {
 
     $trail->parent('backend.shipment.track-loads.index');
 
-    $trackLoad = ($trackLoad instanceof TrackLoad) ? $trackLoad : $trackLoad[0];
+    $trackLoad = ($trackLoad instanceof TruckLoad) ? $trackLoad : $trackLoad[0];
 
     $trail->push($trackLoad->name, route('backend.shipment.track-loads.show', $trackLoad->id));
 });
 
-Breadcrumbs::for('backend.shipment.track-loads.edit', function (BreadcrumbTrail $trail, TrackLoad $trackLoad) {
+Breadcrumbs::for('backend.shipment.track-loads.edit', function (BreadcrumbTrail $trail, TruckLoad $trackLoad) {
 
     $trail->parent('backend.shipment.track-loads.show', [$trackLoad]);
 
-    $trail->push('Edit TrackLoad', route('backend.shipment.track-loads.edit', $trackLoad->id));
+    $trail->push('Edit TruckLoad', route('backend.shipment.track-loads.edit', $trackLoad->id));
 });
 
 /****************************************** Transport ******************************************/

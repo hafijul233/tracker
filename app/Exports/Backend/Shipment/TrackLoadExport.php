@@ -3,7 +3,7 @@
 namespace App\Exports\Backend\Shipment;
 
 use App\Abstracts\Export\FastExcelExport;
-use App\Models\Backend\Shipment\TrackLoad;
+use App\Models\Backend\Shipment\TruckLoad;
 use Box\Spout\Common\Exception\InvalidArgumentException;
 
 /**
@@ -26,7 +26,7 @@ class TrackLoadExport extends FastExcelExport
     }
 
     /**
-     * @param TrackLoad $row
+     * @param TruckLoad $row
      * @return array
      */
     public function map($row): array

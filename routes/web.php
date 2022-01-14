@@ -4,7 +4,6 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
-use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
@@ -28,8 +27,8 @@ use App\Http\Controllers\Backend\SettingController;
 use App\Http\Controllers\Backend\Shipment\CustomerController;
 use App\Http\Controllers\Backend\Shipment\InvoiceController;
 use App\Http\Controllers\Backend\Shipment\ItemController;
-use App\Http\Controllers\Backend\Shipment\TrackLoadController;
 use App\Http\Controllers\Backend\Shipment\TransactionController;
+use App\Http\Controllers\Backend\Shipment\TruckLoadController;
 use App\Http\Controllers\Backend\ShipmentController;
 use App\Http\Controllers\Backend\Transpoprt\CheckPointController;
 use App\Http\Controllers\Backend\Transpoprt\DriverController;
@@ -185,14 +184,14 @@ Route::prefix('backend')->group(function () {
             });
 
             //Track Loads
-            Route::resource('track-loads', TrackLoadController::class)->where(['track-load' => '([0-9]+)']);
-            Route::prefix('track-loads')->name('track-loads.')->group(function () {
-                Route::patch('{track-load}/restore', [TrackLoadController::class, 'restore'])->name('restore');
-                Route::get('export', [TrackLoadController::class, 'export'])->name('export');
-                Route::get('import', [TrackLoadController::class, 'import'])->name('import');
-                Route::post('import', [TrackLoadController::class, 'importBulk']);
-                Route::post('print', [TrackLoadController::class, 'print'])->name('print');
-                Route::get('ajax', [TrackLoadController::class, 'ajax'])->name('ajax')->middleware('ajax');
+            Route::resource('truck-loads', TruckLoadController::class)->where(['truck-load' => '([0-9]+)']);
+            Route::prefix('truck-loads')->name('truck-loads.')->group(function () {
+                Route::patch('{truck-load}/restore', [TruckLoadController::class, 'restore'])->name('restore');
+                Route::get('export', [TruckLoadController::class, 'export'])->name('export');
+                Route::get('import', [TruckLoadController::class, 'import'])->name('import');
+                Route::post('import', [TruckLoadController::class, 'importBulk']);
+                Route::post('print', [TruckLoadController::class, 'print'])->name('print');
+                Route::get('ajax', [TruckLoadController::class, 'ajax'])->name('ajax')->middleware('ajax');
             });
         });
 

@@ -3,8 +3,8 @@
 namespace App\Services\Backend\Shipment;
 
 use App\Abstracts\Service\Service;
-use App\Models\Backend\Shipment\TrackLoad;
-use App\Repositories\Eloquent\Backend\Shipment\TrackLoadRepository;
+use App\Models\Backend\Shipment\TruckLoad;
+use App\Repositories\Eloquent\Backend\Shipment\TruckLoadRepository;
 use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
@@ -14,28 +14,28 @@ use Modules\Core\Supports\Constant;
 use Throwable;
 
 /**
- * @class TrackLoadService
+ * @class TruckLoadService
  * @package App\Services\Backend\Shipment
  */
-class TrackLoadService extends Service
+class TruckLoadService extends Service
 {
 /**
-     * @var TrackLoadRepository
+     * @var TruckLoadRepository
      */
-    private $trackloadRepository;
+    private $truckloadRepository;
 
     /**
-     * TrackLoadService constructor.
-     * @param TrackLoadRepository $trackloadRepository
+     * TruckLoadService constructor.
+     * @param TruckLoadRepository $truckloadRepository
      */
-    public function __construct(TrackLoadRepository $trackloadRepository)
+    public function __construct(TruckLoadRepository $truckloadRepository)
     {
-        $this->trackloadRepository = $trackloadRepository;
-        $this->trackloadRepository->itemsPerPage = 10;
+        $this->truckloadRepository = $truckloadRepository;
+        $this->truckloadRepository->itemsPerPage = 10;
     }
 
     /**
-     * Get All TrackLoad models as collection
+     * Get All TruckLoad models as collection
      * 
      * @param array $filters
      * @param array $eagerRelations
@@ -44,24 +44,24 @@ class TrackLoadService extends Service
      */
     public function getAllTrackLoads(array $filters = [], array $eagerRelations = [])
     {
-        return $this->trackloadRepository->getWith($filters, $eagerRelations, true);
+        return $this->truckloadRepository->getWith($filters, $eagerRelations, true);
     }
 
     /**
-     * Create TrackLoad Model Pagination
+     * Create TruckLoad Model Pagination
      * 
      * @param array $filters
      * @param array $eagerRelations
      * @return LengthAwarePaginator
      * @throws Exception
      */
-    public function trackloadPaginate(array $filters = [], array $eagerRelations = []): LengthAwarePaginator
+    public function truckloadPaginate(array $filters = [], array $eagerRelations = []): LengthAwarePaginator
     {
-        return $this->trackloadRepository->paginateWith($filters, $eagerRelations, true);
+        return $this->truckloadRepository->paginateWith($filters, $eagerRelations, true);
     }
 
     /**
-     * Show TrackLoad Model
+     * Show TruckLoad Model
      * 
      * @param int $id
      * @param bool $purge
@@ -70,11 +70,11 @@ class TrackLoadService extends Service
      */
     public function getTrackLoadById($id, bool $purge = false)
     {
-        return $this->trackloadRepository->show($id, $purge);
+        return $this->truckloadRepository->show($id, $purge);
     }
 
     /**
-     * Save TrackLoad Model
+     * Save TruckLoad Model
      * 
      * @param array $inputs
      * @return array
@@ -85,18 +85,18 @@ class TrackLoadService extends Service
     {
         DB::beginTransaction();
         try {
-            $newTrackLoad = $this->trackloadRepository->create($inputs);
-            if ($newTrackLoad instanceof TrackLoad) {
+            $newTrackLoad = $this->truckloadRepository->create($inputs);
+            if ($newTrackLoad instanceof TruckLoad) {
                 DB::commit();
-                return ['status' => true, 'message' => __('New TrackLoad Created'),
+                return ['status' => true, 'message' => __('New TruckLoad Created'),
                     'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
             } else {
                 DB::rollBack();
-                return ['status' => false, 'message' => __('New TrackLoad Creation Failed'),
+                return ['status' => false, 'message' => __('New TruckLoad Creation Failed'),
                     'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
             }
         } catch (Exception $exception) {
-            $this->trackloadRepository->handleException($exception);
+            $this->truckloadRepository->handleException($exception);
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
@@ -104,7 +104,7 @@ class TrackLoadService extends Service
     }
 
     /**
-     * Update TrackLoad Model
+     * Update TruckLoad Model
      * 
      * @param array $inputs
      * @param $id
@@ -115,23 +115,23 @@ class TrackLoadService extends Service
     {
         DB::beginTransaction();
         try {
-            $trackload = $this->trackloadRepository->show($id);
-            if ($trackload instanceof TrackLoad) {
-                if ($this->trackloadRepository->update($inputs, $id)) {
+            $truckload = $this->truckloadRepository->show($id);
+            if ($truckload instanceof TruckLoad) {
+                if ($this->truckloadRepository->update($inputs, $id)) {
                     DB::commit();
-                    return ['status' => true, 'message' => __('TrackLoad Info Updated'),
+                    return ['status' => true, 'message' => __('TruckLoad Info Updated'),
                         'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
                 } else {
                     DB::rollBack();
-                    return ['status' => false, 'message' => __('TrackLoad Info Update Failed'),
+                    return ['status' => false, 'message' => __('TruckLoad Info Update Failed'),
                         'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
                 }
             } else {
-                return ['status' => false, 'message' => __('TrackLoad Model Not Found'),
+                return ['status' => false, 'message' => __('TruckLoad Model Not Found'),
                     'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Alert!'];
             }
         } catch (Exception $exception) {
-            $this->trackloadRepository->handleException($exception);
+            $this->truckloadRepository->handleException($exception);
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
@@ -139,7 +139,7 @@ class TrackLoadService extends Service
     }
 
     /**
-     * Destroy TrackLoad Model
+     * Destroy TruckLoad Model
      * 
      * @param $id
      * @return array
@@ -149,18 +149,18 @@ class TrackLoadService extends Service
     {
         DB::beginTransaction();
         try {
-            if ($this->trackloadRepository->delete($id)) {
+            if ($this->truckloadRepository->delete($id)) {
                 DB::commit();
-                return ['status' => true, 'message' => __('TrackLoad is Trashed'),
+                return ['status' => true, 'message' => __('TruckLoad is Trashed'),
                     'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
 
             } else {
                 DB::rollBack();
-                return ['status' => false, 'message' => __('TrackLoad is Delete Failed'),
+                return ['status' => false, 'message' => __('TruckLoad is Delete Failed'),
                     'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
             }
         } catch (Exception $exception) {
-            $this->trackloadRepository->handleException($exception);
+            $this->truckloadRepository->handleException($exception);
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
@@ -168,7 +168,7 @@ class TrackLoadService extends Service
     }
 
     /**
-     * Restore TrackLoad Model
+     * Restore TruckLoad Model
      * 
      * @param $id
      * @return array
@@ -178,18 +178,18 @@ class TrackLoadService extends Service
     {
         DB::beginTransaction();
         try {
-            if ($this->trackloadRepository->restore($id)) {
+            if ($this->truckloadRepository->restore($id)) {
                 DB::commit();
-                return ['status' => true, 'message' => __('TrackLoad is Restored'),
+                return ['status' => true, 'message' => __('TruckLoad is Restored'),
                     'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
 
             } else {
                 DB::rollBack();
-                return ['status' => false, 'message' => __('TrackLoad is Restoration Failed'),
+                return ['status' => false, 'message' => __('TruckLoad is Restoration Failed'),
                     'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
             }
         } catch (Exception $exception) {
-            $this->trackloadRepository->handleException($exception);
+            $this->truckloadRepository->handleException($exception);
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
@@ -205,6 +205,6 @@ class TrackLoadService extends Service
      */
     public function exportTrackLoad(array $filters = []): TrackLoadExport
     {
-        return (new TrackLoadExport($this->trackloadRepository->getWith($filters)));
+        return (new TrackLoadExport($this->truckloadRepository->getWith($filters)));
     }
 }

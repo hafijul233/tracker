@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Add TrackLoad')
+@section('title', 'Add TruckLoad')
 
 @push('meta')
 

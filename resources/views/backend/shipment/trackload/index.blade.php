@@ -27,7 +27,7 @@
 @section('breadcrumbs', \Breadcrumbs::render())
 
 @section('actions')
-    {!! \Html::linkButton('Add TrackLoad', 'core.settings.trackloads.create', [], 'mdi mdi-plus', 'success') !!}
+    {!! \Html::linkButton('Add TruckLoad', 'core.settings.trackloads.create', [], 'mdi mdi-plus', 'success') !!}
     {!! \Html::bulkDropdown('core.settings.trackloads', 0, ['color' => 'warning']) !!}
 @endsection
 
@@ -39,7 +39,7 @@
                     @if(!empty($trackloads))
                         <div class="card-body p-0">
                             {!! \Html::cardSearch('search', 'core.settings.trackloads.index',
-                            ['placeholder' => 'Search TrackLoad Name etc.',
+                            ['placeholder' => 'Search TruckLoad Name etc.',
                             'class' => 'form-control', 'id' => 'search', 'data-target-table' => 'trackload-table']) !!}
                             <div class="table-responsive">
                                 <table class="table table-hover mb-0" id="trackload-table">
@@ -99,7 +99,7 @@
         </div>
     </div>
     <!-- /.container-fluid -->
-    {!! \Modules\Core\Supports\CHTML::confirmModal('TrackLoad', ['export', 'delete', 'restore']) !!}
+    {!! \Modules\Core\Supports\CHTML::confirmModal('TruckLoad', ['export', 'delete', 'restore']) !!}
 @endsection
 
 
