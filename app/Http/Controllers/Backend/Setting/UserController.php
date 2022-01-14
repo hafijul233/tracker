@@ -99,9 +99,7 @@ class UserController extends Controller
      */
     public function store(UserRequest $request): RedirectResponse
     {
-        $inputs = $request->except(['_token', 'password_confirmation', 'user_detail']);
-
-        $user_detail = $request->only('user_detail');
+        $inputs = $request->except(['_token', 'password_confirmation']);
 
         $photo = $request->file('photo');
 

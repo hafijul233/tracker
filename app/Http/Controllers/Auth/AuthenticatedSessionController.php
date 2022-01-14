@@ -49,7 +49,7 @@ class AuthenticatedSessionController extends Controller
         $confirm = $this->authenticatedSessionService->attemptLogin($request);
         if ($confirm['status'] === true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->to($confirm['landing_page']);
+            return redirect()->route($confirm['landing_page']);
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);

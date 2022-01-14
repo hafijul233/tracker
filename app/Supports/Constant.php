@@ -134,7 +134,7 @@ class Constant
     /**
      * Default Logged User Redirect Route
      */
-    const DASHBOARD_ROUTE = '/backend/dashboard';
+    const DASHBOARD_ROUTE = 'backend.dashboard';
 
     const LOCALE = 'en';
 }

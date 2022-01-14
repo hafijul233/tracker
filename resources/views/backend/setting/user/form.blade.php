@@ -3,10 +3,8 @@
 @endpush
 
 <div class="card-body">
-    <section class="d-none">
-        {!! \Form::hidden('home_page', \App\Supports\Constant::DASHBOARD_ROUTE) !!}
-        {!! \Form::hidden('locale', \App\Supports\Constant::LOCALE) !!}
-    </section>
+    {!! \Form::hidden('home_page', \App\Supports\Constant::DASHBOARD_ROUTE) !!}
+    {!! \Form::hidden('locale', \App\Supports\Constant::LOCALE) !!}
     <div class="row">
         <div class="col-md-6">
             {!! \Form::nText('name', 'Name', old('name', $user->name ?? null), true) !!}
@@ -55,36 +53,6 @@ old('enabled', ($user->enabled ?? \App\Supports\Constant::ENABLED_OPTION))) !!}
                  'default' => (isset($user))
                  ? $user->getFirstMediaUrl('avatars')
                  : asset(\App\Supports\Constant::USER_PROFILE_IMAGE)]) !!}
-        </div>
-    </div>
-{{--    <div class="row">
-        <div class="col-md-6">
-            {!! \Form::nSelect('home_page', 'Landing Page',
-            \App\Supports\Utility::routeMethodNameArray(),
-             \App\Supports\Constant::DASHBOARD_ROUTE, true, ['class' => 'form-control custom-select select2']) !!}
-        </div>
-        <div class="col-md-6">
-            {!! \Form::nSelect('locale', 'Language',
-            ['en' => 'English'],\App\Supports\Constant::LOCALE, true) !!}
-        </div>
-    </div>--}}
-    <div class="row">
-        <div class="col-md-6">
-            <fieldset>
-                <legend>Extra Phone</legend>
-                @foreach(config('contact.phone_type') as $type => $label)
-                    {!! \Form::nTel("user_detail[phone->{$type}]", $label, false) !!}
-                @endforeach
-            </fieldset>
-        </div>
-        <div class="col-md-6">
-            <fieldset>
-                <legend>Extra Email</legend>
-                @foreach(config('contact.email_type') as $type => $label)
-                    {!! \Form::nEmail("user_detail[email->{$type}]", $label, false) !!}
-                @endforeach
-            </fieldset>
-
         </div>
     </div>
     <div class="row">
