@@ -56,7 +56,7 @@ class UserService extends Service
      */
     public function getAllUsers(array $filters = [], array $eagerRelations = [])
     {
-        return $this->userRepository->getAllUserWith($filters, $eagerRelations, true);
+        return $this->userRepository->getWith($filters, $eagerRelations, true);
     }
 
     /**
@@ -288,6 +288,6 @@ class UserService extends Service
      */
     public function exportUser(array $filters = []): UserExport
     {
-        return (new UserExport($this->userRepository->getAllUserWith($filters)));
+        return (new UserExport($this->userRepository->getWith($filters)));
     }
 }

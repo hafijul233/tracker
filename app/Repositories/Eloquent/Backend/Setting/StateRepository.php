@@ -49,6 +49,22 @@ class StateRepository extends EloquentRepository
             $query->sortable();
         endif;
 
+        if (isset($filters['country']) && !empty($filters['country'])) :
+            if (is_array($filters['country'])):
+                $query->whereIn('country_id', $filters['country']);
+            else :
+                $query->where('country_id', $filters['country']);
+            endif;
+        endif;
+
+        if (isset($filters['id']) && !empty($filters['id'])) :
+            if (is_array($filters['id'])):
+                $query->whereIn('id', $filters['id']);
+            else :
+                $query->where('id', $filters['id']);
+            endif;
+        endif;
+
         if (AuthenticatedSessionService::isSuperAdmin()) :
             $query->withTrashed();
         endif;

@@ -5,6 +5,7 @@
 <div class="card-body">
     {!! \Form::hidden('home_page', \App\Supports\Constant::DASHBOARD_ROUTE) !!}
     {!! \Form::hidden('locale', \App\Supports\Constant::LOCALE) !!}
+
     <div class="row">
         <div class="col-md-6">
             {!! \Form::nText('name', 'Name', old('name', $customer->name ?? null), true) !!}
@@ -56,6 +57,31 @@ old('enabled', ($customer->enabled ?? \App\Supports\Constant::ENABLED_OPTION))) 
         </div>
     </div>
     <div class="row">
+        <div class="col-md-6">
+            {!! \Form::iCheckbox('address[type]', 'Address Type', config('contact.address_type'), ['bill', 'ship']) !!}
+            <div class="mt-3">
+                {!! \Form::nTel('address[phone]', 'Phone', old('mobile', $defaultAddress->phone ?? null), false) !!}
+
+                {!! \Form::nTextarea('address[address]', 'Street Address',
+old('address.address', $defaultAddress->address ?? null), false,
+['style' => "height: 84px;"]) !!}
+            </div>
+        </div>
+        <div class="col-md-6">
+            {!! \Form::nSelect('address[state_id]', 'State',
+        ($states ?? []), old('address.state_id', $defaultAddress->state_id ?? null), true,
+         ['placeholder' => 'Please select a state', 'class' => 'form-control custom-select select2']) !!}
+
+            {!! \Form::nSelect('address[city_id]', 'City',
+($states ?? []), old('address.city_id', $defaultAddress->city_id ?? null), true,
+['placeholder' => 'Please select a state', 'class' => 'form-control custom-select select2']) !!}
+
+            {!! \Form::nText('address[post_code]', 'Post/Zip Code',
+old('address.post_code', $defaultAddress->address ?? null), false) !!}
+        </div>
+
+    </div>
+    <div class="row">
         <div class="col-12">
             {!! \Form::nTextarea('remarks', 'Remarks', old('remarks', $customer->remarks ?? null)) !!}
         </div>
@@ -84,6 +110,10 @@ old('enabled', ($customer->enabled ?? \App\Supports\Constant::ENABLED_OPTION))) 
 
             $("#home_page").select2({
                 placeholder: 'Select Landing Page',
+                width: "100%"
+            });
+
+            $(".select2").select2({
                 width: "100%"
             });
 

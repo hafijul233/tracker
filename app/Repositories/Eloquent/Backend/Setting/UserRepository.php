@@ -34,10 +34,11 @@ class UserRepository extends EloquentRepository
      */
     public function getAssignedRoles(User $user = null): ?Collection
     {
-        if (is_null($user))
+        if (is_null($user)) {
             return $this->model->roles;
-        else
-            return $user->roles;
+        }
+
+        return $user->roles;
     }
 
 
@@ -168,7 +169,7 @@ class UserRepository extends EloquentRepository
      * @return Builder[]|\Illuminate\Database\Eloquent\Collection
      * @throws Exception
      */
-    public function getAllUserWith(array $filters = [], array $eagerRelations = [], bool $is_sortable = false)
+    public function getWith(array $filters = [], array $eagerRelations = [], bool $is_sortable = false)
     {
         $query = $this->getQueryBuilder();
         try {

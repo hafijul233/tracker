@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\Shipment\CustomerRequest;
 use App\Services\Auth\AuthenticatedSessionService;
 use App\Services\Backend\Setting\RoleService;
+use App\Services\Backend\Setting\StateService;
 use App\Services\Backend\Shipment\CustomerService;
 use App\Supports\Constant;
 use App\Supports\Utility;
@@ -36,6 +37,10 @@ class CustomerController extends Controller
      * @var RoleService
      */
     private $roleService;
+    /**
+     * @var StateService
+     */
+    private $stateService;
 
     /**
      * CustomerController Constructor
@@ -43,15 +48,18 @@ class CustomerController extends Controller
      * @param AuthenticatedSessionService $authenticatedSessionService
      * @param CustomerService $customerService
      * @param RoleService $roleService
+     * @param StateService $stateService
      */
     public function __construct(AuthenticatedSessionService $authenticatedSessionService,
                                 CustomerService             $customerService,
-                                RoleService                 $roleService)
+                                RoleService                 $roleService,
+                                StateService                $stateService)
     {
 
         $this->authenticatedSessionService = $authenticatedSessionService;
         $this->customerService = $customerService;
         $this->roleService = $roleService;
+        $this->stateService = $stateService;
     }
 
     /**
@@ -83,8 +91,13 @@ class CustomerController extends Controller
             'enabled' => Constant::ENABLED_OPTION
         ]);
 
+        $states = $this->stateService->getStateDropdown([
+            'country' => 19,
+        ]);
+
         return view('backend.shipment.customer.create', [
-            'roles' => $roles
+            'roles' => $roles,
+            'states' => $states
         ]);
     }
 
@@ -95,9 +108,15 @@ class CustomerController extends Controller
      * @return RedirectResponse
      * @throws Exception|\Throwable
      */
-    public function store(CustomerRequest $request): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
-        $confirm = $this->customerService->storeCustomer($request->except('_token'));
+        $inputs = $request->except('_token');
+
+        dd($inputs);
+
+        $photo = $request->file('photo');
+
+        $confirm = $this->customerService->storeCustomer($inputs, $photo);
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
             return redirect()->route('contact.backend.shipment.customers.index');
