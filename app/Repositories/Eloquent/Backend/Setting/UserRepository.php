@@ -93,7 +93,7 @@ class UserRepository extends EloquentRepository
     {
         $query = $this->getQueryBuilder();
 
-        if (!empty($filters['search'])) :
+        if (isset($filters['search']) && !empty($filters['search'])) :
             $query->where('name', 'like', "%{$filters['search']}%")
                 ->orWhere('username', 'like', "%{$filters['search']}%")
                 ->orWhere('email', '=', "%{$filters['search']}%")
@@ -101,12 +101,31 @@ class UserRepository extends EloquentRepository
                 ->orWhere('enabled', '=', "%{$filters['search']}%");
         endif;
 
-        if (!empty($filters['enabled'])) :
+        if (isset($filters['enabled']) && !empty($filters['enabled'])) :
             $query->where('enabled', '=', $filters['enabled']);
         endif;
 
-        if (!empty($filters['sort']) && !empty($filters['direction'])) :
+        if (isset($filters['sort']) && !empty($filters['direction'])) :
             $query->orderBy($filters['sort'], $filters['direction']);
+        endif;
+
+        //Role may be int, string, array
+        if (isset($filters['role']) && !empty($filters['role'])) :
+            $query->whereHas('roles', function ($subQuery) use ($filters) {
+
+                if (!is_array($filters['role'])):
+                    $filters['role'][] = $filters['role'];
+                endif;
+
+                $firstRole = array_shift($filters['role']);
+                $subQuery->where('id', '=', $firstRole);
+
+                if (!empty($filters['role'])) :
+                    foreach ($filters['role'] as $role):
+                        $subQuery->orWhere('id', '=', $role);
+                    endforeach;
+                endif;
+            });
         endif;
 
 
@@ -117,6 +136,7 @@ class UserRepository extends EloquentRepository
         if (AuthenticatedSessionService::isSuperAdmin()) :
             $query->withTrashed();
         endif;
+
 
         return $query;
     }

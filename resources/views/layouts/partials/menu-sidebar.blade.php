@@ -39,7 +39,7 @@
     'backend.shipment.items.index',
     'backend.shipment.invoices.index',
     'backend.shipment.transactions.index',
-    'backend.shipment.track-loads.index'])
+    'backend.shipment.truck-loads.index'])
                     <li class="nav-item @if(\Route::is('backend.shipment.*')) menu-open @endif">
                         <a href="#" class="nav-link @if(\Route::is('backend.shipment.*')) active @endif">
                             <i class="nav-icon fas fa-ship"></i>
@@ -89,12 +89,12 @@
                                 </li>
                             @endcan
 
-                            @can('backend.shipment.track-loads.index')
+                            @can('backend.shipment.truck-loads.index')
                                 <li class="nav-item">
-                                    <a href="{{ route('backend.shipment.track-loads.index') }}"
-                                       class="nav-link @if(\Route::is('backend.shipment.track-loads.*')) active @endif">
+                                    <a href="{{ route('backend.shipment.truck-loads.index') }}"
+                                       class="nav-link @if(\Route::is('backend.shipment.truck-loads.*')) active @endif">
                                         <i class="fas fa-truck-loading nav-icon"></i>
-                                        <p>Track Loads</p>
+                                        <p>Truck Loads</p>
                                     </a>
                                 </li>
                             @endcan

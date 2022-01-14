@@ -3,14 +3,16 @@
 namespace App\Services\Backend\Shipment;
 
 use App\Abstracts\Service\Service;
+use App\Exports\Backend\Shipment\CustomerExport;
 use App\Models\Backend\Shipment\Customer;
+use App\Repositories\Eloquent\Backend\Setting\UserRepository;
 use App\Repositories\Eloquent\Backend\Shipment\CustomerRepository;
+use App\Supports\Constant;
 use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
-use Modules\Core\Supports\Constant;
 use Throwable;
 
 /**
@@ -22,16 +24,16 @@ class CustomerService extends Service
 /**
      * @var CustomerRepository
      */
-    private $customerRepository;
+    private $userRepository;
 
     /**
      * CustomerService constructor.
-     * @param CustomerRepository $customerRepository
+     * @param UserRepository $userRepository
      */
-    public function __construct(CustomerRepository $customerRepository)
+    public function __construct(UserRepository $userRepository)
     {
-        $this->customerRepository = $customerRepository;
-        $this->customerRepository->itemsPerPage = 10;
+        $this->userRepository = $userRepository;
+        $this->userRepository->itemsPerPage = 10;
     }
 
     /**
@@ -44,7 +46,7 @@ class CustomerService extends Service
      */
     public function getAllCustomers(array $filters = [], array $eagerRelations = [])
     {
-        return $this->customerRepository->getWith($filters, $eagerRelations, true);
+        return $this->userRepository->getWith($filters, $eagerRelations, true);
     }
 
     /**
@@ -57,7 +59,9 @@ class CustomerService extends Service
      */
     public function customerPaginate(array $filters = [], array $eagerRelations = []): LengthAwarePaginator
     {
-        return $this->customerRepository->paginateWith($filters, $eagerRelations, true);
+        $filters['role'] = [Constant::SENDER_ROLE_ID, Constant::RECEIVER_ROLE_ID];
+
+        return $this->userRepository->paginateWith($filters, $eagerRelations, true);
     }
 
     /**
@@ -70,7 +74,7 @@ class CustomerService extends Service
      */
     public function getCustomerById($id, bool $purge = false)
     {
-        return $this->customerRepository->show($id, $purge);
+        return $this->userRepository->show($id, $purge);
     }
 
     /**
@@ -85,18 +89,19 @@ class CustomerService extends Service
     {
         DB::beginTransaction();
         try {
-            $newCustomer = $this->customerRepository->create($inputs);
+            $newCustomer = $this->userRepository->create($inputs);
             if ($newCustomer instanceof Customer) {
                 DB::commit();
                 return ['status' => true, 'message' => __('New Customer Created'),
                     'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
-            } else {
-                DB::rollBack();
-                return ['status' => false, 'message' => __('New Customer Creation Failed'),
-                    'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
             }
+
+            DB::rollBack();
+            return ['status' => false, 'message' => __('New Customer Creation Failed'),
+                'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
+
         } catch (Exception $exception) {
-            $this->customerRepository->handleException($exception);
+            $this->userRepository->handleException($exception);
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
@@ -115,23 +120,24 @@ class CustomerService extends Service
     {
         DB::beginTransaction();
         try {
-            $customer = $this->customerRepository->show($id);
-            if ($customer instanceof Customer) {
-                if ($this->customerRepository->update($inputs, $id)) {
+            $user = $this->userRepository->show($id);
+            if ($user instanceof Customer) {
+                if ($this->userRepository->update($inputs, $id)) {
                     DB::commit();
                     return ['status' => true, 'message' => __('Customer Info Updated'),
                         'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
-                } else {
-                    DB::rollBack();
-                    return ['status' => false, 'message' => __('Customer Info Update Failed'),
-                        'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
                 }
-            } else {
-                return ['status' => false, 'message' => __('Customer Model Not Found'),
-                    'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Alert!'];
+
+                DB::rollBack();
+                return ['status' => false, 'message' => __('Customer Info Update Failed'),
+                    'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
             }
+
+            return ['status' => false, 'message' => __('Customer Model Not Found'),
+                'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Alert!'];
+
         } catch (Exception $exception) {
-            $this->customerRepository->handleException($exception);
+            $this->userRepository->handleException($exception);
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
@@ -149,18 +155,19 @@ class CustomerService extends Service
     {
         DB::beginTransaction();
         try {
-            if ($this->customerRepository->delete($id)) {
+            if ($this->userRepository->delete($id)) {
                 DB::commit();
                 return ['status' => true, 'message' => __('Customer is Trashed'),
                     'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
 
-            } else {
-                DB::rollBack();
-                return ['status' => false, 'message' => __('Customer is Delete Failed'),
-                    'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
             }
+
+            DB::rollBack();
+            return ['status' => false, 'message' => __('Customer is Delete Failed'),
+                'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
+
         } catch (Exception $exception) {
-            $this->customerRepository->handleException($exception);
+            $this->userRepository->handleException($exception);
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
@@ -178,18 +185,19 @@ class CustomerService extends Service
     {
         DB::beginTransaction();
         try {
-            if ($this->customerRepository->restore($id)) {
+            if ($this->userRepository->restore($id)) {
                 DB::commit();
                 return ['status' => true, 'message' => __('Customer is Restored'),
                     'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
 
-            } else {
-                DB::rollBack();
-                return ['status' => false, 'message' => __('Customer is Restoration Failed'),
-                    'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
             }
+
+            DB::rollBack();
+            return ['status' => false, 'message' => __('Customer is Restoration Failed'),
+                'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
+
         } catch (Exception $exception) {
-            $this->customerRepository->handleException($exception);
+            $this->userRepository->handleException($exception);
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
@@ -205,6 +213,6 @@ class CustomerService extends Service
      */
     public function exportCustomer(array $filters = []): CustomerExport
     {
-        return (new CustomerExport($this->customerRepository->getWith($filters)));
+        return (new CustomerExport($this->userRepository->getWith($filters)));
     }
 }
