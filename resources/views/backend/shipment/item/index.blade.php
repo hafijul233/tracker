@@ -72,7 +72,7 @@
                                             <td class="text-center exclude-search">
                                                 {!! \Html::enableToggle($item) !!}
                                             </td>
-                                            <td class="text-center">{{ $item->created_at->format(config('app.datetime')) ?? '' }}</td>
+                                            <td class="text-center">{{ $item->created_at->format(config('backend.datetime')) ?? '' }}</td>
                                             <td class="exclude-search pr-3 text-center align-middle">
                                                 {!! \Html::actionDropdown('core.settings.items', $item->id, array_merge(['show', 'edit'], ($item->deleted_at == null) ? ['delete'] : ['restore'])) !!}
                                             </td>

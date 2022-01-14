@@ -63,24 +63,7 @@
                                                 {{ $customer->id }}
                                             </td>
                                             <td class="text-left pl-0">
-                                                <div class="media">
-                                                    <img class="align-self-center mr-1 img-circle direct-chat-img elevation-1"
-                                                         src="{{ $customer->getFirstMediaUrl('avatars') }}" alt="{{ $customer->name }}">
-                                                    <div class="media-body">
-                                                        <p class="my-0">
-                                                            @if(auth()->user()->can('backend.shipment.customers.show') || $customer->id == auth()->user()->id)
-                                                                <a href="{{ route('backend.shipment.customers.show', $customer->id) }}">
-                                                                    {{ $customer->name }}
-                                                                </a>
-                                                            @else
-                                                                {{ $customer->name }}
-                                                            @endif
-                                                        </p>
-                                                        <p class="mb-0 small">{{ $customer->username }}</p>
-                                                    </div>
-                                                </div>
-
-
+                                                @include('layouts.includes.user-media-card', ['dynamicUser' => $customer])
                                             </td>
                                             <td class="text-center">{{ $customer->mobile ?? '-' }}</td>
                                             <td class="text-center">

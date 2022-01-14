@@ -72,7 +72,7 @@
                                             <td class="text-center exclude-search">
                                                 {!! \Html::enableToggle($invoice) !!}
                                             </td>
-                                            <td class="text-center">{{ $invoice->created_at->format(config('app.datetime')) ?? '' }}</td>
+                                            <td class="text-center">{{ $invoice->created_at->format(config('backend.datetime')) ?? '' }}</td>
                                             <td class="exclude-search pr-3 text-center align-middle">
                                                 {!! \Html::actionDropdown('core.settings.invoices', $invoice->id, array_merge(['show', 'edit'], ($invoice->deleted_at == null) ? ['delete'] : ['restore'])) !!}
                                             </td>

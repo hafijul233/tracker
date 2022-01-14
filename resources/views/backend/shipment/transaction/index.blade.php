@@ -72,7 +72,7 @@
                                             <td class="text-center exclude-search">
                                                 {!! \Html::enableToggle($transaction) !!}
                                             </td>
-                                            <td class="text-center">{{ $transaction->created_at->format(config('app.datetime')) ?? '' }}</td>
+                                            <td class="text-center">{{ $transaction->created_at->format(config('backend.datetime')) ?? '' }}</td>
                                             <td class="exclude-search pr-3 text-center align-middle">
                                                 {!! \Html::actionDropdown('core.settings.transactions', $transaction->id, array_merge(['show', 'edit'], ($transaction->deleted_at == null) ? ['delete'] : ['restore'])) !!}
                                             </td>

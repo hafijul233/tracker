@@ -65,22 +65,7 @@
                                                 {{ $user->id }}
                                             </td>
                                             <td class="text-left pl-0">
-                                                <div class="media">
-                                                    <img class="align-self-center mr-1 img-circle direct-chat-img elevation-1"
-                                                         src="{{ $user->getFirstMediaUrl('avatars') }}" alt="{{ $user->name }}">
-                                                    <div class="media-body">
-                                                        <p class="my-0">
-                                                            @if(auth()->user()->can('backend.settings.users.show') || $user->id == auth()->user()->id)
-                                                                <a href="{{ route('backend.settings.users.show', $user->id) }}">
-                                                                    {{ $user->name }}
-                                                                </a>
-                                                            @else
-                                                                {{ $user->name }}
-                                                            @endif
-                                                        </p>
-                                                        <p class="mb-0 small">{{ $user->username }}</p>
-                                                    </div>
-                                                </div>
+                                                @include('layouts.includes.user-media-card', ['dynamicUser' => $user])
                                             </td>
                                             <td class="text-center">{{ $user->mobile ?? '-' }}</td>
                                             <td class="text-center">

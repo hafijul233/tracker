@@ -72,7 +72,7 @@
                                             <td class="text-center exclude-search">
                                                 {!! \Html::enableToggle($checkpoint) !!}
                                             </td>
-                                            <td class="text-center">{{ $checkpoint->created_at->format(config('app.datetime')) ?? '' }}</td>
+                                            <td class="text-center">{{ $checkpoint->created_at->format(config('backend.datetime')) ?? '' }}</td>
                                             <td class="exclude-search pr-3 text-center align-middle">
                                                 {!! \Html::actionDropdown('core.settings.checkpoints', $checkpoint->id, array_merge(['show', 'edit'], ($checkpoint->deleted_at == null) ? ['delete'] : ['restore'])) !!}
                                             </td>

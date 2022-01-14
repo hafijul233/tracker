@@ -70,22 +70,7 @@
                                             </td>
                                             @if(\App\Services\Auth\AuthenticatedSessionService::isSuperAdmin())
                                                 <td class="text-left pl-0">
-                                                    <div class="media">
-                                                        <img class="align-self-center mr-1 img-circle direct-chat-img elevation-1"
-                                                             src="{{ $addressbook->user->getFirstMediaUrl('avatars') }}" alt="{{ $addressbook->user->name }}">
-                                                        <div class="media-body">
-                                                            <p class="my-0">
-                                                                @if(auth()->user()->can('backend.settings.users.show') || $addressbook->user->id == auth()->user()->id)
-                                                                    <a href="{{ route('backend.settings.users.show', $addressbook->user->id) }}">
-                                                                        {{ $addressbook->user->name }}
-                                                                    </a>
-                                                                @else
-                                                                    {{ $addressbook->user->name }}
-                                                                @endif
-                                                            </p>
-                                                            <p class="mb-0 small">{{ $addressbook->user->username }}</p>
-                                                        </div>
-                                                    </div>
+                                                    @include('layouts.includes.user-media-card', ['dynamicUser' => $addressbook->user])
                                                 </td>
                                             @endif
                                             <td>{{ config("contact.address_type.{$addressbook->type}") }}</td>
@@ -103,7 +88,7 @@
                                             <td class="text-center exclude-search">
                                                 {!! \Html::enableToggle($addressbook) !!}
                                             </td>
-                                            <td class="text-center">{{ $addressbook->created_at->format(config('app.datetime')) ?? '' }}</td>
+                                            <td class="text-center">{{ $addressbook->created_at->format(config('backend.datetime')) ?? '' }}</td>
                                             <td class="exclude-search pr-3 text-center align-middle">
                                                 {!! \Html::actionDropdown('backend.common.address-books', $addressbook->id, array_merge(['show', 'edit'], ($addressbook->deleted_at == null) ? ['delete'] : ['restore'])) !!}
                                             </td>

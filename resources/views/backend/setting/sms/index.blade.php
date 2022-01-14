@@ -72,7 +72,7 @@
                                             <td class="text-center exclude-search">
                                                 {!! \Html::enableToggle($sms) !!}
                                             </td>
-                                            <td class="text-center">{{ $sms->created_at->format(config('app.datetime')) ?? '' }}</td>
+                                            <td class="text-center">{{ $sms->created_at->format(config('backend.datetime')) ?? '' }}</td>
                                             <td class="exclude-search pr-3 text-center align-middle">
                                                 {!! \Html::actionDropdown('core.settings.smss', $sms->id, array_merge(['show', 'edit'], ($sms->deleted_at == null) ? ['delete'] : ['restore'])) !!}
                                             </td>

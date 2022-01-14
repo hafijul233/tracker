@@ -72,7 +72,7 @@
                                             <td class="text-center exclude-search">
                                                 {!! \Html::enableToggle($employee) !!}
                                             </td>
-                                            <td class="text-center">{{ $employee->created_at->format(config('app.datetime')) ?? '' }}</td>
+                                            <td class="text-center">{{ $employee->created_at->format(config('backend.datetime')) ?? '' }}</td>
                                             <td class="exclude-search pr-3 text-center align-middle">
                                                 {!! \Html::actionDropdown('core.settings.employees', $employee->id, array_merge(['show', 'edit'], ($employee->deleted_at == null) ? ['delete'] : ['restore'])) !!}
                                             </td>
