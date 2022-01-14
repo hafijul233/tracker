@@ -50,9 +50,11 @@ class UserFactory extends Factory
         return $this->afterCreating(function (User $user) use ($fileUploadService) {
             if ($user->id > 1):
                 $user->parent_id = ($user->id - 1);
+                $user->roles()->attach(Constant::RECEIVER_ROLE_ID);
+                $user->save();
             endif;
             //attach role
-            $user->roles()->attach(Constant::GUEST_ROLE_ID);
+            $user->roles()->attach(Constant::SENDER_ROLE_ID);
             //add profile image
             $profileImagePath = $fileUploadService->createAvatarImageFromText($user->name);
             if (is_string($profileImagePath)) {

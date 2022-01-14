@@ -67,7 +67,7 @@ class AuthenticatedSessionController extends Controller
         $confirm = $this->authenticatedSessionService->attemptLogout($request);
         if ($confirm['status'] === true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->to('/');
+            return redirect()->to(route('home'));
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
