@@ -171,7 +171,7 @@
              aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
-                    {!! \Form::open(['route' => ['backend.settings.roles.user', $role->id], 'method' => 'put', 'id' => 'role-user-form']) !!}
+                    {!! \Form::open(['route' => ['backend.settings.roles.user', $role->id], 'method' => 'put', 'id' => 'role-customer-form']) !!}
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongTitle">Available Permissions</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -284,7 +284,7 @@
                 }
             });
 
-            $("#role-user-form").submit(function (event) {
+            $("#role-customer-form").submit(function (event) {
                 event.preventDefault();
                 var formData = new FormData(this);
                 var formUrl = $(this).attr('action');

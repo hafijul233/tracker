@@ -98,7 +98,7 @@ class StateRepository extends EloquentRepository
      * @return Builder[]|Collection
      * @throws Exception
      */
-    public function getAllStateWith(array $filters = [], array $eagerRelations = [], bool $is_sortable = false)
+    public function getWith(array $filters = [], array $eagerRelations = [], bool $is_sortable = false)
     {
         try {
             $query = $this->filterData($filters, $is_sortable);

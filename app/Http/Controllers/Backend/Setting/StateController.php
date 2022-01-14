@@ -11,6 +11,7 @@ use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -252,6 +253,27 @@ class StateController extends Controller
         return $stateExport->download($filename, function ($state) use ($stateExport) {
             return $stateExport->map($state);
         });
+    }
 
+    /**
+     * Display a detail of the resource.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function ajax(Request $request): JsonResponse
+    {
+        $filters = $request->except('page');
+
+        $states = $this->stateService->getAllStates($filters)->toArray();
+
+        if(count($states) > 0):
+            $jsonReturn = ['status' => true, 'data' => $states];
+        else :
+            $jsonReturn = ['status' => false, 'data' => []];
+        endif;
+
+        return response()->json($jsonReturn, 200);
     }
 }

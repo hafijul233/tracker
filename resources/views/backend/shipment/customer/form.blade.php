@@ -69,12 +69,11 @@ old('address.address', $defaultAddress->address ?? null), false,
         </div>
         <div class="col-md-6">
             {!! \Form::nSelect('address[state_id]', 'State',
-        ($states ?? []), old('address.state_id', $defaultAddress->state_id ?? null), true,
-         ['placeholder' => 'Please select a state', 'class' => 'form-control custom-select select2']) !!}
+        ($states ?? []), old('address.state_id', $defaultAddress->state_id ?? config('contact.default.state')), true,
+         ['placeholder' => 'Please select a state', 'class' => 'form-control custom-select select2', 'id' => 'state_id']) !!}
 
-            {!! \Form::nSelect('address[city_id]', 'City',
-($states ?? []), old('address.city_id', $defaultAddress->city_id ?? null), true,
-['placeholder' => 'Please select a state', 'class' => 'form-control custom-select select2']) !!}
+            {!! \Form::nSelect('address[city_id]', 'City',[], old('address.city_id', $defaultAddress->city_id ?? config('contact.default.city')), true,
+['placeholder' => 'Please select a city', 'class' => 'form-control custom-select select2', 'id' => 'city_id']) !!}
 
             {!! \Form::nText('address[post_code]', 'Post/Zip Code',
 old('address.post_code', $defaultAddress->address ?? null), false) !!}
@@ -97,6 +96,109 @@ old('address.post_code', $defaultAddress->address ?? null), false) !!}
 @push('page-script')
     <script type="text/javascript" src="{{ asset('plugins/select2/js/select2.min.js') }}"></script>
     <script>
+        const state_ajax_route = '{{ route('backend.settings.states.ajax') }}';
+        const city_ajax_route = '{{ route('backend.settings.cities.ajax') }}';
+
+        var selected_state_id = {{ old('address.state_id', $defaultAddress->state_id ?? config('contact.default.state')) }};
+        var selected_city_id = {{ old('address.city_id', $defaultAddress->city_id ?? config('contact.default.city')) }};
+
+        /**
+         * @param dest target object
+         * @param msg default message to display as placeholder
+         */
+        function dropdownCleaner(dest, msg) {
+            dest.empty();
+            var option = $("<option></option>").attr({
+                "value": null,
+                "selected": "selected"
+            }).text(msg);
+
+            dest.append(option);
+        }
+
+        /**
+         *
+         * @param dest target object
+         * @param data received data
+         * @param id data pointer that will be value
+         * @param text data pointer that will be option text
+         * @param selected prefill a options
+         * @param msg default message to display as placeholder
+         */
+        function dropdownFiller(dest, data, id, text, selected = null, msg = 'Select an option') {
+
+            dropdownCleaner(dest, msg);
+            if (data.length > 0) {
+                $.each(data, function (key, value) {
+
+                    var selectedStatus = "";
+
+                    if (selected == value[id]) {
+                        selectedStatus = "selected";
+                    }
+
+                    var option = $("<option></option>").attr({
+                        "value": value[id],
+                        "selected": selectedStatus
+                    }).text(value[text]);
+
+                    dest.append(option);
+                });
+
+                //if destination DOM have select 2 init
+                if (selectedStatus.length > 3) {
+                    dest.val(selected);
+
+                    if (dest.data('select2-id'))
+                        dest.trigger('change.select2');
+                    else
+                        dest.trigger('change');
+                }
+            }
+        }
+
+        /**
+         *
+         * @param src country object
+         * @param dest dropdown of branch
+         * @param selected prefill a options
+         */
+        /*function getStateDropdown(src, dest, selected = null) {
+            //var srcValue = src.val();
+            var srcValue = 18; //Bangladesh
+
+            if (!isNaN(srcValue)) {
+
+                $.post(STATE_URL,
+                    {country_id: srcValue, 'state_status': 'ACTIVE', '_token': CSRF_TOKEN},
+                    function (response) {
+                        if (response.status === 200) {
+                            dropdownFiller(dest, response.data, 'id', 'state_name', selected, 'Please Select Division');
+                        } else {
+                            dropdownCleaner(dest, 'Please Select Division');
+                        }
+                    }, 'json');
+            }
+        }*/
+
+        /**
+         *
+         * @param requestData request object
+         * @param src country object
+         * @param dest dropdown of branch
+         * @param selected prefill a options
+         */
+        function populateCityDropdown(requestData, src, dest, selected = null) {
+            $.get(city_ajax_route, requestData,
+                function (response) {
+                    if (response.status === true) {
+                        dropdownFiller(dest, response.data, 'id', 'name', selected, 'Please Select City');
+                    } else {
+                        dropdownCleaner(dest, 'Please Select City');
+                    }
+                }, 'json');
+        }
+
         $(document).ready(function () {
             //trigger select2
             $("#role_id").select2({
@@ -107,17 +209,20 @@ old('address.post_code', $defaultAddress->address ?? null), false) !!}
                 multiple: true,
                 width: "100%"
             });
+            $(".select2").select2({width: "100%"});
 
-            $("#home_page").select2({
-                placeholder: 'Select Landing Page',
-                width: "100%"
+            $("#state_id").change(function () {
+                var state_id = $(this).val();
+                populateCityDropdown({
+                    'state'
+                })
             });
 
-            $(".select2").select2({
-                width: "100%"
-            });
+            if (selected_state_id.length > 0) {
 
-            $("#user-form").validate({
+            }
+
+            $("#customer-form").validate({
                 rules: {
                     name: {
                         required: true,

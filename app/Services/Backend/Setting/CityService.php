@@ -45,7 +45,7 @@ class CityService extends Service
      */
     public function getAllCities(array $filters = [], array $eagerRelations = [])
     {
-        return $this->cityRepository->getAllCityWith($filters, $eagerRelations, true);
+        return $this->cityRepository->getWith($filters, $eagerRelations, true);
     }
 
     /**
@@ -206,7 +206,7 @@ class CityService extends Service
      */
     public function exportCity(array $filters = []): CityExport
     {
-        return (new CityExport($this->cityRepository->getAllCityWith($filters)));
+        return (new CityExport($this->cityRepository->getWith($filters)));
     }
 
     /**
@@ -223,8 +223,9 @@ class CityService extends Service
         $cities = $this->getAllCities($filters);
         $cityArray = [];
 
-        foreach ($cities as $city)
+        foreach ($cities as $city) {
             $cityArray[$city->id] = $city->name;
+        }
 
         return $cityArray;
     }

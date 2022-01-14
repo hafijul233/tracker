@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Backend\Setting;
 
-use App\Http\Requests\Setting\OccupationRequest;
+use App\Http\Requests\Backend\Setting\OccupationRequest;
 use App\Services\Auth\AuthenticatedSessionService;
 use App\Services\Backend\Setting\OccupationService;
 use App\Supports\Utility;

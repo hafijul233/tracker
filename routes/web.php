@@ -339,6 +339,7 @@ Route::prefix('backend')->group(function () {
                 Route::get('/import', [StateController::class, 'import'])->name('import');
                 Route::post('/import', [StateController::class, 'importBulk']);
                 Route::post('/print', [StateController::class, 'print'])->name('print');
+                Route::get('ajax', [StateController::class, 'ajax'])->name('ajax')->middleware('ajax');
             });
 
             //City

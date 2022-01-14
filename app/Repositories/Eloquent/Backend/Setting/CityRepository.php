@@ -50,6 +50,30 @@ class CityRepository extends EloquentRepository
             $query->orderBy($filters['sort'], $filters['direction']);
         endif;
 
+        if (isset($filters['id']) && !empty($filters['id'])) :
+            if (is_array($filters['id'])):
+                $query->whereIn('id', $filters['id']);
+            else :
+                $query->where('id', $filters['id']);
+            endif;
+        endif;
+
+        if (isset($filters['country']) && !empty($filters['country'])) :
+            if (is_array($filters['country'])):
+                $query->whereIn('country_id', $filters['country']);
+            else :
+                $query->where('country_id', $filters['country']);
+            endif;
+        endif;
+
+        if (isset($filters['state']) && !empty($filters['state'])) :
+            if (is_array($filters['state'])):
+                $query->whereIn('state_id', $filters['state']);
+            else :
+                $query->where('state_id', $filters['state']);
+            endif;
+        endif;
+
         if ($is_sortable == true) :
             $query->sortable();
         endif;
@@ -87,7 +111,7 @@ class CityRepository extends EloquentRepository
      * @return Builder[]|Collection
      * @throws Exception
      */
-    public function getAllCityWith(array $filters = [], array $eagerRelations = [], bool $is_sortable = false)
+    public function getWith(array $filters = [], array $eagerRelations = [], bool $is_sortable = false)
     {
         try {
             $query = $this->filterData($filters, $is_sortable);

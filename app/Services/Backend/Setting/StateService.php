@@ -45,7 +45,7 @@ class StateService extends Service
      */
     public function getAllStates(array $filters = [], array $eagerRelations = [])
     {
-        return $this->stateRepository->getAllStateWith($filters, $eagerRelations, true);
+        return $this->stateRepository->getWith($filters, $eagerRelations, true);
     }
 
     /**
@@ -206,7 +206,7 @@ class StateService extends Service
      */
     public function exportState(array $filters = []): StateExport
     {
-        return (new StateExport($this->stateRepository->getAllStateWith($filters)));
+        return (new StateExport($this->stateRepository->getWith($filters)));
     }
 
     /**

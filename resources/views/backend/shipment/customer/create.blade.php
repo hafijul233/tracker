@@ -34,7 +34,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    {!! \Form::open(['route' => 'backend.shipment.customers.store', 'files' => true, 'id' => 'user-form']) !!}
+                    {!! \Form::open(['route' => 'backend.shipment.customers.store', 'files' => true, 'id' => 'customer-form']) !!}
                     @include('backend.shipment.customer.form')
                     {!! \Form::close() !!}
                 </div>
