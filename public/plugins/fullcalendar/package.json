@@ -1,32 +1,27 @@
 {
-  "_args": [
-    [
-      "fullcalendar@5.10.1",
-      "I:\\XAMPP\\htdocs\\boilerplate\\modules\\Admin"
-    ]
-  ],
-  "_from": "fullcalendar@5.10.1",
+  "_from": "fullcalendar@^5.5.1",
   "_id": "fullcalendar@5.10.1",
   "_inBundle": false,
   "_integrity": "sha512-0jgDxiWRuC36MzAUK3+Equmu4R0+vAPEtttsXLX9GNNDUHEZ5HjcH+dUtWut4vlJtxGJgVZ+eZ76/7qhcu+RMA==",
   "_location": "/fullcalendar",
   "_phantomChildren": {},
   "_requested": {
-    "type": "version",
+    "type": "range",
     "registry": true,
-    "raw": "fullcalendar@5.10.1",
+    "raw": "fullcalendar@^5.5.1",
     "name": "fullcalendar",
     "escapedName": "fullcalendar",
-    "rawSpec": "5.10.1",
+    "rawSpec": "^5.5.1",
     "saveSpec": null,
-    "fetchSpec": "5.10.1"
+    "fetchSpec": "^5.5.1"
   },
   "_requiredBy": [
     "/admin-lte"
   ],
   "_resolved": "https://registry.npmjs.org/fullcalendar/-/fullcalendar-5.10.1.tgz",
-  "_spec": "5.10.1",
-  "_where": "I:\\XAMPP\\htdocs\\boilerplate\\modules\\Admin",
+  "_shasum": "b3fd67ed1698df05d6bd0516d81bbf2f45a872da",
+  "_spec": "fullcalendar@^5.5.1",
+  "_where": "I:\\XAMPP\\htdocs\\tracker\\node_modules\\admin-lte",
   "author": {
     "name": "Adam Shaw",
     "email": "arshaw@arshaw.com",
@@ -36,6 +31,8 @@
   "bugs": {
     "url": "https://fullcalendar.io/reporting-bugs"
   },
+  "bundleDependencies": false,
+  "deprecated": false,
   "description": "An easily consumable combination of standard plugins",
   "devDependencies": {
     "@fullcalendar/bootstrap": "~5.10.1",

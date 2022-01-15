@@ -7,20 +7,20 @@ return [
     */
     'columns' => [
         'alpha' => [
-            'rows' => ['description', 'email', 'name', 'slug', 'guard_name', 'remarks'],
-            'class' => 'mdi mdi-sort-alphabetical',
+            'rows' => ['description', 'email', 'name', 'slug', 'guard_name', 'remarks', 'user', 'user.name'],
+            'class' => 'fas fa-sort-alpha',
         ],
         'numeric' => [
             'rows' => ['amount', 'price', 'mobile'],
-            'class' => 'mdi mdi-sort-numeric',
+            'class' => 'fas fa-sort-numeric',
         ],
         'date' => [
             'rows' => ['created_at', 'updated_at'],
-            'class' => 'mdi mdi-sort-calendar',
+            'class' => 'fas fa-sort-amount',
         ],
         'state' => [
             'rows' => ['enabled', 'status'],
-            'class' => 'mdi mdi-sort-bool',
+            'class' => 'fas fa-sort-amount',
         ],
     ],
 
@@ -32,12 +32,12 @@ return [
     /*
     defines icon set to use when sorted data is none above (alpha nor amount nor numeric)
      */
-    'default_icon_set' => 'mdi mdi-sort',
+    'default_icon_set' => 'fas fa-sort',
 
     /*
     icon that shows when generating sortable link while column is not sorted
      */
-    'sortable_icon' => 'mdi mdi-sort',
+    'sortable_icon' => 'fas fa-sort',
 
     /*
     generated icon is clickable non-clickable (default)
@@ -53,12 +53,12 @@ return [
     /*
     suffix class that is appended when ascending direction is applied
      */
-    'asc_suffix' => '-ascending',
+    'asc_suffix' => '-down',
 
     /*
     suffix class that is appended when descending direction is applied
      */
-    'desc_suffix' => '-descending',
+    'desc_suffix' => '-up',
 
     /*
     default anchor class, if value is null none is added

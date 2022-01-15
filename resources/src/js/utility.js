@@ -1,3 +1,80 @@
+
+/**
+ *
+ * @param dest target object
+ * @param data received data
+ * @param id data pointer that will be value
+ * @param text data pointer that will be option text
+ * @param selected prefill an options
+ * @param msg default message to display as placeholder
+ */
+function dropdownFiller(dest, data, id, text, selected = null, msg = 'Select an option') {
+    dest.empty();
+    var optionDOMElement = $("<option></option>").attr({"value": null, "selected": "selected"}).text(msg);
+    dest.append(optionDOMElement);
+
+    if (data.length > 0) {
+        $.each(data, function (key, value) {
+            var selectedStatus = "";
+            if (selected == value[id]) {
+                selectedStatus = "selected";
+            }
+            var option = $("<option></option>").attr({
+                "value": value[id],
+                "selected": selectedStatus
+            }).text(value[text]);
+            dest.append(option);
+        });
+        //if destination DOM have select 2 init
+        if (selectedStatus.length > 3) {
+            dest.val(selected);
+
+            if (dest.data('select2-id'))
+                dest.trigger('change.select2');
+            else
+                dest.trigger('change');
+        }
+    }
+}
+
+/**
+ * @param route to get json
+ * @param options Object {params: JSObject, target: JQueryObject, value: string, text: string ,selected: string , message: string}
+ */
+function populateDropdown(route, options) {
+    if (typeof options === "object") {
+        options.params = (options.hasOwnProperty('params')) ? options.params : {};
+        options.target = (options.hasOwnProperty('target')) ? options.target : $("body");
+        options.value = (options.hasOwnProperty('value')) ? options.value : 'id';
+        options.text = (options.hasOwnProperty('text')) ? options.text : 'name';
+        options.selected = (options.hasOwnProperty('selected')) ? options.selected : null;
+        options.message = (options.hasOwnProperty('message')) ? options.message : 'Please select a option';
+
+        $.getJSON(route, options.params, function (response) {
+            if (response.status === true) {
+                dropdownFiller(options.target, response.data,
+                    options.value, options.text,
+                    options.selected, options.message);
+            } else {
+                options.target.empty();
+                var optionDOMElement = $("<option></option>").attr({
+                    "value": null,
+                    "selected": "selected"
+                }).text(options.message);
+                options.target.append(optionDOMElement);
+            }
+        }).fail(function (jqXHR, textStatus, error) {
+            options.target.empty();
+            var optionDOMElement = $("<option></option>").attr({
+                "value": null,
+                "selected": "selected"
+            }).text(options.message);
+            options.target.append(optionDOMElement);
+            console.log(jqXHR, textStatus, error);
+        });
+    }
+}
+
 /**
  * Mark search keyword in table
  *

@@ -73,7 +73,7 @@ old('address.address', $defaultAddress->address ?? null), false,
          ['placeholder' => 'Please select a state', 'class' => 'form-control custom-select select2', 'id' => 'state_id']) !!}
 
             {!! \Form::nSelect('address[city_id]', 'City',[], old('address.city_id', $defaultAddress->city_id ?? config('contact.default.city')), true,
-['placeholder' => 'Please select a city', 'class' => 'form-control custom-select', 'id' => 'city_id']) !!}
+['placeholder' => 'Please select a city', 'class' => 'form-control custom-select select2', 'id' => 'city_id']) !!}
 
             {!! \Form::nText('address[post_code]', 'Post/Zip Code',
 old('address.post_code', $defaultAddress->address ?? null), false) !!}
@@ -98,105 +98,8 @@ old('address.post_code', $defaultAddress->address ?? null), false) !!}
     <script>
         const state_ajax_route = '{{ route('backend.settings.states.ajax') }}';
         const city_ajax_route = '{{ route('backend.settings.cities.ajax') }}';
-
         var selected_state_id = '{{ old('address.state_id', $defaultAddress->state_id ?? config('contact.default.state')) }}';
         var selected_city_id = '{{ old('address.city_id', $defaultAddress->city_id ?? config('contact.default.city')) }}';
-
-        /**
-         * @param dest target object
-         * @param msg default message to display as placeholder
-         */
-        function dropdownCleaner(dest, msg) {
-            dest.empty();
-            var option = $("<option></option>").attr({
-                "value": null,
-                "selected": "selected"
-            }).text(msg);
-
-            dest.append(option);
-        }
-
-        /**
-         *
-         * @param dest target object
-         * @param data received data
-         * @param id data pointer that will be value
-         * @param text data pointer that will be option text
-         * @param selected prefill a options
-         * @param msg default message to display as placeholder
-         */
-        function dropdownFiller(dest, data, id, text, selected = null, msg = 'Select an option') {
-
-            dropdownCleaner(dest, msg);
-            if (data.length > 0) {
-                $.each(data, function (key, value) {
-
-                    var selectedStatus = "";
-
-                    if (selected == value[id]) {
-                        selectedStatus = "selected";
-                    }
-
-                    var option = $("<option></option>").attr({
-                        "value": value[id],
-                        "selected": selectedStatus
-                    }).text(value[text]);
-
-                    dest.append(option);
-                });
-
-                //if destination DOM have select 2 init
-                if (selectedStatus.length > 3) {
-                    dest.val(selected);
-
-                    if (dest.data('select2-id'))
-                        dest.trigger('change.select2');
-                    else
-                        dest.trigger('change');
-                }
-            }
-        }
-
-        /**
-         *
-         * @param src country object
-         * @param dest dropdown of branch
-         * @param selected prefill a options
-         */
-        /*function getStateDropdown(src, dest, selected = null) {
-            //var srcValue = src.val();
-            var srcValue = 18; //Bangladesh
-
-            if (!isNaN(srcValue)) {
-
-                $.post(STATE_URL,
-                    {country_id: srcValue, 'state_status': 'ACTIVE', '_token': CSRF_TOKEN},
-                    function (response) {
-                        if (response.status === 200) {
-                            dropdownFiller(dest, response.data, 'id', 'state_name', selected, 'Please Select Division');
-                        } else {
-                            dropdownCleaner(dest, 'Please Select Division');
-                        }
-                    }, 'json');
-            }
-        }*/
-
-        /**
-         *
-         * @param requestData request object
-         * @param target dropdown of branch
-         * @param selected prefill a options
-         */
-        function populateCityDropdown(requestData, target, selected = null) {
-            $.get(city_ajax_route, requestData,
-                function (response) {
-                    if (response.status === true) {
-                        dropdownFiller(target, response.data, 'id', 'name', selected, 'Please Select City');
-                    } else {
-                        dropdownCleaner(target, 'Please Select City');
-                    }
-                }, 'json');
-        }
 
         $(document).ready(function () {
             //trigger select2
@@ -208,21 +111,30 @@ old('address.post_code', $defaultAddress->address ?? null), false) !!}
                 multiple: true,
                 width: "100%"
             });
+
             $(".select2").select2({width: "100%"});
 
             $("#state_id").change(function () {
                 var state_id = $(this).val();
-                populateCityDropdown({
-                    "state": state_id,
-                    "enabled": "yes"
-                }, $("#city_id"), selected_city_id);
+                if (!isNaN(state_id)) {
+                    populateDropdown(city_ajax_route, {
+                        params: {"state": state_id, "enabled": "yes"},
+                        target: $("#city_id"),
+                        value: "id", text: "name",
+                        selected: selected_city_id,
+                        message: "Please select a city"
+                    });
+                }
             });
 
             if (selected_state_id.length > 0) {
-                populateCityDropdown({
-                    "state": selected_state_id,
-                    "enabled": "yes"
-                }, $("#city_id"), selected_city_id);
+                populateDropdown(city_ajax_route, {
+                    params: {"state": selected_state_id, "enabled": "yes"},
+                    target: $("#city_id"),
+                    value: "id", text: "name",
+                    selected: selected_city_id,
+                    message: "Please select a city"
+                });
             }
 
             $("#customer-form").validate({

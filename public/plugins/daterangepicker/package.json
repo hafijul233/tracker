@@ -1,32 +1,27 @@
 {
-  "_args": [
-    [
-      "daterangepicker@3.1.0",
-      "I:\\XAMPP\\htdocs\\boilerplate\\modules\\Admin"
-    ]
-  ],
-  "_from": "daterangepicker@3.1.0",
+  "_from": "daterangepicker@^3.1.0",
   "_id": "daterangepicker@3.1.0",
   "_inBundle": false,
   "_integrity": "sha512-DxWXvvPq4srWLCqFugqSV+6CBt/CvQ0dnpXhQ3gl0autcIDAruG1PuGG3gC7yPRNytAD1oU1AcUOzaYhOawhTw==",
   "_location": "/daterangepicker",
   "_phantomChildren": {},
   "_requested": {
-    "type": "version",
+    "type": "range",
     "registry": true,
-    "raw": "daterangepicker@3.1.0",
+    "raw": "daterangepicker@^3.1.0",
     "name": "daterangepicker",
     "escapedName": "daterangepicker",
-    "rawSpec": "3.1.0",
+    "rawSpec": "^3.1.0",
     "saveSpec": null,
-    "fetchSpec": "3.1.0"
+    "fetchSpec": "^3.1.0"
   },
   "_requiredBy": [
     "/admin-lte"
   ],
   "_resolved": "https://registry.npmjs.org/daterangepicker/-/daterangepicker-3.1.0.tgz",
-  "_spec": "3.1.0",
-  "_where": "I:\\XAMPP\\htdocs\\boilerplate\\modules\\Admin",
+  "_shasum": "718d606614331df3e774c9aba82ccd8838d45da1",
+  "_spec": "daterangepicker@^3.1.0",
+  "_where": "I:\\XAMPP\\htdocs\\tracker\\node_modules\\admin-lte",
   "author": {
     "name": "Dan Grossman",
     "email": "dan@dangrossman.info",
@@ -35,10 +30,12 @@
   "bugs": {
     "url": "https://github.com/dangrossman/daterangepicker/issues"
   },
+  "bundleDependencies": false,
   "dependencies": {
     "jquery": ">=1.10",
     "moment": "^2.9.0"
   },
+  "deprecated": false,
   "description": "Date range picker component for Bootstrap",
   "homepage": "https://github.com/dangrossman/daterangepicker",
   "license": "MIT",

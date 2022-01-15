@@ -1,33 +1,28 @@
 {
-  "_args": [
-    [
-      "jquery-mousewheel@3.1.13",
-      "I:\\XAMPP\\htdocs\\boilerplate\\modules\\Admin"
-    ]
-  ],
-  "_from": "jquery-mousewheel@3.1.13",
+  "_from": "jquery-mousewheel@^3.1.13",
   "_id": "jquery-mousewheel@3.1.13",
   "_inBundle": false,
   "_integrity": "sha1-BvAzXxbjU6aV5yBr9QUDy1I6buU=",
   "_location": "/jquery-mousewheel",
   "_phantomChildren": {},
   "_requested": {
-    "type": "version",
+    "type": "range",
     "registry": true,
-    "raw": "jquery-mousewheel@3.1.13",
+    "raw": "jquery-mousewheel@^3.1.13",
     "name": "jquery-mousewheel",
     "escapedName": "jquery-mousewheel",
-    "rawSpec": "3.1.13",
+    "rawSpec": "^3.1.13",
     "saveSpec": null,
-    "fetchSpec": "3.1.13"
+    "fetchSpec": "^3.1.13"
   },
   "_requiredBy": [
     "/admin-lte",
     "/jquery-mapael"
   ],
   "_resolved": "https://registry.npmjs.org/jquery-mousewheel/-/jquery-mousewheel-3.1.13.tgz",
-  "_spec": "3.1.13",
-  "_where": "I:\\XAMPP\\htdocs\\boilerplate\\modules\\Admin",
+  "_shasum": "06f0335f16e353a695e7206bf50503cb523a6ee5",
+  "_spec": "jquery-mousewheel@^3.1.13",
+  "_where": "I:\\XAMPP\\htdocs\\tracker\\node_modules\\admin-lte",
   "author": {
     "name": "jQuery Foundation and other contributors",
     "url": "https://github.com/jquery/jquery-mousewheel/blob/master/AUTHORS.txt"
@@ -35,6 +30,8 @@
   "bugs": {
     "url": "https://github.com/jquery/jquery-mousewheel/issues"
   },
+  "bundleDependencies": false,
+  "deprecated": false,
   "description": "A jQuery plugin that adds cross-browser mouse wheel support.",
   "devDependencies": {
     "grunt": "~0.4.1",
