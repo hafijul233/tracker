@@ -1,16 +1,16 @@
 <div class="card-body">
     <div class="row">
         <div class="col-md-4">
-            {!! \Form::nText('name', 'Name', old('name', $trackload->name ?? null), true) !!}
+            {!! \Form::nText('name', 'Name', old('name', $trackLoad->name ?? null), true) !!}
         </div>
         <div class="col-md-4">
             {!! \Form::nSelect('enabled', 'Enabled', \App\Supports\Constant::ENABLED_OPTIONS,
-                old('enabled', ($trackload->enabled ?? \App\Supports\Constant::ENABLED_OPTION)), true) !!}
+                old('enabled', ($trackLoad->enabled ?? \App\Supports\Constant::ENABLED_OPTION)), true) !!}
         </div>
     </div>
     <div class="row">
         <div class="col-12">
-            {!! \Form::nTextarea('remarks', 'Remarks', old('remarks', $trackload->remarks ?? null), false) !!}
+            {!! \Form::nTextarea('remarks', 'Remarks', old('remarks', $trackLoad->remarks ?? null), false) !!}
         </div>
     </div>
     <div class="row mt-3">
@@ -25,7 +25,7 @@
 @push('page-script')
     <script>
         $(function () {
-            $("#trackload-form").validate({
+            $("#track-load-form").validate({
                 rules: {
                     name: {
                         required: true,

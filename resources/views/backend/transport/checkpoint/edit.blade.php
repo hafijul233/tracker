@@ -26,7 +26,7 @@
 @section('breadcrumbs', \Breadcrumbs::render(Route::getCurrentRoute()->getName(), $checkpoint))
 
 @section('actions')
-    {!! \Html::backButton('backend.transport.checkpoints.index') !!}
+    {!! \Html::backButton('backend.transport.check-points.index') !!}
 @endsection
 
 @section('content')
@@ -34,7 +34,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
-                    {!! \Form::open(['route' => ['backend.transport.checkpoints.update', $checkpoint->id], 'method' => 'put', 'id' => 'checkpoint-form']) !!}
+                    {!! \Form::open(['route' => ['backend.transport.check-points.update', $checkpoint->id], 'method' => 'put', 'id' => 'checkpoint-form']) !!}
                     @include('setting.checkpoint.form')
                     {!! \Form::close() !!}
                 </div>

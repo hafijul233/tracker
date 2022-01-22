@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Edit TruckLoad')
+@section('title', 'Add TruckLoad')
 
 @push('meta')
 
@@ -23,19 +23,19 @@
 @endpush
 
 
-@section('breadcrumbs', \Breadcrumbs::render(Route::getCurrentRoute()->getName(), $trackload))
+@section('breadcrumbs', \Breadcrumbs::render(Route::getCurrentRoute()->getName()))
 
 @section('actions')
-    {!! \Html::backButton('backend.shipment.trackloads.index') !!}
+    {!! \Html::backButton('backend.transport.track-loads.index') !!}
 @endsection
 
 @section('content')
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
-                <div class="card">
-                    {!! \Form::open(['route' => ['backend.shipment.trackloads.update', $trackload->id], 'method' => 'put', 'id' => 'trackload-form']) !!}
-                    @include('setting.trackload.form')
+                <div class="card card-default">
+                    {!! \Form::open(['route' => 'backend.transport.track-loads.store', 'id' => 'track-load-form']) !!}
+                    @include('setting.track-load.form')
                     {!! \Form::close() !!}
                 </div>
             </div>

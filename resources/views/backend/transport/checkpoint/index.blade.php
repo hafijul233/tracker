@@ -27,8 +27,8 @@
 @section('breadcrumbs', \Breadcrumbs::render())
 
 @section('actions')
-    {!! \Html::linkButton('Add CheckPoint', 'backend.transport.checkpoints.create', [], 'fas fa-plus', 'success') !!}
-    {!! \Html::bulkDropdown('backend.transport.checkpoints', 0, ['color' => 'warning']) !!}
+    {!! \Html::linkButton('Add CheckPoint', 'backend.transport.check-points.create', [], 'fas fa-plus', 'success') !!}
+    {!! \Html::bulkDropdown('backend.transport.check-points', 0, ['color' => 'warning']) !!}
 @endsection
 
 @section('content')
@@ -38,7 +38,7 @@
                 <div class="card card-default">
                     @if(!empty($checkpoints))
                         <div class="card-body p-0">
-                            {!! \Html::cardSearch('search', 'backend.transport.checkpoints.index',
+                            {!! \Html::cardSearch('search', 'backend.transport.check-points.index',
                             ['placeholder' => 'Search CheckPoint Name etc.',
                             'class' => 'form-control', 'id' => 'search', 'data-target-table' => 'checkpoint-table']) !!}
                             <div class="table-responsive">
@@ -61,8 +61,8 @@
                                                 {{ $checkpoint->id }}
                                             </td>
                                             <td class="text-left">
-                                                @can('backend.transport.checkpoints.show')
-                                                    <a href="{{ route('backend.transport.checkpoints.show', $checkpoint->id) }}">
+                                                @can('backend.transport.check-points.show')
+                                                    <a href="{{ route('backend.transport.check-points.show', $checkpoint->id) }}">
                                                         {{ $checkpoint->name }}
                                                     </a>
                                                 @else
@@ -74,7 +74,7 @@
                                             </td>
                                             <td class="text-center">{{ $checkpoint->created_at->format(config('backend.datetime')) ?? '' }}</td>
                                             <td class="exclude-search pr-3 text-center align-middle">
-                                                {!! \Html::actionDropdown('backend.transport.checkpoints', $checkpoint->id, array_merge(['show', 'edit'], ($checkpoint->deleted_at == null) ? ['delete'] : ['restore'])) !!}
+                                                {!! \Html::actionDropdown('backend.transport.check-points', $checkpoint->id, array_merge(['show', 'edit'], ($checkpoint->deleted_at == null) ? ['delete'] : ['restore'])) !!}
                                             </td>
                                         </tr>
                                     @empty

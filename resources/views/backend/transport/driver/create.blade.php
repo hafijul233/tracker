@@ -26,7 +26,7 @@
 @section('breadcrumbs', Breadcrumbs::render(Route::getCurrentRoute()->getName()))
 
 @section('actions')
-    {!! \Html::backButton('backend.shipment.customers.index') !!}
+    {!! \Html::backButton('backend.transport.drivers.index') !!}
 @endsection
 
 @section('content')
@@ -34,8 +34,8 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    {!! \Form::open(['route' => 'backend.shipment.customers.store', 'files' => true, 'id' => 'customer-form']) !!}
-                    @include('backend.shipment.customer.form')
+                    {!! \Form::open(['route' => 'backend.transport.drivers.store', 'files' => true, 'id' => 'driver-form']) !!}
+                    @include('backend.transport.driver.form')
                     {!! \Form::close() !!}
                 </div>
             </div>

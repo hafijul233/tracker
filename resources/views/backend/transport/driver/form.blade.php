@@ -8,22 +8,22 @@
 
     <div class="row">
         <div class="col-md-6">
-            {!! \Form::nText('name', 'Name', old('name', $customer->name ?? null), true) !!}
+            {!! \Form::nText('name', 'Name', old('name', $driver->name ?? null), true) !!}
         </div>
         <div class="col-md-6">
-            {!! \Form::nText('username', 'Drivername', old('username', $customer->username ?? null),
+            {!! \Form::nText('username', 'Drivername', old('username', $driver->username ?? null),
                 (config('auth.credential_field') == \App\Supports\Constant::LOGIN_USERNAME)) !!}
         </div>
     </div>
     <div class="row">
         <div class="col-md-6">
-            {!! \Form::nEmail('email', 'Email Address', old('email', $customer->email ?? null),
+            {!! \Form::nEmail('email', 'Email Address', old('email', $driver->email ?? null),
                 (config('auth.credential_field') == \App\Supports\Constant::LOGIN_EMAIL
                 || (config('auth.credential_field') == \App\Supports\Constant::LOGIN_OTP
                     && config('auth.credential_otp_field') == \App\Supports\Constant::OTP_EMAIL))) !!}
         </div>
         <div class="col-md-6">
-            {!! \Form::nTel('mobile', 'Mobile', old('mobile', $customer->mobile ?? null),
+            {!! \Form::nTel('mobile', 'Mobile', old('mobile', $driver->mobile ?? null),
                 (config('auth.credential_field') == \App\Supports\Constant::LOGIN_MOBILE
                 || (config('auth.credential_field') == \App\Supports\Constant::LOGIN_OTP
                     && config('auth.credential_otp_field') == \App\Supports\Constant::OTP_MOBILE))) !!}
@@ -32,27 +32,27 @@
     @if(config('auth.credential_field') != \App\Supports\Constant::LOGIN_OTP)
         <div class="row">
             <div class="col-md-6">
-                {!! \Form::nPassword('password', 'Password', empty($customer->password)) !!}
+                {!! \Form::nPassword('password', 'Password', empty($driver->password)) !!}
             </div>
             <div class="col-md-6">
-                {!! \Form::nPassword('password_confirmation', 'Retype Password', empty($customer->password)) !!}
+                {!! \Form::nPassword('password_confirmation', 'Retype Password', empty($driver->password)) !!}
             </div>
         </div>
     @endif
     <div class="row">
         <div class="col-md-6">
             {!! \Form::nSelectMulti('role_id', 'Role', $roles,
-    old('role_id.*', ($customer_roles ?? [\App\Supports\Constant::GUEST_ROLE_ID])), true,
+    old('role_id.*', ($driver_roles ?? [\App\Supports\Constant::GUEST_ROLE_ID])), true,
     ['class' => 'form-control custom-select select2']) !!}
 
             {!! \Form::nSelect('enabled', 'Enabled', \App\Supports\Constant::ENABLED_OPTIONS,
-old('enabled', ($customer->enabled ?? \App\Supports\Constant::ENABLED_OPTION))) !!}
+old('enabled', ($driver->enabled ?? \App\Supports\Constant::ENABLED_OPTION))) !!}
         </div>
         <div class="col-md-6">
             {!! \Form::nImage('photo', 'Photo', false,
                 ['preview' => true, 'height' => '69',
-                 'default' => (isset($customer))
-                 ? $customer->getFirstMediaUrl('avatars')
+                 'default' => (isset($driver))
+                 ? $driver->getFirstMediaUrl('avatars')
                  : asset(\App\Supports\Constant::USER_PROFILE_IMAGE)]) !!}
         </div>
     </div>
@@ -82,7 +82,7 @@ old('address.post_code', $defaultAddress->address ?? null), false) !!}
     </div>
     <div class="row">
         <div class="col-12">
-            {!! \Form::nTextarea('remarks', 'Remarks', old('remarks', $customer->remarks ?? null)) !!}
+            {!! \Form::nTextarea('remarks', 'Remarks', old('remarks', $driver->remarks ?? null)) !!}
         </div>
     </div>
     <div class="row mt-3">
@@ -137,7 +137,7 @@ old('address.post_code', $defaultAddress->address ?? null), false) !!}
                 });
             }
 
-            $("#customer-form").validate({
+            $("#driver-form").validate({
                 rules: {
                     name: {
                         required: true,
@@ -158,13 +158,13 @@ old('address.post_code', $defaultAddress->address ?? null), false) !!}
                         maxlength: 11
                     },
                     password: {
-                        required: {{ isset($customer) ? 'false' : 'true' }},
+                        required: {{ isset($driver) ? 'false' : 'true' }},
                         minlength: '{{ config('auth.minimum_password_length') }}',
                         maxlength: 255,
                         equalTo: "#password_confirmation"
                     },
                     password_confirmation: {
-                        required: {{ isset($customer) ? 'false' : 'true' }},
+                        required: {{ isset($driver) ? 'false' : 'true' }},
                         minlength: '{{ config('auth.minimum_password_length') }}',
                         maxlength: 255,
                         equalTo: "#password"

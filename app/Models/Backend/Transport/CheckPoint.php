@@ -22,7 +22,7 @@ class CheckPoint extends Model implements Auditable
     /**
      * @var string $table
      */
-    protected $table = '';
+    protected $table = 'checkpoints';
 
     /**
      * @var string $primaryKey

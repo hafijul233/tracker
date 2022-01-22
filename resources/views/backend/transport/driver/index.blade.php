@@ -25,8 +25,8 @@
 @section('breadcrumbs', \Breadcrumbs::render())
 
 @section('actions')
-    {!! \Html::linkButton('Add Driver', 'backend.shipment.customers.create', [], 'fas fa-plus', 'success') !!}
-    {!! \Html::bulkDropdown('backend.shipment.customers', 0, ['color' => 'warning']) !!}
+    {!! \Html::linkButton('Add Driver', 'backend.transport.drivers.create', [], 'fas fa-plus', 'success') !!}
+    {!! \Html::bulkDropdown('backend.transport.drivers', 0, ['color' => 'warning']) !!}
 
 @endsection
 
@@ -35,9 +35,9 @@
         <div class="row">
             <div class="col-12">
                 <div class="card card-default">
-                    @if(!empty($customers))
+                    @if(!empty($drivers))
                         <div class="card-body p-0">
-                            {!! \Html::cardSearch('search', 'backend.shipment.customers.index',
+                            {!! \Html::cardSearch('search', 'backend.transport.drivers.index',
         ['placeholder' => 'Search Role Name, Code, Guard, Status, etc.',
         'class' => 'form-control', 'id' => 'search', 'data-target-table' => 'user-table']) !!}
                             <div class="table-responsive">
@@ -57,25 +57,25 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @forelse($customers as $customer)
-                                        <tr @if($customer->deleted_at != null) class="table-danger" @endif >
+                                    @forelse($drivers as $driver)
+                                        <tr @if($driver->deleted_at != null) class="table-danger" @endif >
                                             <td class="exclude-search align-middle">
-                                                {{ $customer->id }}
+                                                {{ $driver->id }}
                                             </td>
                                             <td class="text-left pl-0">
-                                                @include('layouts.includes.user-media-card', ['dynamicUser' => $customer])
+                                                @include('layouts.includes.user-media-card', ['dynamicUser' => $driver])
                                             </td>
-                                            <td class="text-center">{{ $customer->mobile ?? '-' }}</td>
+                                            <td class="text-center">{{ $driver->mobile ?? '-' }}</td>
                                             <td class="text-center">
-                                                {!! \App\Supports\CHTML::displayTags($customer->roles->pluck('name')->toArray(), 'fas fa-user-secret') !!}
+                                                {!! \App\Supports\CHTML::displayTags($driver->roles->pluck('name')->toArray(), 'fas fa-user-secret') !!}
                                             </td>
-                                            <td class="text-left">{{ $customer->email ?? '-' }}</td>
+                                            <td class="text-left">{{ $driver->email ?? '-' }}</td>
                                             <td class="text-center exclude-search">
-                                                {!! \Html::enableToggle($customer) !!}
+                                                {!! \Html::enableToggle($driver) !!}
                                             </td>
-                                            <td class="text-center">{{ $customer->created_at->format(config('backend.datetime')) ?? '' }}</td>
+                                            <td class="text-center">{{ $driver->created_at->format(config('backend.datetime')) ?? '' }}</td>
                                             <td class="exclude-search pr-3 text-center align-middle">
-                                                {!! \Html::actionDropdown('backend.shipment.customers', $customer->id, array_merge(['show', 'edit'], ($customer->deleted_at == null) ? ['delete'] : ['restore'])) !!}
+                                                {!! \Html::actionDropdown('backend.transport.drivers', $driver->id, array_merge(['show', 'edit'], ($driver->deleted_at == null) ? ['delete'] : ['restore'])) !!}
                                             </td>
                                         </tr>
                                     @empty
@@ -88,7 +88,7 @@
                             </div>
                         </div>
                         <div class="card-footer bg-transparent pb-0">
-                            {!! \App\Supports\CHTML::pagination($customers) !!}
+                            {!! \App\Supports\CHTML::pagination($drivers) !!}
                         </div>
                     @else
                         <div class="card-body min-vh-100">

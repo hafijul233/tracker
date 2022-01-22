@@ -22,10 +22,10 @@
 
 @endpush
 
-@section('breadcrumbs', Breadcrumbs::render(Route::getCurrentRoute()->getName(), $customer))
+@section('breadcrumbs', Breadcrumbs::render(Route::getCurrentRoute()->getName(), $driver))
 
 @section('actions')
-    {!! \Html::backButton('backend.shipment.customers.index') !!}
+    {!! \Html::backButton('backend.transport.drivers.index') !!}
 @endsection
 
 @section('content')
@@ -33,7 +33,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="card card-default">
-                    {!! \Form::open(['route' => ['backend.shipment.customers.update', $customer->id], 'files' => true, 'id' => 'customer-form', 'method' => 'put']) !!}
+                    {!! \Form::open(['route' => ['backend.transport.drivers.update', $driver->id], 'files' => true, 'id' => 'driver-form', 'method' => 'put']) !!}
                     @include('backend.setting.user.form')
                     {!! \Form::close() !!}
                 </div>

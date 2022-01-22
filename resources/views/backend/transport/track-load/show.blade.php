@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $trackload->name)
+@section('title', $trackLoad->name)
 
 @push('meta')
 
@@ -22,12 +22,12 @@
 
 @endpush
 
-@section('breadcrumbs', Breadcrumbs::render(Route::getCurrentRoute()->getName(), $trackload))
+@section('breadcrumbs', Breadcrumbs::render(Route::getCurrentRoute()->getName(), $trackLoad))
 
 @section('actions')
-    {!! \Html::backButton('backend.shipment.trackloads.index') !!}
-    {!! \Html::modelDropdown('backend.shipment.trackloads', $trackload->id, ['color' => 'success',
-        'actions' => array_merge(['edit'], ($trackload->deleted_at == null) ? ['delete'] : ['restore'])]) !!}
+    {!! \Html::backButton('backend.transport.track-loads.index') !!}
+    {!! \Html::modelDropdown('backend.transport.track-loads', $trackLoad->id, ['color' => 'success',
+        'actions' => array_merge(['edit'], ($trackLoad->deleted_at == null) ? ['delete'] : ['restore'])]) !!}
 @endsection
 
 @section('content')
@@ -59,17 +59,17 @@
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label class="d-block">Name</label>
-                                        <p class="font-weight-bold">{{ $trackload->name ?? null }}</p>
+                                        <p class="font-weight-bold">{{ $trackLoad->name ?? null }}</p>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="d-block">Enabled</label>
-                                        <p class="font-weight-bold">{{ \App\Supports\Constant::ENABLED_OPTIONS[$trackload->enabled] }}</p>
+                                        <p class="font-weight-bold">{{ \App\Supports\Constant::ENABLED_OPTIONS[$trackLoad->enabled] }}</p>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12">
                                         <label class="d-block">Remarks</label>
-                                        <p class="font-weight-bold">{{ $trackload->remarks ?? null }}</p>
+                                        <p class="font-weight-bold">{{ $trackLoad->remarks ?? null }}</p>
                                     </div>
                                 </div>
                             </div>

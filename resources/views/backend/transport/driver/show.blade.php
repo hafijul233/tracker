@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $customer->name ?? 'Details')
+@section('title', $driver->name ?? 'Details')
 
 @push('meta')
 
@@ -25,11 +25,11 @@
 
 
 
-@section('breadcrumbs', Breadcrumbs::render(\Route::getCurrentRoute()->getName(), $customer))
+@section('breadcrumbs', Breadcrumbs::render(\Route::getCurrentRoute()->getName(), $driver))
 
 
 @section('actions')
-    {!! \Html::backButton('backend.shipment.customers.index') !!}
+    {!! \Html::backButton('backend.transport.drivers.index') !!}
     {{--    @can('backend.settings.roles.user')
             <a href="#!" data-toggle="modal" data-target="#bd-example-modal-lg"
                class="btn btn-primary m-1 m-md-0">
@@ -37,15 +37,15 @@
                 <span class="d-none d-md-inline-flex">Add / Remove Roles</span>
             </a>
         @endcan--}}
-    {!! \Html::modelDropdown('backend.shipment.customers', $customer->id, ['color' => 'success',
-    'actions' => array_merge(['edit'], ($customer->deleted_at == null) ? ['delete'] : ['restore'])]) !!}
+    {!! \Html::modelDropdown('backend.transport.drivers', $driver->id, ['color' => 'success',
+    'actions' => array_merge(['edit'], ($driver->deleted_at == null) ? ['delete'] : ['restore'])]) !!}
 @endsection
 
 @section('content')
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-3">
-                @include('layouts.includes.profile-sidebar', ['user' => $customer])
+                @include('layouts.includes.profile-sidebar', ['user' => $driver])
             </div>
             <div class="col-md-9">
                 <div class="card">
@@ -77,21 +77,21 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <label class="d-block">Name</label>
-                                        <p class="font-weight-bold">{{ $customer->name ?? null }}</p>
+                                        <p class="font-weight-bold">{{ $driver->name ?? null }}</p>
                                     </div>
                                     <div class="col-md-4">
                                         <label class="d-block">Guard(s)</label>
-                                        <p class="font-weight-bold">{{ $customer->guard_name ?? null }}</p>
+                                        <p class="font-weight-bold">{{ $driver->guard_name ?? null }}</p>
                                     </div>
                                     <div class="col-md-4">
                                         <label class="d-block">Enabled</label>
-                                        <p class="font-weight-bold">{{ \App\Supports\Constant::ENABLED_OPTIONS[$customer->enabled] ?? null }}</p>
+                                        <p class="font-weight-bold">{{ \App\Supports\Constant::ENABLED_OPTIONS[$driver->enabled] ?? null }}</p>
                                     </div>
                                 </div>
                                 <div class="row mt-2">
                                     <div class="col-12">
                                         <label class="d-block">Remarks</label>
-                                        <p class="font-weight-bold">{{ $customer->remarks ?? null }}</p>
+                                        <p class="font-weight-bold">{{ $driver->remarks ?? null }}</p>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -119,7 +119,7 @@
                             <div class="tab-pane fade" id="pills-permission" role="tabpanel"
                                  aria-labelledby="pills-permission-tab">
                                 <div class="accordion" id="accordionExample">
-                                    @forelse($customer->roles as $role)
+                                    @forelse($driver->roles as $role)
                                         <div class="card">
                                             <h4 class="card-header mb-0 px-1 py-2" id="heading{{ $role->id }}"
                                                 data-toggle="collapse" data-target="#collapse{{ $role->id }}"
@@ -171,7 +171,7 @@
              aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
-                    {!! \Form::open(['route' => ['backend.settings.roles.user', $role->id], 'method' => 'put', 'id' => 'role-customer-form']) !!}
+                    {!! \Form::open(['route' => ['backend.settings.roles.user', $role->id], 'method' => 'put', 'id' => 'role-driver-form']) !!}
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongTitle">Available Permissions</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -284,7 +284,7 @@
                 }
             });
 
-            $("#role-customer-form").submit(function (event) {
+            $("#role-driver-form").submit(function (event) {
                 event.preventDefault();
                 var formData = new FormData(this);
                 var formUrl = $(this).attr('action');

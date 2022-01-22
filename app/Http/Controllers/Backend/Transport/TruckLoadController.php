@@ -56,7 +56,7 @@ class TruckLoadController extends Controller
         $filters = $request->except('page');
         $truckloads = $this->truckloadService->truckloadPaginate($filters);
 
-        return view('backend.shipment.truckload.index', [
+        return view('backend.shipment.truck-load.index', [
             'truckloads' => $truckloads
         ]);
     }
@@ -119,7 +119,7 @@ class TruckLoadController extends Controller
     public function edit($id)
     {
         if ($truckload = $this->truckloadService->getTrackLoadById($id)) {
-            return view('backend.shipment.truckload.edit', [
+            return view('backend.shipment.truck-load.edit', [
                 'truckload' => $truckload
             ]);
         }
@@ -237,7 +237,7 @@ class TruckLoadController extends Controller
         $filters = $request->except('page');
         $truckloads = $this->truckloadService->getAllTrackLoads($filters);
 
-        return view('backend.shipment.truckloadindex', [
+        return view('backend.shipment.truck-load.index', [
             'truckloads' => $truckloads
         ]);
     }

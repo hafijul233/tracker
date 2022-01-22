@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'TrackLoads')
+@section('title', 'Track Loads')
 
 @push('meta')
 
@@ -27,8 +27,8 @@
 @section('breadcrumbs', \Breadcrumbs::render())
 
 @section('actions')
-    {!! \Html::linkButton('Add TruckLoad', 'backend.shipment.trackloads.create', [], 'fas fa-plus', 'success') !!}
-    {!! \Html::bulkDropdown('backend.shipment.trackloads', 0, ['color' => 'warning']) !!}
+    {!! \Html::linkButton('Add TruckLoad', 'backend.transport.track-loads.create', [], 'fas fa-plus', 'success') !!}
+    {!! \Html::bulkDropdown('backend.transport.track-loads', 0, ['color' => 'warning']) !!}
 @endsection
 
 @section('content')
@@ -36,11 +36,11 @@
         <div class="row">
             <div class="col-12">
                 <div class="card card-default">
-                    @if(!empty($trackloads))
+                    @if(!empty($trackLoads))
                         <div class="card-body p-0">
-                            {!! \Html::cardSearch('search', 'backend.shipment.trackloads.index',
+                            {!! \Html::cardSearch('search', 'backend.transport.track-loads.index',
                             ['placeholder' => 'Search TruckLoad Name etc.',
-                            'class' => 'form-control', 'id' => 'search', 'data-target-table' => 'trackload-table']) !!}
+                            'class' => 'form-control', 'id' => 'search', 'data-target-table' => 'track-load-table']) !!}
                             <div class="table-responsive">
                                 <table class="table table-hover mb-0" id="trackload-table">
                                     <thead class="thead-light">
@@ -55,26 +55,26 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @forelse($trackloads as $index => $trackload)
-                                        <tr @if($trackload->deleted_at != null) class="table-danger" @endif>
+                                    @forelse($trackLoads as $index => $trackLoad)
+                                        <tr @if($trackLoad->deleted_at != null) class="table-danger" @endif>
                                             <td class="exclude-search align-middle">
-                                                {{ $trackload->id }}
+                                                {{ $trackLoad->id }}
                                             </td>
                                             <td class="text-left">
-                                                @can('backend.shipment.trackloads.show')
-                                                    <a href="{{ route('backend.shipment.trackloads.show', $trackload->id) }}">
-                                                        {{ $trackload->name }}
+                                                @can('backend.transport.track-loads.show')
+                                                    <a href="{{ route('backend.transport.track-loads.show', $trackLoad->id) }}">
+                                                        {{ $trackLoad->name }}
                                                     </a>
                                                 @else
-                                                    {{ $trackload->name }}
+                                                    {{ $trackLoad->name }}
                                                 @endcan
                                             </td>
                                             <td class="text-center exclude-search">
-                                                {!! \Html::enableToggle($trackload) !!}
+                                                {!! \Html::enableToggle($trackLoad) !!}
                                             </td>
-                                            <td class="text-center">{{ $trackload->created_at->format(config('backend.datetime')) ?? '' }}</td>
+                                            <td class="text-center">{{ $trackLoad->created_at->format(config('backend.datetime')) ?? '' }}</td>
                                             <td class="exclude-search pr-3 text-center align-middle">
-                                                {!! \Html::actionDropdown('backend.shipment.trackloads', $trackload->id, array_merge(['show', 'edit'], ($trackload->deleted_at == null) ? ['delete'] : ['restore'])) !!}
+                                                {!! \Html::actionDropdown('backend.transport.track-loads', $trackLoad->id, array_merge(['show', 'edit'], ($trackLoad->deleted_at == null) ? ['delete'] : ['restore'])) !!}
                                             </td>
                                         </tr>
                                     @empty
@@ -87,7 +87,7 @@
                             </div>
                         </div>
                         <div class="card-footer bg-transparent pb-0">
-                            {!! \App\Supports\CHTML::pagination($trackloads) !!}
+                            {!! \App\Supports\CHTML::pagination($trackLoads) !!}
                         </div>
                     @else
                         <div class="card-body min-vh-100">
@@ -99,7 +99,7 @@
         </div>
     </div>
     <!-- /.container-fluid -->
-    {!! \App\Supports\CHTML::confirmModal('TruckLoad', ['export', 'delete', 'restore']) !!}
+    {!! \App\Supports\CHTML::confirmModal('Truck Load', ['export', 'delete', 'restore']) !!}
 @endsection
 
 
