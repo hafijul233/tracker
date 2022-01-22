@@ -27,7 +27,7 @@
 @section('breadcrumbs', \Breadcrumbs::render())
 
 @section('actions')
-    {!! \Html::linkButton('Add Cost', 'core.settings.costs.create', [], 'mdi mdi-plus', 'success') !!}
+    {!! \Html::linkButton('Add Cost', 'core.settings.costs.create', [], 'fas fa-plus', 'success') !!}
     {!! \Html::bulkDropdown('core.settings.costs', 0, ['color' => 'warning']) !!}
 @endsection
 

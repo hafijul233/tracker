@@ -27,7 +27,7 @@
 @section('breadcrumbs', \Breadcrumbs::render())
 
 @section('actions')
-    {!! \Html::linkButton('Add Barcode', 'core.settings.barcodes.create', [], 'mdi mdi-plus', 'success') !!}
+    {!! \Html::linkButton('Add Barcode', 'core.settings.barcodes.create', [], 'fas fa-plus', 'success') !!}
     {!! \Html::bulkDropdown('core.settings.barcodes', 0, ['color' => 'warning']) !!}
 @endsection
 

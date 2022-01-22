@@ -27,7 +27,7 @@
 @section('breadcrumbs', \Breadcrumbs::render())
 
 @section('actions')
-    {!! \Html::linkButton('Add Employee', 'core.settings.employees.create', [], 'mdi mdi-plus', 'success') !!}
+    {!! \Html::linkButton('Add Employee', 'core.settings.employees.create', [], 'fas fa-plus', 'success') !!}
     {!! \Html::bulkDropdown('core.settings.employees', 0, ['color' => 'warning']) !!}
 @endsection
 

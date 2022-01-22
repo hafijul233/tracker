@@ -27,7 +27,7 @@
 @section('breadcrumbs', \Breadcrumbs::render())
 
 @section('actions')
-    {!! \Html::linkButton('Add Item', 'backend.shipment.items.create', [], 'mdi mdi-plus', 'success') !!}
+    {!! \Html::linkButton('Add Item', 'backend.shipment.items.create', [], 'fas fa-plus', 'success') !!}
     {!! \Html::bulkDropdown('backend.shipment.items', 0, ['color' => 'warning']) !!}
 @endsection
 
@@ -45,10 +45,10 @@
                                 <table class="table table-hover mb-0" id="item-table">
                                     <thead class="thead-light">
                                     <tr>
-                                        <th class="align-middle">
-                                            @sortablelink('id', '#')
-                                        </th>
+                                        <th class="align-middle">@sortablelink('id', '#')</th>
                                         <th>@sortablelink('name', 'Name')</th>
+                                        <th class="text-center">@sortablelink('rate', 'Rate')</th>
+                                        <th class="text-center">@sortablelink('dimension', 'Dimension')</th>
                                         <th class="text-center">@sortablelink('enabled', 'Enabled')</th>
                                         <th class="text-center">@sortablelink('created_at', 'Created')</th>
                                         <th class="text-center">Actions</th>
@@ -69,6 +69,8 @@
                                                     {{ $item->name }}
                                                 @endcan
                                             </td>
+                                            <td class="text-right">@money($item->rate, 'BDT', true)</td>
+                                            <td class="text-center">{{ $item->dimension ?? null }}</td>
                                             <td class="text-center exclude-search">
                                                 {!! \Html::enableToggle($item) !!}
                                             </td>

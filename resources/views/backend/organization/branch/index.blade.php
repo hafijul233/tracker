@@ -27,7 +27,7 @@
 @section('breadcrumbs', \Breadcrumbs::render())
 
 @section('actions')
-    {!! \Html::linkButton('Add Branch', 'core.settings.branchs.create', [], 'mdi mdi-plus', 'success') !!}
+    {!! \Html::linkButton('Add Branch', 'core.settings.branchs.create', [], 'fas fa-plus', 'success') !!}
     {!! \Html::bulkDropdown('core.settings.branchs', 0, ['color' => 'warning']) !!}
 @endsection
 

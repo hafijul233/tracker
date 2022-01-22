@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend\Shipment;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\Shipment\ItemRequest;
 use App\Services\Auth\AuthenticatedSessionService;
+use App\Services\Backend\Shipment\CustomerService;
 use App\Services\Backend\Shipment\ItemService;
 use App\Supports\Utility;
 use Exception;
@@ -25,26 +26,33 @@ class ItemController extends Controller
      * @var AuthenticatedSessionService
      */
     private $authenticatedSessionService;
-    
+
     /**
      * @var ItemService
      */
     private $itemService;
+    /**
+     * @var CustomerService
+     */
+    private $customerService;
 
     /**
      * ItemController Constructor
      *
      * @param AuthenticatedSessionService $authenticatedSessionService
      * @param ItemService $itemService
+     * @param CustomerService $customerService
      */
     public function __construct(AuthenticatedSessionService $authenticatedSessionService,
-                                ItemService              $itemService)
+                                ItemService                 $itemService,
+                                CustomerService             $customerService)
     {
 
         $this->authenticatedSessionService = $authenticatedSessionService;
         $this->itemService = $itemService;
+        $this->customerService = $customerService;
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -65,10 +73,15 @@ class ItemController extends Controller
      * Show the form for creating a new resource.
      *
      * @return Application|Factory|View
+     * @throws Exception
      */
     public function create()
     {
-        return view('backend.shipment.item.create');
+        $customers = $this->customerService->getAllCustomers();
+
+        return view('backend.shipment.item.create', [
+            'customers' => $customers
+        ]);
     }
 
     /**
@@ -80,7 +93,8 @@ class ItemController extends Controller
      */
     public function store(ItemRequest $request): RedirectResponse
     {
-        $confirm = $this->itemService->storeItem($request->except('_token'));
+        $confirm = $this->itemService->storeItem($request->except(['_token', 'submit']));
+
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
             return redirect()->route('backend.shipment.items.index');

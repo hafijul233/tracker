@@ -27,7 +27,7 @@
 @section('breadcrumbs', \Breadcrumbs::render())
 
 @section('actions')
-    {!! \Html::linkButton('Add Sms', 'core.settings.smss.create', [], 'mdi mdi-plus', 'success') !!}
+    {!! \Html::linkButton('Add Sms', 'core.settings.smss.create', [], 'fas fa-plus', 'success') !!}
     {!! \Html::bulkDropdown('core.settings.smss', 0, ['color' => 'warning']) !!}
 @endsection
 

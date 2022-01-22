@@ -27,7 +27,7 @@
 @section('breadcrumbs', \Breadcrumbs::render())
 
 @section('actions')
-    {!! \Html::linkButton('Add Driver', 'backend.transport.drivers.create', [], 'mdi mdi-plus', 'success') !!}
+    {!! \Html::linkButton('Add Driver', 'backend.transport.drivers.create', [], 'fas fa-plus', 'success') !!}
     {!! \Html::bulkDropdown('backend.transport.drivers', 0, ['color' => 'warning']) !!}
 @endsection
 

@@ -27,7 +27,7 @@
 @section('breadcrumbs', \Breadcrumbs::render())
 
 @section('actions')
-    {!! \Html::linkButton('Add Invoice', 'backend.shipment.invoices.create', [], 'mdi mdi-plus', 'success') !!}
+    {!! \Html::linkButton('Add Invoice', 'backend.shipment.invoices.create', [], 'fas fa-plus', 'success') !!}
     {!! \Html::bulkDropdown('backend.shipment.invoices', 0, ['color' => 'warning']) !!}
 @endsection
 

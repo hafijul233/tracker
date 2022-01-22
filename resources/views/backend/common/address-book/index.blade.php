@@ -27,7 +27,7 @@
 @section('breadcrumbs', \Breadcrumbs::render())
 
 @section('actions')
-    {!! \Html::linkButton('Add AddressBook', 'backend.common.address-books.create', [], 'mdi mdi-plus', 'success') !!}
+    {!! \Html::linkButton('Add AddressBook', 'backend.common.address-books.create', [], 'fas fa-plus', 'success') !!}
     {!! \Html::bulkDropdown('backend.common.address-books', 0, ['color' => 'warning']) !!}
 @endsection
 

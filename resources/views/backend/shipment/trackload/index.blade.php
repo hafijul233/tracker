@@ -27,7 +27,7 @@
 @section('breadcrumbs', \Breadcrumbs::render())
 
 @section('actions')
-    {!! \Html::linkButton('Add TruckLoad', 'backend.shipment.trackloads.create', [], 'mdi mdi-plus', 'success') !!}
+    {!! \Html::linkButton('Add TruckLoad', 'backend.shipment.trackloads.create', [], 'fas fa-plus', 'success') !!}
     {!! \Html::bulkDropdown('backend.shipment.trackloads', 0, ['color' => 'warning']) !!}
 @endsection
 

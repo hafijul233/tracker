@@ -27,7 +27,7 @@
 @section('breadcrumbs', \Breadcrumbs::render())
 
 @section('actions')
-    {!! \Html::linkButton('Add Vehicle', 'backend.transport.vehicles.create', [], 'mdi mdi-plus', 'success') !!}
+    {!! \Html::linkButton('Add Vehicle', 'backend.transport.vehicles.create', [], 'fas fa-plus', 'success') !!}
     {!! \Html::bulkDropdown('backend.transport.vehicles', 0, ['color' => 'warning']) !!}
 @endsection
 

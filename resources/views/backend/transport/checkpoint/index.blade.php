@@ -27,7 +27,7 @@
 @section('breadcrumbs', \Breadcrumbs::render())
 
 @section('actions')
-    {!! \Html::linkButton('Add CheckPoint', 'backend.transport.checkpoints.create', [], 'mdi mdi-plus', 'success') !!}
+    {!! \Html::linkButton('Add CheckPoint', 'backend.transport.checkpoints.create', [], 'fas fa-plus', 'success') !!}
     {!! \Html::bulkDropdown('backend.transport.checkpoints', 0, ['color' => 'warning']) !!}
 @endsection
 

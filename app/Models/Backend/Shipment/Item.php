@@ -36,7 +36,7 @@ class Item extends Model implements Auditable
      *
      * @var array
      */
-    protected $fillable = [ /*****/'enabled', 'created_by', 'updated_by', 'deleted_by'];
+    protected $fillable = ['user_id', 'name', 'dimension', 'rate', 'tax', 'description', 'enabled', 'created_by', 'updated_by', 'deleted_by'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -61,14 +61,33 @@ class Item extends Model implements Auditable
         'enabled' => 'yes'
     ];
 
-    /************************ Static Factory ************************/
+    /************************ Static Function ************************/
 
-    /*
-    protected static function newFactory()
+    /**
+     * @return void
+     */
+    public static function boot()
     {
-        return \App\Database\Factories\Backend/Shipment/ItemFactory::new();
+        parent::boot();
+
+        static::retrieved(function ($item) {
+            $dimension = $item->dimension ?? '';
+            $dimensionArray = explode("X", $dimension);
+            $item->length = $dimensionArray[0] ?? null;
+            $item->width = $dimensionArray[1] ?? null;
+            $item->height = $dimensionArray[2] ?? null;
+        });
+
+        static::saving(function ($item) {
+            if (isset($item->length) || isset($item->width) || isset($item->height)) {
+                $dimension[0] = $item->length ?? null;
+                $dimension[1] = $item->width ?? null;
+                $dimension[2] = $item->height ?? null;
+                $item->dimension = implode("X", $dimension);
+            }
+        });
+
     }
-    */
 
     /************************ Audit Relations ************************/
 
@@ -95,4 +114,6 @@ class Item extends Model implements Auditable
     {
         return $this->belongsTo(User::class, 'deleted_by');
     }
+
+
 }

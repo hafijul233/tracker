@@ -35,7 +35,7 @@
             <div class="col-lg-12">
                 <div class="card card-default">
                     {!! \Form::open(['route' => 'backend.shipment.items.store', 'id' => 'item-form']) !!}
-                    @include('setting.item.form')
+                    @include('backend.shipment.item.form')
                     {!! \Form::close() !!}
                 </div>
             </div>

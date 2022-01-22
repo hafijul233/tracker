@@ -27,7 +27,7 @@
 @section('breadcrumbs', \Breadcrumbs::render())
 
 @section('actions')
-    {!! \Html::linkButton('Add Transaction', 'backend.shipment.transactions.create', [], 'mdi mdi-plus', 'success') !!}
+    {!! \Html::linkButton('Add Transaction', 'backend.shipment.transactions.create', [], 'fas fa-plus', 'success') !!}
     {!! \Html::bulkDropdown('backend.shipment.transactions', 0, ['color' => 'warning']) !!}
 @endsection
 
