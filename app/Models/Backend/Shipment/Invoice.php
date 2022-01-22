@@ -22,7 +22,7 @@ class Invoice extends Model implements Auditable
     /**
      * @var string $table
      */
-    protected $table = '';
+    protected $table = 'invoices';
 
     /**
      * @var string $primaryKey
@@ -36,7 +36,7 @@ class Invoice extends Model implements Auditable
      *
      * @var array
      */
-    protected $fillable = [ /*****/'enabled', 'created_by', 'updated_by', 'deleted_by'];
+    protected $fillable = [ 'sender_id', 'sender_info', 'receiver_id', 'receiver_info', 'pickup_check_point_id', 'drop_off_check_point_id', 'enabled', 'created_by', 'updated_by', 'deleted_by'];
 
     /**
      * The attributes that should be hidden for arrays.

@@ -22,7 +22,7 @@ class Transaction extends Model implements Auditable
     /**
      * @var string $table
      */
-    protected $table = '';
+    protected $table = 'transactions';
 
     /**
      * @var string $primaryKey

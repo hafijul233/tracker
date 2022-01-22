@@ -20,8 +20,15 @@ class CreateTransactionsTable extends Migration
         //Table Structure
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            
-
+            //`type`, `paid_at`, `amount`, `currency_code`, `currency_rate`, `account_id`, `document_id`, `contact_id`, `category_id`, `description`, `payment_method`, `reference`, `parent_id`, `created_by`, `reconciled`
+            $table->string('type')->nullable();
+            $table->foreignId('user_id')->nullable();
+            $table->foreignId('account_id')->nullable();
+            $table->foreignId('parent_id')->nullable();
+            $table->double('amount', 15, 4)->default(0);
+            $table->dateTime('paid_at')->nullable();
+            $table->text('description')->nullable();
+            $table->json('additional_info')->nullable();
             $table->enum('enabled', array_keys(Constant::ENABLED_OPTIONS))
                             ->default(Constant::ENABLED_OPTION)->nullable();
             $table->foreignId('created_by')->index()->nullable();
