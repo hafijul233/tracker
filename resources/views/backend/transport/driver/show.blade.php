@@ -25,8 +25,8 @@
 @section('breadcrumbs', Breadcrumbs::render(Route::getCurrentRoute()->getName(), $driver))
 
 @section('actions')
-    {!! \Html::backButton('core.settings.drivers.index') !!}
-    {!! \Html::modelDropdown('core.settings.drivers', $driver->id, ['color' => 'success',
+    {!! \Html::backButton('backend.transport.drivers.index') !!}
+    {!! \Html::modelDropdown('backend.transport.drivers', $driver->id, ['color' => 'success',
         'actions' => array_merge(['edit'], ($driver->deleted_at == null) ? ['delete'] : ['restore'])]) !!}
 @endsection
 

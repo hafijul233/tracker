@@ -26,7 +26,7 @@
 @section('breadcrumbs', \Breadcrumbs::render(Route::getCurrentRoute()->getName(), $invoice))
 
 @section('actions')
-    {!! \Html::backButton('core.settings.invoices.index') !!}
+    {!! \Html::backButton('backend.shipment.invoices.index') !!}
 @endsection
 
 @section('content')
@@ -34,7 +34,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
-                    {!! \Form::open(['route' => ['core.settings.invoices.update', $invoice->id], 'method' => 'put', 'id' => 'invoice-form']) !!}
+                    {!! \Form::open(['route' => ['backend.shipment.invoices.update', $invoice->id], 'method' => 'put', 'id' => 'invoice-form']) !!}
                     @include('setting.invoice.form')
                     {!! \Form::close() !!}
                 </div>

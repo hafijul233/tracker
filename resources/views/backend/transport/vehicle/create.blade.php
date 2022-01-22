@@ -26,7 +26,7 @@
 @section('breadcrumbs', \Breadcrumbs::render(Route::getCurrentRoute()->getName()))
 
 @section('actions')
-    {!! \Html::backButton('core.settings.vehicles.index') !!}
+    {!! \Html::backButton('backend.transport.vehicles.index') !!}
 @endsection
 
 @section('content')
@@ -34,7 +34,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="card card-default">
-                    {!! \Form::open(['route' => 'core.settings.vehicles.store', 'id' => 'vehicle-form']) !!}
+                    {!! \Form::open(['route' => 'backend.transport.vehicles.store', 'id' => 'vehicle-form']) !!}
                     @include('setting.vehicle.form')
                     {!! \Form::close() !!}
                 </div>

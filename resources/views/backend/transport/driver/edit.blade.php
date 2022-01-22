@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Add CheckPoint')
+@section('title', 'Edit Driver')
 
 @push('meta')
 
@@ -23,19 +23,19 @@
 @endpush
 
 
-@section('breadcrumbs', \Breadcrumbs::render(Route::getCurrentRoute()->getName()))
+@section('breadcrumbs', \Breadcrumbs::render(Route::getCurrentRoute()->getName(), $driver))
 
 @section('actions')
-    {!! \Html::backButton('core.settings.checkpoints.index') !!}
+    {!! \Html::backButton('backend.transport.drivers.index') !!}
 @endsection
 
 @section('content')
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
-                <div class="card card-default">
-                    {!! \Form::open(['route' => 'core.settings.checkpoints.store', 'id' => 'checkpoint-form']) !!}
-                    @include('setting.checkpoint.form')
+                <div class="card">
+                    {!! \Form::open(['route' => ['backend.transport.drivers.update', $driver->id], 'method' => 'put', 'id' => 'driver-form']) !!}
+                    @include('setting.driver.form')
                     {!! \Form::close() !!}
                 </div>
             </div>

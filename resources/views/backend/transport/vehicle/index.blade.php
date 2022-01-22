@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Drivers')
+@section('title', 'Vehicles')
 
 @push('meta')
 
@@ -27,8 +27,8 @@
 @section('breadcrumbs', \Breadcrumbs::render())
 
 @section('actions')
-    {!! \Html::linkButton('Add Driver', 'core.settings.drivers.create', [], 'mdi mdi-plus', 'success') !!}
-    {!! \Html::bulkDropdown('core.settings.drivers', 0, ['color' => 'warning']) !!}
+    {!! \Html::linkButton('Add Vehicle', 'backend.transport.vehicles.create', [], 'mdi mdi-plus', 'success') !!}
+    {!! \Html::bulkDropdown('backend.transport.vehicles', 0, ['color' => 'warning']) !!}
 @endsection
 
 @section('content')
@@ -36,13 +36,13 @@
         <div class="row">
             <div class="col-12">
                 <div class="card card-default">
-                    @if(!empty($drivers))
+                    @if(!empty($vehicles))
                         <div class="card-body p-0">
-                            {!! \Html::cardSearch('search', 'core.settings.drivers.index',
-                            ['placeholder' => 'Search Driver Name etc.',
-                            'class' => 'form-control', 'id' => 'search', 'data-target-table' => 'driver-table']) !!}
+                            {!! \Html::cardSearch('search', 'backend.transport.vehicles.index',
+                            ['placeholder' => 'Search Vehicle Name etc.',
+                            'class' => 'form-control', 'id' => 'search', 'data-target-table' => 'vehicle-table']) !!}
                             <div class="table-responsive">
-                                <table class="table table-hover mb-0" id="driver-table">
+                                <table class="table table-hover mb-0" id="vehicle-table">
                                     <thead class="thead-light">
                                     <tr>
                                         <th class="align-middle">
@@ -55,26 +55,26 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @forelse($drivers as $index => $driver)
-                                        <tr @if($driver->deleted_at != null) class="table-danger" @endif>
+                                    @forelse($vehicles as $index => $vehicle)
+                                        <tr @if($vehicle->deleted_at != null) class="table-danger" @endif>
                                             <td class="exclude-search align-middle">
-                                                {{ $driver->id }}
+                                                {{ $vehicle->id }}
                                             </td>
                                             <td class="text-left">
-                                                @can('core.settings.drivers.show')
-                                                    <a href="{{ route('core.settings.drivers.show', $driver->id) }}">
-                                                        {{ $driver->name }}
+                                                @can('backend.transport.vehicles.show')
+                                                    <a href="{{ route('backend.transport.vehicles.show', $vehicle->id) }}">
+                                                        {{ $vehicle->name }}
                                                     </a>
                                                 @else
-                                                    {{ $driver->name }}
+                                                    {{ $vehicle->name }}
                                                 @endcan
                                             </td>
                                             <td class="text-center exclude-search">
-                                                {!! \Html::enableToggle($driver) !!}
+                                                {!! \Html::enableToggle($vehicle) !!}
                                             </td>
-                                            <td class="text-center">{{ $driver->created_at->format(config('backend.datetime')) ?? '' }}</td>
+                                            <td class="text-center">{{ $vehicle->created_at->format(config('backend.datetime')) ?? '' }}</td>
                                             <td class="exclude-search pr-3 text-center align-middle">
-                                                {!! \Html::actionDropdown('core.settings.drivers', $driver->id, array_merge(['show', 'edit'], ($driver->deleted_at == null) ? ['delete'] : ['restore'])) !!}
+                                                {!! \Html::actionDropdown('backend.transport.vehicles', $vehicle->id, array_merge(['show', 'edit'], ($vehicle->deleted_at == null) ? ['delete'] : ['restore'])) !!}
                                             </td>
                                         </tr>
                                     @empty
@@ -87,7 +87,7 @@
                             </div>
                         </div>
                         <div class="card-footer bg-transparent pb-0">
-                            {!! \App\Supports\CHTML::pagination($drivers) !!}
+                            {!! \App\Supports\CHTML::pagination($vehicles) !!}
                         </div>
                     @else
                         <div class="card-body min-vh-100">
@@ -99,7 +99,7 @@
         </div>
     </div>
     <!-- /.container-fluid -->
-    {!! \App\Supports\CHTML::confirmModal('Driver', ['export', 'delete', 'restore']) !!}
+    {!! \App\Supports\CHTML::confirmModal('Vehicle', ['export', 'delete', 'restore']) !!}
 @endsection
 
 

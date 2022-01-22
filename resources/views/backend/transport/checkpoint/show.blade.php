@@ -25,8 +25,8 @@
 @section('breadcrumbs', Breadcrumbs::render(Route::getCurrentRoute()->getName(), $checkpoint))
 
 @section('actions')
-    {!! \Html::backButton('core.settings.checkpoints.index') !!}
-    {!! \Html::modelDropdown('core.settings.checkpoints', $checkpoint->id, ['color' => 'success',
+    {!! \Html::backButton('backend.transport.checkpoints.index') !!}
+    {!! \Html::modelDropdown('backend.transport.checkpoints', $checkpoint->id, ['color' => 'success',
         'actions' => array_merge(['edit'], ($checkpoint->deleted_at == null) ? ['delete'] : ['restore'])]) !!}
 @endsection
 

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Vehicle')
+@section('title', 'Add CheckPoint')
 
 @push('meta')
 
@@ -23,19 +23,19 @@
 @endpush
 
 
-@section('breadcrumbs', \Breadcrumbs::render(Route::getCurrentRoute()->getName(), $vehicle))
+@section('breadcrumbs', \Breadcrumbs::render(Route::getCurrentRoute()->getName()))
 
 @section('actions')
-    {!! \Html::backButton('core.settings.vehicles.index') !!}
+    {!! \Html::backButton('backend.transport.checkpoints.index') !!}
 @endsection
 
 @section('content')
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
-                <div class="card">
-                    {!! \Form::open(['route' => ['core.settings.vehicles.update', $vehicle->id], 'method' => 'put', 'id' => 'vehicle-form']) !!}
-                    @include('setting.vehicle.form')
+                <div class="card card-default">
+                    {!! \Form::open(['route' => 'backend.transport.checkpoints.store', 'id' => 'checkpoint-form']) !!}
+                    @include('setting.checkpoint.form')
                     {!! \Form::close() !!}
                 </div>
             </div>

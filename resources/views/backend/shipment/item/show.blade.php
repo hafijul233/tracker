@@ -25,8 +25,8 @@
 @section('breadcrumbs', Breadcrumbs::render(Route::getCurrentRoute()->getName(), $item))
 
 @section('actions')
-    {!! \Html::backButton('core.settings.items.index') !!}
-    {!! \Html::modelDropdown('core.settings.items', $item->id, ['color' => 'success',
+    {!! \Html::backButton('backend.shipment.items.index') !!}
+    {!! \Html::modelDropdown('backend.shipment.items', $item->id, ['color' => 'success',
         'actions' => array_merge(['edit'], ($item->deleted_at == null) ? ['delete'] : ['restore'])]) !!}
 @endsection
 

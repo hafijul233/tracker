@@ -56,7 +56,7 @@ class DriverController extends Controller
         $filters = $request->except('page');
         $drivers = $this->driverService->driverPaginate($filters);
 
-        return view('backend.transpoprt.driver.index', [
+        return view('backend.transport.driver.index', [
             'drivers' => $drivers
         ]);
     }
@@ -68,7 +68,7 @@ class DriverController extends Controller
      */
     public function create()
     {
-        return view('backend.transpoprt.driver.create');
+        return view('backend.transport.driver.create');
     }
 
     /**
@@ -83,7 +83,7 @@ class DriverController extends Controller
         $confirm = $this->driverService->storeDriver($request->except('_token'));
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('backend.transpoprt.drivers.index');
+            return redirect()->route('backend.transport.drivers.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -100,7 +100,7 @@ class DriverController extends Controller
     public function show($id)
     {
         if ($driver = $this->driverService->getDriverById($id)) {
-            return view('backend.transpoprt.driver.show', [
+            return view('backend.transport.driver.show', [
                 'driver' => $driver,
                 'timeline' => Utility::modelAudits($driver)
             ]);
@@ -119,7 +119,7 @@ class DriverController extends Controller
     public function edit($id)
     {
         if ($driver = $this->driverService->getDriverById($id)) {
-            return view('backend.transpoprt.driver.edit', [
+            return view('backend.transport.driver.edit', [
                 'driver' => $driver
             ]);
         }
@@ -141,7 +141,7 @@ class DriverController extends Controller
 
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('backend.transpoprt.drivers.index');
+            return redirect()->route('backend.transport.drivers.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -167,7 +167,7 @@ class DriverController extends Controller
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('backend.transpoprt.drivers.index');
+            return redirect()->route('backend.transport.drivers.index');
         }
         abort(403, 'Wrong user credentials');
     }
@@ -191,7 +191,7 @@ class DriverController extends Controller
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('backend.transpoprt.drivers.index');
+            return redirect()->route('backend.transport.drivers.index');
         }
         abort(403, 'Wrong user credentials');
     }
@@ -223,7 +223,7 @@ class DriverController extends Controller
      */
     public function import()
     {
-        return view('backend.transpoprt.driverimport');
+        return view('backend.transport.driverimport');
     }
 
     /**
@@ -237,7 +237,7 @@ class DriverController extends Controller
         $filters = $request->except('page');
         $drivers = $this->driverService->getAllDrivers($filters);
 
-        return view('backend.transpoprt.driverindex', [
+        return view('backend.transport.driverindex', [
             'drivers' => $drivers
         ]);
     }

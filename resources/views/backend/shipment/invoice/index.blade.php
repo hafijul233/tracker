@@ -27,8 +27,8 @@
 @section('breadcrumbs', \Breadcrumbs::render())
 
 @section('actions')
-    {!! \Html::linkButton('Add Invoice', 'core.settings.invoices.create', [], 'mdi mdi-plus', 'success') !!}
-    {!! \Html::bulkDropdown('core.settings.invoices', 0, ['color' => 'warning']) !!}
+    {!! \Html::linkButton('Add Invoice', 'backend.shipment.invoices.create', [], 'mdi mdi-plus', 'success') !!}
+    {!! \Html::bulkDropdown('backend.shipment.invoices', 0, ['color' => 'warning']) !!}
 @endsection
 
 @section('content')
@@ -38,7 +38,7 @@
                 <div class="card card-default">
                     @if(!empty($invoices))
                         <div class="card-body p-0">
-                            {!! \Html::cardSearch('search', 'core.settings.invoices.index',
+                            {!! \Html::cardSearch('search', 'backend.shipment.invoices.index',
                             ['placeholder' => 'Search Invoice Name etc.',
                             'class' => 'form-control', 'id' => 'search', 'data-target-table' => 'invoice-table']) !!}
                             <div class="table-responsive">
@@ -61,8 +61,8 @@
                                                 {{ $invoice->id }}
                                             </td>
                                             <td class="text-left">
-                                                @can('core.settings.invoices.show')
-                                                    <a href="{{ route('core.settings.invoices.show', $invoice->id) }}">
+                                                @can('backend.shipment.invoices.show')
+                                                    <a href="{{ route('backend.shipment.invoices.show', $invoice->id) }}">
                                                         {{ $invoice->name }}
                                                     </a>
                                                 @else
@@ -74,7 +74,7 @@
                                             </td>
                                             <td class="text-center">{{ $invoice->created_at->format(config('backend.datetime')) ?? '' }}</td>
                                             <td class="exclude-search pr-3 text-center align-middle">
-                                                {!! \Html::actionDropdown('core.settings.invoices', $invoice->id, array_merge(['show', 'edit'], ($invoice->deleted_at == null) ? ['delete'] : ['restore'])) !!}
+                                                {!! \Html::actionDropdown('backend.shipment.invoices', $invoice->id, array_merge(['show', 'edit'], ($invoice->deleted_at == null) ? ['delete'] : ['restore'])) !!}
                                             </td>
                                         </tr>
                                     @empty

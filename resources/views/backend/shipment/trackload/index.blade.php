@@ -27,8 +27,8 @@
 @section('breadcrumbs', \Breadcrumbs::render())
 
 @section('actions')
-    {!! \Html::linkButton('Add TruckLoad', 'core.settings.trackloads.create', [], 'mdi mdi-plus', 'success') !!}
-    {!! \Html::bulkDropdown('core.settings.trackloads', 0, ['color' => 'warning']) !!}
+    {!! \Html::linkButton('Add TruckLoad', 'backend.shipment.trackloads.create', [], 'mdi mdi-plus', 'success') !!}
+    {!! \Html::bulkDropdown('backend.shipment.trackloads', 0, ['color' => 'warning']) !!}
 @endsection
 
 @section('content')
@@ -38,7 +38,7 @@
                 <div class="card card-default">
                     @if(!empty($trackloads))
                         <div class="card-body p-0">
-                            {!! \Html::cardSearch('search', 'core.settings.trackloads.index',
+                            {!! \Html::cardSearch('search', 'backend.shipment.trackloads.index',
                             ['placeholder' => 'Search TruckLoad Name etc.',
                             'class' => 'form-control', 'id' => 'search', 'data-target-table' => 'trackload-table']) !!}
                             <div class="table-responsive">
@@ -61,8 +61,8 @@
                                                 {{ $trackload->id }}
                                             </td>
                                             <td class="text-left">
-                                                @can('core.settings.trackloads.show')
-                                                    <a href="{{ route('core.settings.trackloads.show', $trackload->id) }}">
+                                                @can('backend.shipment.trackloads.show')
+                                                    <a href="{{ route('backend.shipment.trackloads.show', $trackload->id) }}">
                                                         {{ $trackload->name }}
                                                     </a>
                                                 @else
@@ -74,7 +74,7 @@
                                             </td>
                                             <td class="text-center">{{ $trackload->created_at->format(config('backend.datetime')) ?? '' }}</td>
                                             <td class="exclude-search pr-3 text-center align-middle">
-                                                {!! \Html::actionDropdown('core.settings.trackloads', $trackload->id, array_merge(['show', 'edit'], ($trackload->deleted_at == null) ? ['delete'] : ['restore'])) !!}
+                                                {!! \Html::actionDropdown('backend.shipment.trackloads', $trackload->id, array_merge(['show', 'edit'], ($trackload->deleted_at == null) ? ['delete'] : ['restore'])) !!}
                                             </td>
                                         </tr>
                                     @empty

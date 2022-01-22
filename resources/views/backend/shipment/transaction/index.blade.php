@@ -27,8 +27,8 @@
 @section('breadcrumbs', \Breadcrumbs::render())
 
 @section('actions')
-    {!! \Html::linkButton('Add Transaction', 'core.settings.transactions.create', [], 'mdi mdi-plus', 'success') !!}
-    {!! \Html::bulkDropdown('core.settings.transactions', 0, ['color' => 'warning']) !!}
+    {!! \Html::linkButton('Add Transaction', 'backend.shipment.transactions.create', [], 'mdi mdi-plus', 'success') !!}
+    {!! \Html::bulkDropdown('backend.shipment.transactions', 0, ['color' => 'warning']) !!}
 @endsection
 
 @section('content')
@@ -38,7 +38,7 @@
                 <div class="card card-default">
                     @if(!empty($transactions))
                         <div class="card-body p-0">
-                            {!! \Html::cardSearch('search', 'core.settings.transactions.index',
+                            {!! \Html::cardSearch('search', 'backend.shipment.transactions.index',
                             ['placeholder' => 'Search Transaction Name etc.',
                             'class' => 'form-control', 'id' => 'search', 'data-target-table' => 'transaction-table']) !!}
                             <div class="table-responsive">
@@ -61,8 +61,8 @@
                                                 {{ $transaction->id }}
                                             </td>
                                             <td class="text-left">
-                                                @can('core.settings.transactions.show')
-                                                    <a href="{{ route('core.settings.transactions.show', $transaction->id) }}">
+                                                @can('backend.shipment.transactions.show')
+                                                    <a href="{{ route('backend.shipment.transactions.show', $transaction->id) }}">
                                                         {{ $transaction->name }}
                                                     </a>
                                                 @else
@@ -74,7 +74,7 @@
                                             </td>
                                             <td class="text-center">{{ $transaction->created_at->format(config('backend.datetime')) ?? '' }}</td>
                                             <td class="exclude-search pr-3 text-center align-middle">
-                                                {!! \Html::actionDropdown('core.settings.transactions', $transaction->id, array_merge(['show', 'edit'], ($transaction->deleted_at == null) ? ['delete'] : ['restore'])) !!}
+                                                {!! \Html::actionDropdown('backend.shipment.transactions', $transaction->id, array_merge(['show', 'edit'], ($transaction->deleted_at == null) ? ['delete'] : ['restore'])) !!}
                                             </td>
                                         </tr>
                                     @empty

@@ -25,8 +25,8 @@
 @section('breadcrumbs', Breadcrumbs::render(Route::getCurrentRoute()->getName(), $transaction))
 
 @section('actions')
-    {!! \Html::backButton('core.settings.transactions.index') !!}
-    {!! \Html::modelDropdown('core.settings.transactions', $transaction->id, ['color' => 'success',
+    {!! \Html::backButton('backend.shipment.transactions.index') !!}
+    {!! \Html::modelDropdown('backend.shipment.transactions', $transaction->id, ['color' => 'success',
         'actions' => array_merge(['edit'], ($transaction->deleted_at == null) ? ['delete'] : ['restore'])]) !!}
 @endsection
 

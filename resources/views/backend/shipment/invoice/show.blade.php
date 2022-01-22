@@ -25,8 +25,8 @@
 @section('breadcrumbs', Breadcrumbs::render(Route::getCurrentRoute()->getName(), $invoice))
 
 @section('actions')
-    {!! \Html::backButton('core.settings.invoices.index') !!}
-    {!! \Html::modelDropdown('core.settings.invoices', $invoice->id, ['color' => 'success',
+    {!! \Html::backButton('backend.shipment.invoices.index') !!}
+    {!! \Html::modelDropdown('backend.shipment.invoices', $invoice->id, ['color' => 'success',
         'actions' => array_merge(['edit'], ($invoice->deleted_at == null) ? ['delete'] : ['restore'])]) !!}
 @endsection
 

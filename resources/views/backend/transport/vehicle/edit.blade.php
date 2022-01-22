@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Driver')
+@section('title', 'Edit Vehicle')
 
 @push('meta')
 
@@ -23,10 +23,10 @@
 @endpush
 
 
-@section('breadcrumbs', \Breadcrumbs::render(Route::getCurrentRoute()->getName(), $driver))
+@section('breadcrumbs', \Breadcrumbs::render(Route::getCurrentRoute()->getName(), $vehicle))
 
 @section('actions')
-    {!! \Html::backButton('core.settings.drivers.index') !!}
+    {!! \Html::backButton('backend.transport.vehicles.index') !!}
 @endsection
 
 @section('content')
@@ -34,8 +34,8 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
-                    {!! \Form::open(['route' => ['core.settings.drivers.update', $driver->id], 'method' => 'put', 'id' => 'driver-form']) !!}
-                    @include('setting.driver.form')
+                    {!! \Form::open(['route' => ['backend.transport.vehicles.update', $vehicle->id], 'method' => 'put', 'id' => 'vehicle-form']) !!}
+                    @include('setting.vehicle.form')
                     {!! \Form::close() !!}
                 </div>
             </div>

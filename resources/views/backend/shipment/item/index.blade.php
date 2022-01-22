@@ -27,8 +27,8 @@
 @section('breadcrumbs', \Breadcrumbs::render())
 
 @section('actions')
-    {!! \Html::linkButton('Add Item', 'core.settings.items.create', [], 'mdi mdi-plus', 'success') !!}
-    {!! \Html::bulkDropdown('core.settings.items', 0, ['color' => 'warning']) !!}
+    {!! \Html::linkButton('Add Item', 'backend.shipment.items.create', [], 'mdi mdi-plus', 'success') !!}
+    {!! \Html::bulkDropdown('backend.shipment.items', 0, ['color' => 'warning']) !!}
 @endsection
 
 @section('content')
@@ -38,7 +38,7 @@
                 <div class="card card-default">
                     @if(!empty($items))
                         <div class="card-body p-0">
-                            {!! \Html::cardSearch('search', 'core.settings.items.index',
+                            {!! \Html::cardSearch('search', 'backend.shipment.items.index',
                             ['placeholder' => 'Search Item Name etc.',
                             'class' => 'form-control', 'id' => 'search', 'data-target-table' => 'item-table']) !!}
                             <div class="table-responsive">
@@ -61,8 +61,8 @@
                                                 {{ $item->id }}
                                             </td>
                                             <td class="text-left">
-                                                @can('core.settings.items.show')
-                                                    <a href="{{ route('core.settings.items.show', $item->id) }}">
+                                                @can('backend.shipment.items.show')
+                                                    <a href="{{ route('backend.shipment.items.show', $item->id) }}">
                                                         {{ $item->name }}
                                                     </a>
                                                 @else
@@ -74,7 +74,7 @@
                                             </td>
                                             <td class="text-center">{{ $item->created_at->format(config('backend.datetime')) ?? '' }}</td>
                                             <td class="exclude-search pr-3 text-center align-middle">
-                                                {!! \Html::actionDropdown('core.settings.items', $item->id, array_merge(['show', 'edit'], ($item->deleted_at == null) ? ['delete'] : ['restore'])) !!}
+                                                {!! \Html::actionDropdown('backend.shipment.items', $item->id, array_merge(['show', 'edit'], ($item->deleted_at == null) ? ['delete'] : ['restore'])) !!}
                                             </td>
                                         </tr>
                                     @empty

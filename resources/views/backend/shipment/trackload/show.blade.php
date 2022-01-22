@@ -25,8 +25,8 @@
 @section('breadcrumbs', Breadcrumbs::render(Route::getCurrentRoute()->getName(), $trackload))
 
 @section('actions')
-    {!! \Html::backButton('core.settings.trackloads.index') !!}
-    {!! \Html::modelDropdown('core.settings.trackloads', $trackload->id, ['color' => 'success',
+    {!! \Html::backButton('backend.shipment.trackloads.index') !!}
+    {!! \Html::modelDropdown('backend.shipment.trackloads', $trackload->id, ['color' => 'success',
         'actions' => array_merge(['edit'], ($trackload->deleted_at == null) ? ['delete'] : ['restore'])]) !!}
 @endsection
 

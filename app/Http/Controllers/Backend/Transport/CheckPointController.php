@@ -56,7 +56,7 @@ class CheckPointController extends Controller
         $filters = $request->except('page');
         $checkpoints = $this->checkpointService->checkpointPaginate($filters);
 
-        return view('backend.transpoprt.checkpoint.index', [
+        return view('backend.transport.checkpoint.index', [
             'checkpoints' => $checkpoints
         ]);
     }
@@ -68,7 +68,7 @@ class CheckPointController extends Controller
      */
     public function create()
     {
-        return view('backend.transpoprt.checkpoint.create');
+        return view('backend.transport.checkpoint.create');
     }
 
     /**
@@ -83,7 +83,7 @@ class CheckPointController extends Controller
         $confirm = $this->checkpointService->storeCheckPoint($request->except('_token'));
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('backend.transpoprt.checkpoints.index');
+            return redirect()->route('backend.transport.checkpoints.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -100,7 +100,7 @@ class CheckPointController extends Controller
     public function show($id)
     {
         if ($checkpoint = $this->checkpointService->getCheckPointById($id)) {
-            return view('backend.transpoprt.checkpoint.show', [
+            return view('backend.transport.checkpoint.show', [
                 'checkpoint' => $checkpoint,
                 'timeline' => Utility::modelAudits($checkpoint)
             ]);
@@ -119,7 +119,7 @@ class CheckPointController extends Controller
     public function edit($id)
     {
         if ($checkpoint = $this->checkpointService->getCheckPointById($id)) {
-            return view('backend.transpoprt.checkpoint.edit', [
+            return view('backend.transport.checkpoint.edit', [
                 'checkpoint' => $checkpoint
             ]);
         }
@@ -141,7 +141,7 @@ class CheckPointController extends Controller
 
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('backend.transpoprt.checkpoints.index');
+            return redirect()->route('backend.transport.checkpoints.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -167,7 +167,7 @@ class CheckPointController extends Controller
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('backend.transpoprt.checkpoints.index');
+            return redirect()->route('backend.transport.checkpoints.index');
         }
         abort(403, 'Wrong user credentials');
     }
@@ -191,7 +191,7 @@ class CheckPointController extends Controller
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('backend.transpoprt.checkpoints.index');
+            return redirect()->route('backend.transport.checkpoints.index');
         }
         abort(403, 'Wrong user credentials');
     }
@@ -223,7 +223,7 @@ class CheckPointController extends Controller
      */
     public function import()
     {
-        return view('backend.transpoprt.checkpointimport');
+        return view('backend.transport.checkpointimport');
     }
 
     /**
@@ -237,7 +237,7 @@ class CheckPointController extends Controller
         $filters = $request->except('page');
         $checkpoints = $this->checkpointService->getAllCheckPoints($filters);
 
-        return view('backend.transpoprt.checkpointindex', [
+        return view('backend.transport.checkpointindex', [
             'checkpoints' => $checkpoints
         ]);
     }

@@ -26,7 +26,7 @@
 @section('breadcrumbs', \Breadcrumbs::render(Route::getCurrentRoute()->getName()))
 
 @section('actions')
-    {!! \Html::backButton('core.settings.transactions.index') !!}
+    {!! \Html::backButton('backend.shipment.transactions.index') !!}
 @endsection
 
 @section('content')
@@ -34,7 +34,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="card card-default">
-                    {!! \Form::open(['route' => 'core.settings.transactions.store', 'id' => 'transaction-form']) !!}
+                    {!! \Form::open(['route' => 'backend.shipment.transactions.store', 'id' => 'transaction-form']) !!}
                     @include('setting.transaction.form')
                     {!! \Form::close() !!}
                 </div>

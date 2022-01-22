@@ -22,7 +22,7 @@ class Item extends Model implements Auditable
     /**
      * @var string $table
      */
-    protected $table = '';
+    protected $table = 'items';
 
     /**
      * @var string $primaryKey

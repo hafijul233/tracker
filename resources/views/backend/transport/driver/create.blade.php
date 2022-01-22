@@ -26,7 +26,7 @@
 @section('breadcrumbs', \Breadcrumbs::render(Route::getCurrentRoute()->getName()))
 
 @section('actions')
-    {!! \Html::backButton('core.settings.drivers.index') !!}
+    {!! \Html::backButton('backend.transport.drivers.index') !!}
 @endsection
 
 @section('content')
@@ -34,7 +34,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="card card-default">
-                    {!! \Form::open(['route' => 'core.settings.drivers.store', 'id' => 'driver-form']) !!}
+                    {!! \Form::open(['route' => 'backend.transport.drivers.store', 'id' => 'driver-form']) !!}
                     @include('setting.driver.form')
                     {!! \Form::close() !!}
                 </div>

@@ -26,7 +26,7 @@
 @section('breadcrumbs', \Breadcrumbs::render(Route::getCurrentRoute()->getName(), $trackload))
 
 @section('actions')
-    {!! \Html::backButton('core.settings.trackloads.index') !!}
+    {!! \Html::backButton('backend.shipment.trackloads.index') !!}
 @endsection
 
 @section('content')
@@ -34,7 +34,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
-                    {!! \Form::open(['route' => ['core.settings.trackloads.update', $trackload->id], 'method' => 'put', 'id' => 'trackload-form']) !!}
+                    {!! \Form::open(['route' => ['backend.shipment.trackloads.update', $trackload->id], 'method' => 'put', 'id' => 'trackload-form']) !!}
                     @include('setting.trackload.form')
                     {!! \Form::close() !!}
                 </div>

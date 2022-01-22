@@ -25,8 +25,8 @@
 @section('breadcrumbs', Breadcrumbs::render(Route::getCurrentRoute()->getName(), $vehicle))
 
 @section('actions')
-    {!! \Html::backButton('core.settings.vehicles.index') !!}
-    {!! \Html::modelDropdown('core.settings.vehicles', $vehicle->id, ['color' => 'success',
+    {!! \Html::backButton('backend.transport.vehicles.index') !!}
+    {!! \Html::modelDropdown('backend.transport.vehicles', $vehicle->id, ['color' => 'success',
         'actions' => array_merge(['edit'], ($vehicle->deleted_at == null) ? ['delete'] : ['restore'])]) !!}
 @endsection
 

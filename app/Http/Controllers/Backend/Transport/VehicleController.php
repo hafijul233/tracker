@@ -56,7 +56,7 @@ class VehicleController extends Controller
         $filters = $request->except('page');
         $vehicles = $this->vehicleService->vehiclePaginate($filters);
 
-        return view('backend.transpoprt.vehicle.index', [
+        return view('backend.transport.vehicle.index', [
             'vehicles' => $vehicles
         ]);
     }
@@ -68,7 +68,7 @@ class VehicleController extends Controller
      */
     public function create()
     {
-        return view('backend.transpoprt.vehicle.create');
+        return view('backend.transport.vehicle.create');
     }
 
     /**
@@ -83,7 +83,7 @@ class VehicleController extends Controller
         $confirm = $this->vehicleService->storeVehicle($request->except('_token'));
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('backend.transpoprt.vehicles.index');
+            return redirect()->route('backend.transport.vehicles.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -100,7 +100,7 @@ class VehicleController extends Controller
     public function show($id)
     {
         if ($vehicle = $this->vehicleService->getVehicleById($id)) {
-            return view('backend.transpoprt.vehicle.show', [
+            return view('backend.transport.vehicle.show', [
                 'vehicle' => $vehicle,
                 'timeline' => Utility::modelAudits($vehicle)
             ]);
@@ -119,7 +119,7 @@ class VehicleController extends Controller
     public function edit($id)
     {
         if ($vehicle = $this->vehicleService->getVehicleById($id)) {
-            return view('backend.transpoprt.vehicle.edit', [
+            return view('backend.transport.vehicle.edit', [
                 'vehicle' => $vehicle
             ]);
         }
@@ -141,7 +141,7 @@ class VehicleController extends Controller
 
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);
-            return redirect()->route('backend.transpoprt.vehicles.index');
+            return redirect()->route('backend.transport.vehicles.index');
         }
 
         notify($confirm['message'], $confirm['level'], $confirm['title']);
@@ -167,7 +167,7 @@ class VehicleController extends Controller
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('backend.transpoprt.vehicles.index');
+            return redirect()->route('backend.transport.vehicles.index');
         }
         abort(403, 'Wrong user credentials');
     }
@@ -191,7 +191,7 @@ class VehicleController extends Controller
             } else {
                 notify($confirm['message'], $confirm['level'], $confirm['title']);
             }
-            return redirect()->route('backend.transpoprt.vehicles.index');
+            return redirect()->route('backend.transport.vehicles.index');
         }
         abort(403, 'Wrong user credentials');
     }
@@ -223,7 +223,7 @@ class VehicleController extends Controller
      */
     public function import()
     {
-        return view('backend.transpoprt.vehicleimport');
+        return view('backend.transport.vehicleimport');
     }
 
     /**
@@ -237,7 +237,7 @@ class VehicleController extends Controller
         $filters = $request->except('page');
         $vehicles = $this->vehicleService->getAllVehicles($filters);
 
-        return view('backend.transpoprt.vehicleindex', [
+        return view('backend.transport.vehicleindex', [
             'vehicles' => $vehicles
         ]);
     }
