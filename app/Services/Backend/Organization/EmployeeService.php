@@ -3,14 +3,15 @@
 namespace App\Services\Backend\Organization;
 
 use App\Abstracts\Service\Service;
-use App\Models\Backend\Organization\Employee;
-use App\Repositories\Eloquent\Backend\Organization\EmployeeRepository;
+use App\Exports\Backend\Organization\EmployeeExport;
+use App\Models\Backend\Setting\User;
+use App\Repositories\Eloquent\Backend\Setting\UserRepository;
+use App\Supports\Constant;
 use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
-use Modules\Core\Supports\Constant;
 use Throwable;
 
 /**
@@ -19,19 +20,18 @@ use Throwable;
  */
 class EmployeeService extends Service
 {
-/**
-     * @var EmployeeRepository
+    /**
+     * @var UserRepository
      */
-    private $employeeRepository;
+    private $userRepository;
 
     /**
      * EmployeeService constructor.
-     * @param EmployeeRepository $employeeRepository
      */
-    public function __construct(EmployeeRepository $employeeRepository)
+    public function __construct(UserRepository $userRepository)
     {
-        $this->employeeRepository = $employeeRepository;
-        $this->employeeRepository->itemsPerPage = 10;
+        $this->userRepository = $userRepository;
+        $this->userRepository->itemsPerPage = 10;
     }
 
     /**
@@ -44,7 +44,7 @@ class EmployeeService extends Service
      */
     public function getAllEmployees(array $filters = [], array $eagerRelations = [])
     {
-        return $this->employeeRepository->getWith($filters, $eagerRelations, true);
+        return $this->userRepository->getWith($filters, $eagerRelations, true);
     }
 
     /**
@@ -57,7 +57,7 @@ class EmployeeService extends Service
      */
     public function employeePaginate(array $filters = [], array $eagerRelations = []): LengthAwarePaginator
     {
-        return $this->employeeRepository->paginateWith($filters, $eagerRelations, true);
+        return $this->userRepository->paginateWith($filters, $eagerRelations, true);
     }
 
     /**
@@ -70,7 +70,7 @@ class EmployeeService extends Service
      */
     public function getEmployeeById($id, bool $purge = false)
     {
-        return $this->employeeRepository->show($id, $purge);
+        return $this->userRepository->show($id, $purge);
     }
 
     /**
@@ -85,8 +85,8 @@ class EmployeeService extends Service
     {
         DB::beginTransaction();
         try {
-            $newEmployee = $this->employeeRepository->create($inputs);
-            if ($newEmployee instanceof Employee) {
+            $newEmployee = $this->userRepository->create($inputs);
+            if ($newEmployee instanceof User) {
                 DB::commit();
                 return ['status' => true, 'message' => __('New Employee Created'),
                     'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
@@ -96,7 +96,7 @@ class EmployeeService extends Service
                     'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
             }
         } catch (Exception $exception) {
-            $this->employeeRepository->handleException($exception);
+            $this->userRepository->handleException($exception);
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
@@ -115,9 +115,9 @@ class EmployeeService extends Service
     {
         DB::beginTransaction();
         try {
-            $employee = $this->employeeRepository->show($id);
-            if ($employee instanceof Employee) {
-                if ($this->employeeRepository->update($inputs, $id)) {
+            $employee = $this->userRepository->show($id);
+            if ($employee instanceof User) {
+                if ($this->userRepository->update($inputs, $id)) {
                     DB::commit();
                     return ['status' => true, 'message' => __('Employee Info Updated'),
                         'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
@@ -131,7 +131,7 @@ class EmployeeService extends Service
                     'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Alert!'];
             }
         } catch (Exception $exception) {
-            $this->employeeRepository->handleException($exception);
+            $this->userRepository->handleException($exception);
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
@@ -149,7 +149,7 @@ class EmployeeService extends Service
     {
         DB::beginTransaction();
         try {
-            if ($this->employeeRepository->delete($id)) {
+            if ($this->userRepository->delete($id)) {
                 DB::commit();
                 return ['status' => true, 'message' => __('Employee is Trashed'),
                     'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
@@ -160,7 +160,7 @@ class EmployeeService extends Service
                     'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
             }
         } catch (Exception $exception) {
-            $this->employeeRepository->handleException($exception);
+            $this->userRepository->handleException($exception);
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
@@ -178,7 +178,7 @@ class EmployeeService extends Service
     {
         DB::beginTransaction();
         try {
-            if ($this->employeeRepository->restore($id)) {
+            if ($this->userRepository->restore($id)) {
                 DB::commit();
                 return ['status' => true, 'message' => __('Employee is Restored'),
                     'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
@@ -189,7 +189,7 @@ class EmployeeService extends Service
                     'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
             }
         } catch (Exception $exception) {
-            $this->employeeRepository->handleException($exception);
+            $this->userRepository->handleException($exception);
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
@@ -205,6 +205,6 @@ class EmployeeService extends Service
      */
     public function exportEmployee(array $filters = []): EmployeeExport
     {
-        return (new EmployeeExport($this->employeeRepository->getWith($filters)));
+        return (new EmployeeExport($this->userRepository->getWith($filters)));
     }
 }

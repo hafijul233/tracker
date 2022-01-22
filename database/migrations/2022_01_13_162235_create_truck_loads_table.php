@@ -20,8 +20,12 @@ class CreateTruckLoadsTable extends Migration
         //Table Structure
         Schema::create('truck_loads', function (Blueprint $table) {
             $table->id();
-            
-
+            $table->foreignId('driver_id')->nullable();
+            $table->foreignId('vehicle_id')->nullable();
+            $table->foreignId('pickup_checkpoint_id')->nullable();
+            $table->foreignId('destination_checkpoint_id')->nullable();
+            $table->dateTime('pickup_at');
+            $table->dateTime('destination_at');
             $table->enum('enabled', array_keys(Constant::ENABLED_OPTIONS))
                             ->default(Constant::ENABLED_OPTION)->nullable();
             $table->foreignId('created_by')->index()->nullable();
