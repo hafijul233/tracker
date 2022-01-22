@@ -25,7 +25,7 @@
 @push('page-script')
     <script>
         $(function () {
-            $("#track-load-form").validate({
+            $("#truck-load-form").validate({
                 rules: {
                     name: {
                         required: true,

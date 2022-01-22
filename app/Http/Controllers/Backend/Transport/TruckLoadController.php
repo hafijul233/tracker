@@ -56,7 +56,7 @@ class TruckLoadController extends Controller
         $filters = $request->except('page');
         $truckloads = $this->truckloadService->truckloadPaginate($filters);
 
-        return view('backend.shipment.truck-load.index', [
+        return view('backend.transport.truck-load.index', [
             'truckloads' => $truckloads
         ]);
     }

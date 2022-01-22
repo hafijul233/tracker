@@ -26,7 +26,7 @@
 @section('breadcrumbs', \Breadcrumbs::render(Route::getCurrentRoute()->getName()))
 
 @section('actions')
-    {!! \Html::backButton('backend.transport.track-loads.index') !!}
+    {!! \Html::backButton('backend.transport.truck-loads.index') !!}
 @endsection
 
 @section('content')
@@ -34,8 +34,8 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="card card-default">
-                    {!! \Form::open(['route' => 'backend.transport.track-loads.store', 'id' => 'track-load-form']) !!}
-                    @include('setting.track-load.form')
+                    {!! \Form::open(['route' => 'backend.transport.truck-loads.store', 'id' => 'truck-load-form']) !!}
+                    @include('setting.truck-load.form')
                     {!! \Form::close() !!}
                 </div>
             </div>

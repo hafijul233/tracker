@@ -22,7 +22,7 @@ class TruckLoad extends Model implements Auditable
     /**
      * @var string $table
      */
-    protected $table = '';
+    protected $table = 'truck_loads';
 
     /**
      * @var string $primaryKey

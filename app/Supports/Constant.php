@@ -137,4 +137,21 @@ class Constant
     const DASHBOARD_ROUTE = 'backend.dashboard';
 
     const LOCALE = 'en';
+
+    const TRUCK_LOAD_STATUS = [
+        'pending' => 'Pending',
+        'needs carrier' => 'Needs Carrier',
+        'dispatched' => 'Dispatched',
+        'in transit' => 'In Transit',
+        'booked -awaiting confirmation' => '',
+        'ready - confirmation signed' => '',
+        'watch' => 'Watch',
+        'possible claims' => '',
+        'completed to be billed' => 'Completed to be billed',
+        'billed' => 'Billed',
+        'paid' => 'Paid',
+        'actual claim' => 'Actual Claim',
+        'canceled' => 'Canceled',
+        'archived' => 'Archived',
+    ];
 }

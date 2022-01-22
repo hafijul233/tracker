@@ -709,34 +709,34 @@ Breadcrumbs::for('backend.transport.check-points.edit', function (BreadcrumbTrai
 
 /****************************************** TruckLoad ******************************************/
 
-Breadcrumbs::for('backend.transport.track-loads.index', function (BreadcrumbTrail $trail) {
+Breadcrumbs::for('backend.transport.truck-loads.index', function (BreadcrumbTrail $trail) {
 
     $trail->parent('backend.transport');
 
-    $trail->push('TrackLoads', route('backend.transport.track-loads.index'));
+    $trail->push('Track Loads', route('backend.transport.truck-loads.index'));
 });
 
-Breadcrumbs::for('backend.transport.track-loads.create', function (BreadcrumbTrail $trail) {
+Breadcrumbs::for('backend.transport.truck-loads.create', function (BreadcrumbTrail $trail) {
 
-    $trail->parent('backend.transport.track-loads.index');
+    $trail->parent('backend.transport.truck-loads.index');
 
-    $trail->push('Add TruckLoad', route('backend.transport.track-loads.create'));
+    $trail->push('Add Truck Load', route('backend.transport.truck-loads.create'));
 });
 
-Breadcrumbs::for('backend.transport.track-loads.show', function (BreadcrumbTrail $trail, $trackLoad) {
+Breadcrumbs::for('backend.transport.truck-loads.show', function (BreadcrumbTrail $trail, $trackLoad) {
 
-    $trail->parent('backend.transport.track-loads.index');
+    $trail->parent('backend.transport.truck-loads.index');
 
     $trackLoad = ($trackLoad instanceof TruckLoad) ? $trackLoad : $trackLoad[0];
 
-    $trail->push($trackLoad->name, route('backend.transport.track-loads.show', $trackLoad->id));
+    $trail->push($trackLoad->name, route('backend.transport.truck-loads.show', $trackLoad->id));
 });
 
-Breadcrumbs::for('backend.transport.track-loads.edit', function (BreadcrumbTrail $trail, TruckLoad $trackLoad) {
+Breadcrumbs::for('backend.transport.truck-loads.edit', function (BreadcrumbTrail $trail, TruckLoad $trackLoad) {
 
-    $trail->parent('backend.transport.track-loads.show', [$trackLoad]);
+    $trail->parent('backend.transport.truck-loads.show', [$trackLoad]);
 
-    $trail->push('Edit TruckLoad', route('backend.transport.track-loads.edit', $trackLoad->id));
+    $trail->push('Edit Truck Load', route('backend.transport.truck-loads.edit', $trackLoad->id));
 });
 
 /****************************************** Organization ******************************************/

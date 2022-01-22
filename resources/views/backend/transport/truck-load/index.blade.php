@@ -27,8 +27,8 @@
 @section('breadcrumbs', \Breadcrumbs::render())
 
 @section('actions')
-    {!! \Html::linkButton('Add TruckLoad', 'backend.transport.track-loads.create', [], 'fas fa-plus', 'success') !!}
-    {!! \Html::bulkDropdown('backend.transport.track-loads', 0, ['color' => 'warning']) !!}
+    {!! \Html::linkButton('Add TruckLoad', 'backend.transport.truck-loads.create', [], 'fas fa-plus', 'success') !!}
+    {!! \Html::bulkDropdown('backend.transport.truck-loads', 0, ['color' => 'warning']) !!}
 @endsection
 
 @section('content')
@@ -36,18 +36,16 @@
         <div class="row">
             <div class="col-12">
                 <div class="card card-default">
-                    @if(!empty($trackLoads))
+                    @if(!empty($truckloads))
                         <div class="card-body p-0">
-                            {!! \Html::cardSearch('search', 'backend.transport.track-loads.index',
+                            {!! \Html::cardSearch('search', 'backend.transport.truck-loads.index',
                             ['placeholder' => 'Search TruckLoad Name etc.',
-                            'class' => 'form-control', 'id' => 'search', 'data-target-table' => 'track-load-table']) !!}
+                            'class' => 'form-control', 'id' => 'search', 'data-target-table' => 'truck-load-table']) !!}
                             <div class="table-responsive">
-                                <table class="table table-hover mb-0" id="trackload-table">
+                                <table class="table table-hover mb-0" id="truck-load-table">
                                     <thead class="thead-light">
                                     <tr>
-                                        <th class="align-middle">
-                                            @sortablelink('id', '#')
-                                        </th>
+                                        <th class="align-middle">@sortablelink('id', '#')</th>
                                         <th>@sortablelink('name', 'Name')</th>
                                         <th class="text-center">@sortablelink('enabled', 'Enabled')</th>
                                         <th class="text-center">@sortablelink('created_at', 'Created')</th>
@@ -55,26 +53,26 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @forelse($trackLoads as $index => $trackLoad)
-                                        <tr @if($trackLoad->deleted_at != null) class="table-danger" @endif>
+                                    @forelse($truckloads as $index => $truckload)
+                                        <tr @if($truckload->deleted_at != null) class="table-danger" @endif>
                                             <td class="exclude-search align-middle">
-                                                {{ $trackLoad->id }}
+                                                {{ $truckload->id }}
                                             </td>
                                             <td class="text-left">
-                                                @can('backend.transport.track-loads.show')
-                                                    <a href="{{ route('backend.transport.track-loads.show', $trackLoad->id) }}">
-                                                        {{ $trackLoad->name }}
+                                                @can('backend.transport.truck-loads.show')
+                                                    <a href="{{ route('backend.transport.truck-loads.show', $truckload->id) }}">
+                                                        {{ $truckload->name }}
                                                     </a>
                                                 @else
-                                                    {{ $trackLoad->name }}
+                                                    {{ $truckload->name }}
                                                 @endcan
                                             </td>
                                             <td class="text-center exclude-search">
-                                                {!! \Html::enableToggle($trackLoad) !!}
+                                                {!! \Html::enableToggle($truckload) !!}
                                             </td>
-                                            <td class="text-center">{{ $trackLoad->created_at->format(config('backend.datetime')) ?? '' }}</td>
+                                            <td class="text-center">{{ $truckload->created_at->format(config('backend.datetime')) ?? '' }}</td>
                                             <td class="exclude-search pr-3 text-center align-middle">
-                                                {!! \Html::actionDropdown('backend.transport.track-loads', $trackLoad->id, array_merge(['show', 'edit'], ($trackLoad->deleted_at == null) ? ['delete'] : ['restore'])) !!}
+                                                {!! \Html::actionDropdown('backend.transport.truck-loads', $truckload->id, array_merge(['show', 'edit'], ($truckload->deleted_at == null) ? ['delete'] : ['restore'])) !!}
                                             </td>
                                         </tr>
                                     @empty
@@ -87,7 +85,7 @@
                             </div>
                         </div>
                         <div class="card-footer bg-transparent pb-0">
-                            {!! \App\Supports\CHTML::pagination($trackLoads) !!}
+                            {!! \App\Supports\CHTML::pagination($truckloads) !!}
                         </div>
                     @else
                         <div class="card-body min-vh-100">
