@@ -22,13 +22,12 @@
 
 @endpush
 
-
-
 @section('breadcrumbs', \Breadcrumbs::render())
 
 @section('actions')
-    {!! \Html::linkButton('Add Driver', 'backend.transport.drivers.create', [], 'fas fa-plus', 'success') !!}
-    {!! \Html::bulkDropdown('backend.transport.drivers', 0, ['color' => 'warning']) !!}
+    {!! \Html::linkButton('Add Driver', 'backend.shipment.customers.create', [], 'fas fa-plus', 'success') !!}
+    {!! \Html::bulkDropdown('backend.shipment.customers', 0, ['color' => 'warning']) !!}
+
 @endsection
 
 @section('content')
@@ -36,50 +35,52 @@
         <div class="row">
             <div class="col-12">
                 <div class="card card-default">
-                    @if(!empty($drivers))
+                    @if(!empty($customers))
                         <div class="card-body p-0">
-                            {!! \Html::cardSearch('search', 'backend.transport.drivers.index',
-                            ['placeholder' => 'Search Driver Name etc.',
-                            'class' => 'form-control', 'id' => 'search', 'data-target-table' => 'driver-table']) !!}
+                            {!! \Html::cardSearch('search', 'backend.shipment.customers.index',
+        ['placeholder' => 'Search Role Name, Code, Guard, Status, etc.',
+        'class' => 'form-control', 'id' => 'search', 'data-target-table' => 'user-table']) !!}
                             <div class="table-responsive">
-                                <table class="table table-hover mb-0" id="driver-table">
+                                <table class="table table-hover mb-0" id="user-table">
                                     <thead class="thead-light">
                                     <tr>
                                         <th class="align-middle">
                                             @sortablelink('id', '#')
                                         </th>
-                                        <th>@sortablelink('name', 'Name')</th>
+                                        <th class="pl-0">@sortablelink('name', 'Name')</th>
+                                        <th class="text-center">@sortablelink('mobile', 'Mobile')</th>
+                                        <th class="text-center">@sortablelink('roles.name', 'Role')</th>
+                                        <th class="text-center">@sortablelink('email', 'Email')</th>
                                         <th class="text-center">@sortablelink('enabled', 'Enabled')</th>
                                         <th class="text-center">@sortablelink('created_at', 'Created')</th>
                                         <th class="text-center">Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @forelse($drivers as $index => $driver)
-                                        <tr @if($driver->deleted_at != null) class="table-danger" @endif>
+                                    @forelse($customers as $customer)
+                                        <tr @if($customer->deleted_at != null) class="table-danger" @endif >
                                             <td class="exclude-search align-middle">
-                                                {{ $driver->id }}
+                                                {{ $customer->id }}
                                             </td>
-                                            <td class="text-left">
-                                                @can('backend.transport.drivers.show')
-                                                    <a href="{{ route('backend.transport.drivers.show', $driver->id) }}">
-                                                        {{ $driver->name }}
-                                                    </a>
-                                                @else
-                                                    {{ $driver->name }}
-                                                @endcan
+                                            <td class="text-left pl-0">
+                                                @include('layouts.includes.user-media-card', ['dynamicUser' => $customer])
                                             </td>
+                                            <td class="text-center">{{ $customer->mobile ?? '-' }}</td>
+                                            <td class="text-center">
+                                                {!! \App\Supports\CHTML::displayTags($customer->roles->pluck('name')->toArray(), 'fas fa-user-secret') !!}
+                                            </td>
+                                            <td class="text-left">{{ $customer->email ?? '-' }}</td>
                                             <td class="text-center exclude-search">
-                                                {!! \Html::enableToggle($driver) !!}
+                                                {!! \Html::enableToggle($customer) !!}
                                             </td>
-                                            <td class="text-center">{{ $driver->created_at->format(config('backend.datetime')) ?? '' }}</td>
+                                            <td class="text-center">{{ $customer->created_at->format(config('backend.datetime')) ?? '' }}</td>
                                             <td class="exclude-search pr-3 text-center align-middle">
-                                                {!! \Html::actionDropdown('backend.transport.drivers', $driver->id, array_merge(['show', 'edit'], ($driver->deleted_at == null) ? ['delete'] : ['restore'])) !!}
+                                                {!! \Html::actionDropdown('backend.shipment.customers', $customer->id, array_merge(['show', 'edit'], ($customer->deleted_at == null) ? ['delete'] : ['restore'])) !!}
                                             </td>
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="6" class="exclude-search text-center">No data to display</td>
+                                            <td colspan="7" class="exclude-search text-center">No data to display</td>
                                         </tr>
                                     @endforelse
                                     </tbody>
@@ -87,7 +88,7 @@
                             </div>
                         </div>
                         <div class="card-footer bg-transparent pb-0">
-                            {!! \App\Supports\CHTML::pagination($drivers) !!}
+                            {!! \App\Supports\CHTML::pagination($customers) !!}
                         </div>
                     @else
                         <div class="card-body min-vh-100">

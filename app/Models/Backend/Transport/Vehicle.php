@@ -22,7 +22,7 @@ class Vehicle extends Model implements Auditable
     /**
      * @var string $table
      */
-    protected $table = '';
+    protected $table = 'vehicles';
 
     /**
      * @var string $primaryKey

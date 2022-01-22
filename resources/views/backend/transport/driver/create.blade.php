@@ -23,19 +23,19 @@
 @endpush
 
 
-@section('breadcrumbs', \Breadcrumbs::render(Route::getCurrentRoute()->getName()))
+@section('breadcrumbs', Breadcrumbs::render(Route::getCurrentRoute()->getName()))
 
 @section('actions')
-    {!! \Html::backButton('backend.transport.drivers.index') !!}
+    {!! \Html::backButton('backend.shipment.customers.index') !!}
 @endsection
 
 @section('content')
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-12">
-                <div class="card card-default">
-                    {!! \Form::open(['route' => 'backend.transport.drivers.store', 'id' => 'driver-form']) !!}
-                    @include('setting.driver.form')
+            <div class="col-12">
+                <div class="card">
+                    {!! \Form::open(['route' => 'backend.shipment.customers.store', 'files' => true, 'id' => 'customer-form']) !!}
+                    @include('backend.shipment.customer.form')
                     {!! \Form::close() !!}
                 </div>
             </div>
@@ -43,11 +43,11 @@
     </div>
 @endsection
 
-
-@push('plugin-script')
+@push('component-scripts')
 
 @endpush
 
-@push('page-script')
+
+@push('page-scripts')
 
 @endpush
