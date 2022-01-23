@@ -35,7 +35,7 @@
             <div class="col-lg-12">
                 <div class="card card-default">
                     {!! \Form::open(['route' => 'backend.shipment.invoices.store', 'id' => 'invoice-form']) !!}
-                    @include('setting.invoice.form')
+                    @include('backend.shipment.invoice.form')
                     {!! \Form::close() !!}
                 </div>
             </div>

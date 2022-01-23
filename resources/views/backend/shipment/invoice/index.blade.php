@@ -45,12 +45,12 @@
                                 <table class="table table-hover mb-0" id="invoice-table">
                                     <thead class="thead-light">
                                     <tr>
-                                        <th class="align-middle">
-                                            @sortablelink('id', '#')
-                                        </th>
-                                        <th>@sortablelink('name', 'Name')</th>
+                                        <th class="align-middle">@sortablelink('id', '#')</th>
+                                        <th>@sortablelink('number', 'Invoice')</th>
+                                        <th>@sortablelink('user.name', 'Customer')</th>
+                                        <th>@sortablelink('total', 'Amount')</th>
                                         <th class="text-center">@sortablelink('enabled', 'Enabled')</th>
-                                        <th class="text-center">@sortablelink('created_at', 'Created')</th>
+                                        <th class="text-center">@sortablelink('invoiced_at', 'Created')</th>
                                         <th class="text-center">Actions</th>
                                     </tr>
                                     </thead>

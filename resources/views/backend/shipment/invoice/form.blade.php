@@ -25,6 +25,7 @@
 @push('page-script')
     <script>
         $(function () {
+
             $("#invoice-form").validate({
                 rules: {
                     name: {

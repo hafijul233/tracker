@@ -2,7 +2,6 @@
     @canany([$resourceRouteName . '.show', $resourceRouteName . '.edit',
             $resourceRouteName . '.destroy', $resourceRouteName . '.restore'])
         <style>
-            /* Only To Handle This Dropdown*/
             .action-dropdown > ul > li > a.link-muted:hover {
                 color: #007bff
             }
@@ -53,13 +52,39 @@
                     @if(in_array('restore', $options) && Route::has($resourceRouteName . '.restore'))
                         @can($resourceRouteName . '.restore')
                             <li>
-                                <a href="{{ route('backend.common.restore', [$resourceRouteName, $id]) }}" title="Restore"
+                                <a href="{{ route('backend.common.restore', [$resourceRouteName, $id]) }}"
+                                   title="Restore"
                                    class="d-flex align-items-center link-muted py-2 px-3 restore-btn">
                                     <i class="fas fa-trash-restore  mr-2"></i> Restore
                                 </a>
                             </li>
                         @endcan
                     @endif
+
+                    @if(in_array('send', $options) && Route::has($resourceRouteName . '.send'))
+                        @can($resourceRouteName . '.restore')
+                            <li>
+                                <a href="{{ route('backend.common.restore', [$resourceRouteName, $id]) }}"
+                                   title="Restore"
+                                   class="d-flex align-items-center link-muted py-2 px-3 restore-btn">
+                                    <i class="far fa-paper-plane  mr-2"></i> Send
+                                </a>
+                            </li>
+                        @endcan
+                    @endif
+
+                    @if(in_array('clone', $options) && Route::has($resourceRouteName . '.clone'))
+                        @can($resourceRouteName . '.restore')
+                            <li>
+                                <a href="{{ route('backend.common.restore', [$resourceRouteName, $id]) }}"
+                                   title="Restore"
+                                   class="d-flex align-items-center link-muted py-2 px-3 restore-btn">
+                                    <i class="far fa-copy  mr-2"></i> Clone
+                                </a>
+                            </li>
+                        @endcan
+                    @endif
+
                 </ul>
             </div>
         </div>
