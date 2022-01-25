@@ -45,6 +45,9 @@ class InvoiceRepository extends EloquentRepository
         if (!empty($filters['enabled'])) :
             $query->where('enabled', '=', $filters['enabled']);
         endif;
+        if (!empty($filters['user_id'])) :
+            $query->where('user_id', '=', $filters['user_id']);
+        endif;
 
         if (!empty($filters['sort']) && !empty($filters['direction'])) :
             $query->orderBy($filters['sort'], $filters['direction']);

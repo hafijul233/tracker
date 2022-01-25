@@ -7,6 +7,7 @@ use App\Exports\Backend\Shipment\CustomerExport;
 use App\Models\Backend\Setting\User;
 use App\Repositories\Eloquent\Backend\Common\AddressBookRepository;
 use App\Repositories\Eloquent\Backend\Setting\UserRepository;
+use App\Services\Auth\AuthenticatedSessionService;
 use App\Services\Backend\Common\FileUploadService;
 use App\Supports\Constant;
 use App\Supports\Utility;
@@ -15,6 +16,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
@@ -66,6 +68,12 @@ class CustomerService extends Service
      */
     public function getAllCustomers(array $filters = [], array $eagerRelations = [])
     {
+        $filters['role'] = [Constant::SENDER_ROLE_ID, Constant::RECEIVER_ROLE_ID];
+
+        if (!AuthenticatedSessionService::isSuperAdmin()) :
+        $filters['parent_id'] = Auth::user()->id;
+        endif;
+
         return $this->userRepository->getWith($filters, $eagerRelations, true);
     }
 
@@ -80,6 +88,10 @@ class CustomerService extends Service
     public function customerPaginate(array $filters = [], array $eagerRelations = []): LengthAwarePaginator
     {
         $filters['role'] = [Constant::SENDER_ROLE_ID, Constant::RECEIVER_ROLE_ID];
+
+        if (!AuthenticatedSessionService::isSuperAdmin()) :
+            $filters['parent_id'] = Auth::user()->id;
+        endif;
 
         return $this->userRepository->paginateWith($filters, $eagerRelations, true);
     }

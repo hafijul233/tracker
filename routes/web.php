@@ -159,6 +159,7 @@ Route::prefix('backend')->group(function () {
                 Route::get('import', [CustomerController::class, 'import'])->name('import');
                 Route::post('import', [CustomerController::class, 'importBulk']);
                 Route::post('print', [CustomerController::class, 'print'])->name('print');
+                Route::get('ajax', [CustomerController::class, 'ajax'])->name('ajax');
             });
 
             //Item

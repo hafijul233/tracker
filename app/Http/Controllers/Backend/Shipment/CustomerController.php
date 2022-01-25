@@ -14,6 +14,7 @@ use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -294,5 +295,26 @@ class CustomerController extends Controller
             return $customerExport->map($customer);
         });
 
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function ajax(Request $request): JsonResponse
+    {
+        $filters = $request->except('page');
+        $customers = $this->customerService->getAllCustomers($filters, ['media']);
+
+        if(count($customers) > 0):
+            $jsonReturn = ['status' => true, 'data' => $customers];
+        else :
+            $jsonReturn = ['status' => false, 'data' => []];
+        endif;
+
+        return response()->json($jsonReturn, 200);
     }
 }

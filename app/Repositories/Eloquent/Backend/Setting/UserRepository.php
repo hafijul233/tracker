@@ -106,6 +106,10 @@ class UserRepository extends EloquentRepository
             $query->where('enabled', '=', $filters['enabled']);
         endif;
 
+        if (isset($filters['parent_id']) && !empty($filters['parent_id'])) :
+            $query->where('parent_id', '=', $filters['parent_id']);
+        endif;
+
         if (isset($filters['sort']) && !empty($filters['direction'])) :
             $query->orderBy($filters['sort'], $filters['direction']);
         endif;

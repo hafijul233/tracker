@@ -5,10 +5,12 @@ namespace App\Services\Backend\Shipment;
 use App\Abstracts\Service\Service;
 use App\Models\Backend\Shipment\Invoice;
 use App\Repositories\Eloquent\Backend\Shipment\InvoiceRepository;
+use App\Services\Auth\AuthenticatedSessionService;
 use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Modules\Core\Supports\Constant;
 use Throwable;
@@ -57,6 +59,9 @@ class InvoiceService extends Service
      */
     public function invoicePaginate(array $filters = [], array $eagerRelations = []): LengthAwarePaginator
     {
+        if (!AuthenticatedSessionService::isSuperAdmin()) {
+            $filters['user_id'] = Auth::user()->id;
+        }
         return $this->invoiceRepository->paginateWith($filters, $eagerRelations, true);
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend\Shipment;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\Shipment\InvoiceRequest;
 use App\Services\Auth\AuthenticatedSessionService;
+use App\Services\Backend\Shipment\CustomerService;
 use App\Services\Backend\Shipment\InvoiceService;
 use App\Supports\Utility;
 use Exception;
@@ -25,26 +26,34 @@ class InvoiceController extends Controller
      * @var AuthenticatedSessionService
      */
     private $authenticatedSessionService;
-    
+
     /**
      * @var InvoiceService
      */
     private $invoiceService;
 
     /**
+     * @var CustomerService
+     */
+    private $customerService;
+
+    /**
      * InvoiceController Constructor
      *
      * @param AuthenticatedSessionService $authenticatedSessionService
      * @param InvoiceService $invoiceService
+     * @param CustomerService $customerService
      */
     public function __construct(AuthenticatedSessionService $authenticatedSessionService,
-                                InvoiceService              $invoiceService)
+                                InvoiceService              $invoiceService,
+                                CustomerService             $customerService)
     {
 
         $this->authenticatedSessionService = $authenticatedSessionService;
         $this->invoiceService = $invoiceService;
+        $this->customerService = $customerService;
     }
-    
+
     /**
      * Display a listing of the resource.
      *
