@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Backend\Common\AddressBook;
+use App\Models\Backend\Organization\Branch;
 use App\Models\Backend\Setting\Barcode;
 use App\Models\Backend\Setting\Catalog;
 use App\Models\Backend\Setting\City;
@@ -17,7 +18,6 @@ use App\Models\Backend\Shipment\Invoice;
 use App\Models\Backend\Shipment\Item;
 use App\Models\Backend\Shipment\Transaction;
 use App\Models\Backend\Transport\CheckPoint;
-use App\Models\Backend\Transport\Driver;
 use App\Models\Backend\Transport\TruckLoad;
 use App\Models\Backend\Transport\Vehicle;
 use Diglactic\Breadcrumbs\Breadcrumbs;
@@ -34,7 +34,7 @@ Breadcrumbs::for('backend', function (BreadcrumbTrail $trail) {
 
 Breadcrumbs::for('backend.dashboard', function (BreadcrumbTrail $trail) {
     $trail->parent('backend');
-    $trail->push('Dashboard', route('backend.dashboard'));
+    $trail->push(__('menu-sidebar.Dashboard'), route('backend.dashboard'));
 });
 
 /****************************************** Http Error ******************************************/
@@ -80,7 +80,7 @@ Breadcrumbs::for('backend.settings', function (BreadcrumbTrail $trail) {
 
     $trail->parent('home');
 
-    $trail->push('Settings', route('backend.settings'));
+    $trail->push(__('menu-sidebar.Settings'), route('backend.settings'));
 });
 
 /****************************************** User ******************************************/
@@ -89,7 +89,7 @@ Breadcrumbs::for('backend.settings.users.index', function (BreadcrumbTrail $trai
 
     $trail->parent('backend.settings');
 
-    $trail->push('Users', route('backend.settings.users.index'));
+    $trail->push(__('menu-sidebar.Users'), route('backend.settings.users.index'));
 });
 
 Breadcrumbs::for('backend.settings.users.create', function (BreadcrumbTrail $trail) {
@@ -121,7 +121,7 @@ Breadcrumbs::for('backend.settings.permissions.index', function (BreadcrumbTrail
 
     $trail->parent('backend.settings');
 
-    $trail->push('Permissions', route('backend.settings.permissions.index'));
+    $trail->push(__('menu-sidebar.Permissions'), route('backend.settings.permissions.index'));
 });
 
 Breadcrumbs::for('backend.settings.permissions.create', function (BreadcrumbTrail $trail) {
@@ -153,7 +153,7 @@ Breadcrumbs::for('backend.settings.roles.index', function (BreadcrumbTrail $trai
 
     $trail->parent('backend.settings');
 
-    $trail->push('Roles', route('backend.settings.roles.index'));
+    $trail->push(__('menu-sidebar.Roles'), route('backend.settings.roles.index'));
 });
 
 Breadcrumbs::for('backend.settings.roles.create', function (BreadcrumbTrail $trail) {
@@ -186,7 +186,7 @@ Breadcrumbs::for('backend.settings.catalogs.index', function (BreadcrumbTrail $t
 
     $trail->parent('backend.settings');
 
-    $trail->push('Catalogs', route('backend.settings.catalogs.index'));
+    $trail->push(__('menu-sidebar.Catalogs'), route('backend.settings.catalogs.index'));
 });
 
 Breadcrumbs::for('backend.settings.catalogs.create', function (BreadcrumbTrail $trail) {
@@ -218,7 +218,7 @@ Breadcrumbs::for('backend.settings.countries.index', function (BreadcrumbTrail $
 
     $trail->parent('backend.settings');
 
-    $trail->push('Countries', route('backend.settings.countries.index'));
+    $trail->push(__('menu-sidebar.Countries'), route('backend.settings.countries.index'));
 });
 
 Breadcrumbs::for('backend.settings.countries.create', function (BreadcrumbTrail $trail) {
@@ -250,7 +250,7 @@ Breadcrumbs::for('backend.settings.states.index', function (BreadcrumbTrail $tra
 
     $trail->parent('backend.settings');
 
-    $trail->push('States', route('backend.settings.states.index'));
+    $trail->push(__('menu-sidebar.States'), route('backend.settings.states.index'));
 });
 
 Breadcrumbs::for('backend.settings.states.create', function (BreadcrumbTrail $trail) {
@@ -282,7 +282,7 @@ Breadcrumbs::for('backend.settings.cities.index', function (BreadcrumbTrail $tra
 
     $trail->parent('backend.settings');
 
-    $trail->push('Cities', route('backend.settings.cities.index'));
+    $trail->push(__('menu-sidebar.Cities'), route('backend.settings.cities.index'));
 });
 
 Breadcrumbs::for('backend.settings.cities.create', function (BreadcrumbTrail $trail) {
@@ -313,7 +313,7 @@ Breadcrumbs::for('backend.settings.occupations.index', function (BreadcrumbTrail
 
     $trail->parent('backend.settings');
 
-    $trail->push('Occupations', route('backend.settings.occupations.index'));
+    $trail->push(__('menu-sidebar.Occupations'), route('backend.settings.occupations.index'));
 });
 
 Breadcrumbs::for('backend.settings.occupations.create', function (BreadcrumbTrail $trail) {
@@ -345,7 +345,7 @@ Breadcrumbs::for('backend.setting.costs.index', function (BreadcrumbTrail $trail
 
     $trail->parent('backend.organization');
 
-    $trail->push('Costs', route('backend.setting.costs.index'));
+    $trail->push(__('menu-sidebar.Costs'), route('backend.setting.costs.index'));
 });
 
 Breadcrumbs::for('backend.setting.costs.create', function (BreadcrumbTrail $trail) {
@@ -377,7 +377,7 @@ Breadcrumbs::for('backend.setting.smss.index', function (BreadcrumbTrail $trail)
 
     $trail->parent('backend.organization');
 
-    $trail->push('Smss', route('backend.setting.smss.index'));
+    $trail->push(__('menu-sidebar.Smss'), route('backend.setting.smss.index'));
 });
 
 Breadcrumbs::for('backend.setting.smss.create', function (BreadcrumbTrail $trail) {
@@ -409,7 +409,7 @@ Breadcrumbs::for('backend.setting.smstemplates.index', function (BreadcrumbTrail
 
     $trail->parent('backend.organization');
 
-    $trail->push('SmsTemplates', route('backend.setting.smstemplates.index'));
+    $trail->push(__('menu-sidebar.SmsTemplates'), route('backend.setting.smstemplates.index'));
 });
 
 Breadcrumbs::for('backend.setting.smstemplates.create', function (BreadcrumbTrail $trail) {
@@ -441,7 +441,7 @@ Breadcrumbs::for('backend.setting.barcodes.index', function (BreadcrumbTrail $tr
 
     $trail->parent('backend.organization');
 
-    $trail->push('Barcodes', route('backend.setting.barcodes.index'));
+    $trail->push(__('menu-sidebar.Barcodes'), route('backend.setting.barcodes.index'));
 });
 
 Breadcrumbs::for('backend.setting.barcodes.create', function (BreadcrumbTrail $trail) {
@@ -473,7 +473,7 @@ Breadcrumbs::for('backend.shipment', function (BreadcrumbTrail $trail) {
 
     $trail->parent('backend');
 
-    $trail->push('Shipment', route('backend.shipment'));
+    $trail->push(__('menu-sidebar.Shipment'), route('backend.shipment'));
 });
 
 /****************************************** Customer ******************************************/
@@ -481,7 +481,7 @@ Breadcrumbs::for('backend.shipment.customers.index', function (BreadcrumbTrail $
 
     $trail->parent('backend.shipment');
 
-    $trail->push('Customers', route('backend.shipment.customers.index'));
+    $trail->push(__('menu-sidebar.Customers'), route('backend.shipment.customers.index'));
 });
 
 Breadcrumbs::for('backend.shipment.customers.create', function (BreadcrumbTrail $trail) {
@@ -512,7 +512,7 @@ Breadcrumbs::for('backend.shipment.items.index', function (BreadcrumbTrail $trai
 
     $trail->parent('backend.shipment');
 
-    $trail->push('Items', route('backend.shipment.items.index'));
+    $trail->push(__('menu-sidebar.Items'), route('backend.shipment.items.index'));
 });
 
 Breadcrumbs::for('backend.shipment.items.create', function (BreadcrumbTrail $trail) {
@@ -544,7 +544,7 @@ Breadcrumbs::for('backend.shipment.invoices.index', function (BreadcrumbTrail $t
 
     $trail->parent('backend.shipment');
 
-    $trail->push('Invoices', route('backend.shipment.invoices.index'));
+    $trail->push(__('menu-sidebar.Invoices'), route('backend.shipment.invoices.index'));
 });
 
 Breadcrumbs::for('backend.shipment.invoices.create', function (BreadcrumbTrail $trail) {
@@ -576,7 +576,7 @@ Breadcrumbs::for('backend.shipment.transactions.index', function (BreadcrumbTrai
 
     $trail->parent('backend.shipment');
 
-    $trail->push('Transactions', route('backend.shipment.transactions.index'));
+    $trail->push(__('menu-sidebar.Transactions'), route('backend.shipment.transactions.index'));
 });
 
 Breadcrumbs::for('backend.shipment.transactions.create', function (BreadcrumbTrail $trail) {
@@ -608,7 +608,7 @@ Breadcrumbs::for('backend.transport', function (BreadcrumbTrail $trail) {
 
     $trail->parent('backend');
 
-    $trail->push('Transport', route('backend.transport'));
+    $trail->push(__('menu-sidebar.Transport'), route('backend.transport'));
 });
 
 /****************************************** Vehicle ******************************************/
@@ -617,7 +617,7 @@ Breadcrumbs::for('backend.transport.vehicles.index', function (BreadcrumbTrail $
 
     $trail->parent('backend.transport');
 
-    $trail->push('Vehicles', route('backend.transport.vehicles.index'));
+    $trail->push(__('menu-sidebar.Vehicles'), route('backend.transport.vehicles.index'));
 });
 
 Breadcrumbs::for('backend.transport.vehicles.create', function (BreadcrumbTrail $trail) {
@@ -649,7 +649,7 @@ Breadcrumbs::for('backend.transport.drivers.index', function (BreadcrumbTrail $t
 
     $trail->parent('backend.transport');
 
-    $trail->push('Drivers', route('backend.transport.drivers.index'));
+    $trail->push(__('menu-sidebar.Drivers'), route('backend.transport.drivers.index'));
 });
 
 Breadcrumbs::for('backend.transport.drivers.create', function (BreadcrumbTrail $trail) {
@@ -663,12 +663,12 @@ Breadcrumbs::for('backend.transport.drivers.show', function (BreadcrumbTrail $tr
 
     $trail->parent('backend.transport.drivers.index');
 
-    $driver = ($driver instanceof Driver) ? $driver : $driver[0];
+    $driver = ($driver instanceof User) ? $driver : $driver[0];
 
     $trail->push($driver->name, route('backend.transport.drivers.show', $driver->id));
 });
 
-Breadcrumbs::for('backend.transport.drivers.edit', function (BreadcrumbTrail $trail, Driver $driver) {
+Breadcrumbs::for('backend.transport.drivers.edit', function (BreadcrumbTrail $trail, User $driver) {
 
     $trail->parent('backend.transport.drivers.show', [$driver]);
 
@@ -681,7 +681,7 @@ Breadcrumbs::for('backend.transport.check-points.index', function (BreadcrumbTra
 
     $trail->parent('backend.transport');
 
-    $trail->push('CheckPoints', route('backend.transport.check-points.index'));
+    $trail->push(__('menu-sidebar.CheckPoints'), route('backend.transport.check-points.index'));
 });
 
 Breadcrumbs::for('backend.transport.check-points.create', function (BreadcrumbTrail $trail) {
@@ -713,7 +713,7 @@ Breadcrumbs::for('backend.transport.truck-loads.index', function (BreadcrumbTrai
 
     $trail->parent('backend.transport');
 
-    $trail->push('Track Loads', route('backend.transport.truck-loads.index'));
+    $trail->push(__('menu-sidebar.Track Loads'), route('backend.transport.truck-loads.index'));
 });
 
 Breadcrumbs::for('backend.transport.truck-loads.create', function (BreadcrumbTrail $trail) {
@@ -745,7 +745,7 @@ Breadcrumbs::for('backend.organization', function (BreadcrumbTrail $trail) {
 
     $trail->parent('backend');
 
-    $trail->push('Organization', route('backend.organization'));
+    $trail->push(__('menu-sidebar.Organization'), route('backend.organization'));
 });
 
 /****************************************** Branch ******************************************/
@@ -754,7 +754,7 @@ Breadcrumbs::for('backend.organization.branches.index', function (BreadcrumbTrai
 
     $trail->parent('backend.organization');
 
-    $trail->push('Branches', route('backend.organization.branches.index'));
+    $trail->push(__('menu-sidebar.Branches'), route('backend.organization.branches.index'));
 });
 
 Breadcrumbs::for('backend.organization.branches.create', function (BreadcrumbTrail $trail) {
@@ -786,7 +786,7 @@ Breadcrumbs::for('backend.organization.employees.index', function (BreadcrumbTra
 
     $trail->parent('backend.organization');
 
-    $trail->push('Employees', route('backend.organization.employees.index'));
+    $trail->push(__('menu-sidebar.Employees'), route('backend.organization.employees.index'));
 });
 
 Breadcrumbs::for('backend.organization.employees.create', function (BreadcrumbTrail $trail) {
@@ -800,12 +800,12 @@ Breadcrumbs::for('backend.organization.employees.show', function (BreadcrumbTrai
 
     $trail->parent('backend.organization.employees.index');
 
-    $employee = ($employee instanceof Employee) ? $employee : $employee[0];
+    $employee = ($employee instanceof User) ? $employee : $employee[0];
 
     $trail->push($employee->name, route('backend.organization.employees.show', $employee->id));
 });
 
-Breadcrumbs::for('backend.organization.employees.edit', function (BreadcrumbTrail $trail, Employee $employee) {
+Breadcrumbs::for('backend.organization.employees.edit', function (BreadcrumbTrail $trail, User $employee) {
 
     $trail->parent('backend.organization.employees.show', [$employee]);
 
@@ -817,7 +817,7 @@ Breadcrumbs::for('backend.common.address-books.index', function (BreadcrumbTrail
 
     $trail->parent('backend');
 
-    $trail->push('Address Books', route('backend.common.address-books.index'));
+    $trail->push(__('menu-sidebar.Address Books'), route('backend.common.address-books.index'));
 });
 
 Breadcrumbs::for('backend.common.address-books.create', function (BreadcrumbTrail $trail) {

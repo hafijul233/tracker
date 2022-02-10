@@ -30,7 +30,7 @@
                     <a href="{{ route('backend.dashboard') }}"
                        class="nav-link  @if(\Route::is('backend.dashboard')) active @endif">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>Dashboard</p>
+                        <p>{!! __('menu-sidebar.Dashboard') !!}</p>
                     </a>
                 </li>
 
@@ -39,7 +39,7 @@
                         <a href="{{ route('backend.common.address-books.index') }}"
                            class="nav-link @if(\Route::is('backend.common.address-books.*')) active @endif">
                             <i class="fas fa-address-book nav-icon"></i>
-                            <p>Address Book</p>
+                            <p>{!! __('menu-sidebar.Address Book') !!}</p>
                         </a>
                     </li>
                 @endcan
@@ -53,7 +53,7 @@
                     <li class="nav-item @if(\Route::is('backend.shipment.*')) menu-open @endif">
                         <a href="#" class="nav-link @if(\Route::is('backend.shipment.*')) active @endif">
                             <i class="nav-icon fas fa-ship"></i>
-                            <p>Shipment
+                            <p>{!! __('menu-sidebar.Shipment') !!}
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
@@ -64,7 +64,7 @@
                                     <a href="{{ route('backend.shipment.customers.index') }}"
                                        class="nav-link @if(\Route::is('backend.settings.customers.*')) active @endif">
                                         <i class="fas fa-user-tie nav-icon"></i>
-                                        <p>Customers</p>
+                                        <p>{!! __('menu-sidebar.Customers') !!}</p>
                                     </a>
                                 </li>
                             @endcan
@@ -74,7 +74,7 @@
                                     <a href="{{ route('backend.shipment.items.index') }}"
                                        class="nav-link @if(\Route::is('backend.shipment.items.*')) active @endif">
                                         <i class="fas fa-boxes nav-icon"></i>
-                                        <p>Items</p>
+                                        <p>{!! __('menu-sidebar.Items') !!}</p>
                                     </a>
                                 </li>
                             @endcan
@@ -84,7 +84,7 @@
                                     <a href="{{ route('backend.shipment.invoices.index') }}"
                                        class="nav-link @if(\Route::is('backend.shipment.invoices.*')) active @endif">
                                         <i class="fas fa-file-invoice-dollar nav-icon"></i>
-                                        <p>Invoices</p>
+                                        <p>{!! __('menu-sidebar.Invoices') !!}</p>
                                     </a>
                                 </li>
                             @endcan
@@ -94,14 +94,13 @@
                                     <a href="{{ route('backend.shipment.transactions.index') }}"
                                        class="nav-link @if(\Route::is('backend.shipment.transactions.*')) active @endif">
                                         <i class="fas fa-dollar-sign nav-icon"></i>
-                                        <p>Transactions</p>
+                                        <p>{!! __('menu-sidebar.Transactions') !!}</p>
                                     </a>
                                 </li>
                             @endcan
                         </ul>
                     </li>
-                @endcan
-
+                @endcanany
 
                 @canany([
     'backend.transport.vehicles.index',
@@ -121,7 +120,7 @@
                                     <a href="{{ route('backend.transport.vehicles.index') }}"
                                        class="nav-link @if(\Route::is('backend.transport.vehicles.*')) active @endif">
                                         <i class="fas fa-truck nav-icon"></i>
-                                        <p>Vehicles</p>
+                                        <p>{!! __('menu-sidebar.Vehicles') !!}</p>
                                     </a>
                                 </li>
                             @endcan
@@ -131,7 +130,7 @@
                                     <a href="{{ route('backend.transport.drivers.index') }}"
                                        class="nav-link @if(\Route::is('backend.transport.drivers.*')) active @endif">
                                         <i class="fas fa-user-tag nav-icon"></i>
-                                        <p>Drivers</p>
+                                        <p>{!! __('menu-sidebar.Drivers') !!}</p>
                                     </a>
                                 </li>
                             @endcan
@@ -141,7 +140,7 @@
                                     <a href="{{ route('backend.transport.check-points.index') }}"
                                        class="nav-link @if(\Route::is('backend.transport.check-points.*')) active @endif">
                                         <i class="fas fa-map-marked nav-icon"></i>
-                                        <p>Check Points</p>
+                                        <p>{!! __('menu-sidebar.Check Points') !!}</p>
                                     </a>
                                 </li>
                             @endcan
@@ -151,7 +150,7 @@
                                     <a href="{{ route('backend.transport.truck-loads.index') }}"
                                        class="nav-link @if(\Route::is('backend.transport.truck-loads.*')) active @endif">
                                         <i class="fas fa-truck-loading nav-icon"></i>
-                                        <p>Truck Loads</p>
+                                        <p>{!! __('menu-sidebar.Truck Loads') !!}</p>
                                     </a>
                                 </li>
                             @endcan
@@ -165,7 +164,7 @@
                     <li class="nav-item @if(\Route::is('backend.organization.*')) menu-open @endif">
                         <a href="#" class="nav-link @if(\Route::is('backend.organization.*')) active @endif">
                             <i class="nav-icon fas fa-building"></i>
-                            <p>Organization
+                            <p> {!! __('Organization') !!}
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
@@ -176,7 +175,7 @@
                                     <a href="{{ route('backend.organization.branches.index') }}"
                                        class="nav-link @if(\Route::is('backend.organization.branches.*')) active @endif">
                                         <i class="far fa-building nav-icon"></i>
-                                        <p>Branches</p>
+                                        <p>{!! __('menu-sidebar.Branches') !!}</p>
                                     </a>
                                 </li>
                             @endcan
@@ -186,7 +185,7 @@
                                     <a href="{{ route('backend.organization.employees.index') }}"
                                        class="nav-link @if(\Route::is('backend.organization.employees.*')) active @endif">
                                         <i class="fas fa-address-card nav-icon"></i>
-                                        <p>Employees</p>
+                                        <p>{!! __('menu-sidebar.Employees') !!}</p>
                                     </a>
                                 </li>
                             @endcan
@@ -206,7 +205,7 @@
                     <li class="nav-item @if(\Route::is('backend.settings.*')) menu-open @endif">
                         <a href="#" class="nav-link @if(\Route::is('backend.settings.*')) active @endif">
                             <i class="nav-icon fas fa-cogs"></i>
-                            <p>Settings
+                            <p>{!! __('menu-sidebar.Settings') !!}
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
@@ -217,7 +216,7 @@
                                     <a href="{{ route('backend.settings.users.index') }}"
                                        class="nav-link @if(\Route::is('backend.settings.users.*')) active @endif">
                                         <i class="fas fa-users nav-icon"></i>
-                                        <p>Users</p>
+                                        <p>{!! __('menu-sidebar.Users') !!}</p>
                                     </a>
                                 </li>
                             @endcan
@@ -227,7 +226,7 @@
                                     <a href="{{ route('backend.settings.roles.index') }}"
                                        class="nav-link @if(\Route::is('backend.settings.roles.*')) active @endif">
                                         <i class="fas fa-address-card nav-icon"></i>
-                                        <p>Roles</p>
+                                        <p>{!! __('menu-sidebar.Roles') !!}</p>
                                     </a>
                                 </li>
                             @endcan
@@ -237,7 +236,7 @@
                                     <a href="{{ route('backend.settings.permissions.index') }}"
                                        class="nav-link @if(\Route::is('backend.settings.permissions.*')) active @endif">
                                         <i class="fas fa-list-alt nav-icon"></i>
-                                        <p>Permissions</p>
+                                        <p>{!! __('menu-sidebar.Permissions') !!}</p>
                                     </a>
                                 </li>
                             @endcan
@@ -247,7 +246,7 @@
                                     <a href="{{ route('backend.settings.catalogs.index') }}"
                                        class="nav-link @if(\Route::is('backend.settings.catalogs.*')) active @endif">
                                         <i class="fas fa-list-alt nav-icon"></i>
-                                        <p>Catalogs</p>
+                                        <p>{!! __('menu-sidebar.Catalogs') !!}</p>
                                     </a>
                                 </li>
                             @endcan
@@ -257,7 +256,7 @@
                                     <a href="{{ route('backend.settings.countries.index') }}"
                                        class="nav-link @if(\Route::is('backend.settings.countries.*')) active @endif">
                                         <i class="fas fa-globe-asia nav-icon"></i>
-                                        <p>Countries</p>
+                                        <p>{!! __('menu-sidebar.Countries') !!}</p>
                                     </a>
                                 </li>
                             @endcan
@@ -267,7 +266,7 @@
                                     <a href="{{ route('backend.settings.states.index') }}"
                                        class="nav-link @if(\Route::is('backend.settings.states.*')) active @endif">
                                         <i class="fas fa-landmark nav-icon"></i>
-                                        <p>States</p>
+                                        <p>{!! __('menu-sidebar.States') !!}</p>
                                     </a>
                                 </li>
                             @endcan
@@ -277,7 +276,7 @@
                                     <a href="{{ route('backend.settings.cities.index') }}"
                                        class="nav-link @if(\Route::is('backend.settings.cities.*')) active @endif">
                                         <i class="fas fa-mountain nav-icon"></i>
-                                        <p>Cities</p>
+                                        <p>{!! __('menu-sidebar.Cities') !!}</p>
                                     </a>
                                 </li>
                             @endcan
@@ -287,7 +286,7 @@
                                     <a href="{{ route('backend.settings.occupations.index') }}"
                                        class="nav-link @if(\Route::is('backend.settings.occupations.*')) active @endif">
                                         <i class="fas fa-hospital-user nav-icon"></i>
-                                        <p>Occupations</p>
+                                        <p>{!! __('menu-sidebar.Occupations') !!}</p>
                                     </a>
                                 </li>
                             @endcan

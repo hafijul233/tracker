@@ -59,7 +59,6 @@
 
         $(function () {
             function selectedResult(option) {
-                console.log(option);
                 if (!option.id) {
                     return option.text;
                 }
