@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
 use App\Supports\Constant;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateOrganizationsTable extends Migration
 {
@@ -20,6 +20,7 @@ class CreateOrganizationsTable extends Migration
         //Table Structure
         Schema::create('organizations', function (Blueprint $table) {
             $table->id();
+            $table->enum('organization_type', ['main', 'branch'])->default('main');
             $table->string('name');
             $table->string('alias')->nullable();
             $table->string('short_description')->nullable();

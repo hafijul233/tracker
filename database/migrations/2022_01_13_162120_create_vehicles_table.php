@@ -20,10 +20,19 @@ class CreateVehiclesTable extends Migration
         //Table Structure
         Schema::create('vehicles', function (Blueprint $table) {
             $table->id();
-            
-
+            $table->string('brand');
+            $table->string('model');
+            $table->string('type')->nullable();
+            $table->string('mileage')->nullable();
+            $table->string('color')->nullable();
+            $table->string('fuel')->nullable();
+            $table->dateTime('joined_at');
+            $table->string('license_number');
+            $table->dateTime('license_register_date');
+            $table->dateTime('license_expire_date');
             $table->enum('enabled', array_keys(Constant::ENABLED_OPTIONS))
                             ->default(Constant::ENABLED_OPTION)->nullable();
+            $table->string('remarks')->nullable();
             $table->foreignId('created_by')->index()->nullable();
             $table->foreignId('updated_by')->index()->nullable();
             $table->foreignId('deleted_by')->index()->nullable();
