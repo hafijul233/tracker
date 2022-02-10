@@ -19,6 +19,7 @@ return [
     'Items' => 'Items',
     'Invoices' => 'Invoices',
     'Transactions' => 'Transactions',
+    'Transport' => 'Transport',
     'Vehicles' => 'Vehicles',
     'Drivers' => 'Drivers',
     'Check Points' => 'Check Points',

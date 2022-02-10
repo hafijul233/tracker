@@ -19,6 +19,14 @@
 @push('theme-style')
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('assets/css/adminlte.min.css') }}">
+    @if(\Illuminate\Support\Facades\App::isLocal('bd'))
+        <link href="https://fonts.maateen.me/adorsho-lipi/font.css" rel="stylesheet">
+        <style>
+            body {
+            font-family: "AdorshoLipi", "Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+            }
+        </style>
+    @endif
 @endpush
 
 @section('body-class', 'layout-fixed layout-navbar-fixed  sidebar-collapse')

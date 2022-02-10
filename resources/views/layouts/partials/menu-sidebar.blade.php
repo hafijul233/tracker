@@ -110,7 +110,7 @@
                     <li class="nav-item @if(\Route::is('backend.transport.*')) menu-open @endif">
                         <a href="#" class="nav-link @if(\Route::is('backend.transport.*')) active @endif">
                             <i class="nav-icon fas fa-shipping-fast"></i>
-                            <p>Transport
+                            <p>{!! __('menu-sidebar.Transport') !!}
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
@@ -164,7 +164,7 @@
                     <li class="nav-item @if(\Route::is('backend.organization.*')) menu-open @endif">
                         <a href="#" class="nav-link @if(\Route::is('backend.organization.*')) active @endif">
                             <i class="nav-icon fas fa-building"></i>
-                            <p> {!! __('Organization') !!}
+                            <p> {!! __('menu-sidebar.Organization') !!}
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
@@ -191,7 +191,7 @@
                             @endcan
                         </ul>
                     </li>
-                @endcan
+                @endcanany
 
                 @canany([
     'backend.settings.users.index',
