@@ -32,7 +32,7 @@
                             <li>
                                 <a href="{{ route($resourceRouteName . '.edit', $id) }}" title="Edit"
                                    class="d-flex align-items-center link-muted py-2 px-3">
-                                    <i class="fas fa-edit  mr-2"></i> {!! __('Edit') !!}
+                                    <i class="fas fa-edit  mr-2"></i> {!! __('common.Edit') !!}
                                 </a>
                             </li>
                         @endcan

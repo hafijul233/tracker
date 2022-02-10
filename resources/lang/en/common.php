@@ -22,5 +22,10 @@ return [
     'Show' => 'Show',
     'Details' => 'Details',
     'Clone' => 'Clone',
-    'Send' => 'Send'
+    'Send' => 'Send',
+    'Save' => 'Save',
+    'Print' => 'Print',
+    'Export' => 'Export',
+    'Import' => 'Import',
+
 ];

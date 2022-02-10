@@ -17,8 +17,8 @@
     </div>
     <div class="row mt-3">
         <div class="col-12 justify-content-between d-flex">
-            {!! \Form::nCancel('Cancel') !!}
-            {!! \Form::nSubmit('submit', 'Save') !!}
+            {!! \Form::nCancel(__('common.Cancel')) !!}
+            {!! \Form::nSubmit('submit', __('common.Save')) !!}
         </div>
     </div>
 </div>

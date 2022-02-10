@@ -5,7 +5,7 @@
                 type="button" id="dropdownMenuButton"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-sliders-h"></i>
-            <span class="d-none d-md-inline-flex ml-2">Actions</span>
+            <span class="d-none d-md-inline-flex ml-2">{!! __('common.Actions') !!}</span>
         </button>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
             {{--
@@ -32,7 +32,7 @@
                 @can($resourceRouteName . '.import')
                     <a href="{{ route($resourceRouteName . '.import') }}" title="Import"
                        class="dropdown-item py-2 px-3 import-btn link-muted">
-                        <i class="fas fa-file-import mr-2"></i> Import
+                        <i class="fas fa-file-import mr-2"></i> {!! __('common.Import') !!}
                     </a>
                 @endcan
             @endif
@@ -41,7 +41,7 @@
                 @can($resourceRouteName . '.export')
                     <a href="{{ route($resourceRouteName . '.export') }}" title="Export"
                        class="dropdown-item py-2 px-3 link-muted export-btn">
-                        <i class="fas fa-file-export mr-2"></i> Export
+                        <i class="fas fa-file-export mr-2"></i> {!! __('common.Export') !!}
                     </a>
                 @endcan
             @endif
@@ -50,7 +50,7 @@
                 @can($resourceRouteName . '.print')
                     <a href="{{ route($resourceRouteName . '.print') }}" title="Print"
                        class="dropdown-item py-2 px-3 print-btn link-muted">
-                        <i class="fas fa-print mr-2"></i> Print
+                        <i class="fas fa-print mr-2"></i> {!! __('common.Print') !!}
                     </a>
                 @endcan
             @endif
