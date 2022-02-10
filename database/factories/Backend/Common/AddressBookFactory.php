@@ -2,7 +2,7 @@
 
 namespace Database\Factories\Backend\Common;
 
-use App\Models\Backend\Common\AddressBook;
+use App\Models\Backend\Common\Address;
 use App\Supports\Constant;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -11,7 +11,7 @@ class AddressBookFactory extends Factory
     /**
      * @var string
      */
-    protected $model = AddressBook::class;
+    protected $model = Address::class;
 
     /**
      * Define the model's default state.

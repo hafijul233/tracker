@@ -27,7 +27,7 @@
 @section('breadcrumbs', \Breadcrumbs::render())
 
 @section('actions')
-    {!! \Html::linkButton('Add AddressBook', 'backend.common.address-books.create', [], 'fas fa-plus', 'success') !!}
+    {!! \Html::linkButton('Add Address', 'backend.common.address-books.create', [], 'fas fa-plus', 'success') !!}
     {!! \Html::bulkDropdown('backend.common.address-books', 0, ['color' => 'warning']) !!}
 @endsection
 
@@ -39,7 +39,7 @@
                     @if(!empty($addressBooks))
                         <div class="card-body p-0">
                             {!! \Html::cardSearch('search', 'backend.common.address-books.index',
-                            ['placeholder' => 'Search AddressBook Name etc.',
+                            ['placeholder' => 'Search Address Name etc.',
                             'class' => 'form-control', 'id' => 'search', 'data-target-table' => 'addressbook-table']) !!}
                             <div class="table-responsive">
                                 <table class="table table-hover mb-0" id="addressbook-table">
@@ -115,7 +115,7 @@
         </div>
     </div>
     <!-- /.container-fluid -->
-    {!! \App\Supports\CHTML::confirmModal('AddressBook', ['export', 'delete', 'restore']) !!}
+    {!! \App\Supports\CHTML::confirmModal('Address', ['export', 'delete', 'restore']) !!}
 @endsection
 
 

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders\Setting;
 
-use App\Models\Backend\Common\AddressBook;
+use App\Models\Backend\Common\Address;
 use App\Models\Backend\Setting\User;
 use Illuminate\Database\Seeder;
 
@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::factory(10)
-            ->has(AddressBook::factory()
+            ->has(Address::factory()
                 ->count(2), 'addressBooks')
             ->create();
     }

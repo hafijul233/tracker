@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Backend\Common\AddressBook;
+use App\Models\Backend\Common\Address;
 use App\Models\Backend\Organization\Branch;
 use App\Models\Backend\Setting\Barcode;
 use App\Models\Backend\Setting\Catalog;
@@ -831,12 +831,12 @@ Breadcrumbs::for('backend.common.address-books.show', function (BreadcrumbTrail 
 
     $trail->parent('backend.common.address-books.index');
 
-    $addressBook = ($addressBook instanceof AddressBook) ? $addressBook : $addressBook[0];
+    $addressBook = ($addressBook instanceof Address) ? $addressBook : $addressBook[0];
 
     $trail->push($addressBook->name, route('backend.common.address-books.show', $addressBook->id));
 });
 
-Breadcrumbs::for('backend.common.address-books.edit', function (BreadcrumbTrail $trail, AddressBook $addressBook) {
+Breadcrumbs::for('backend.common.address-books.edit', function (BreadcrumbTrail $trail, Address $addressBook) {
 
     $trail->parent('backend.common.address-books.show', [$addressBook]);
 

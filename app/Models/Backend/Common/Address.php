@@ -15,10 +15,10 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
 use OwenIt\Auditing\Contracts\Auditable;
 
 /**
- * @class AddressBook
+ * @class Address
  * @package App\Models\Backend\Common
  */
-class AddressBook extends Model implements Auditable
+class Address extends Model implements Auditable
 {
     use AuditableTrait, HasFactory, SoftDeletes, Sortable;
 

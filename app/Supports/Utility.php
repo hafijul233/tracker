@@ -3,7 +3,7 @@
 
 namespace App\Supports;
 
-use App\Models\Backend\Common\AddressBook;
+use App\Models\Backend\Common\Address;
 use App\Repositories\Eloquent\Backend\Setting\UserRepository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -148,10 +148,10 @@ class Utility
     }
 
     /**
-     * @param AddressBook $addressBook
+     * @param Address $addressBook
      * @return string
      */
-    public static function getAddressBlock(AddressBook $addressBook): string
+    public static function getAddressBlock(Address $addressBook): string
     {
 
         $address = ($addressBook->address ?? null) . ', ';

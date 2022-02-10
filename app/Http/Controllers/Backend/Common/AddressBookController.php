@@ -208,7 +208,7 @@ class AddressBookController extends Controller
 
         $addressBookExport = $this->addressBookService->exportAddressBook($filters);
 
-        $filename = 'AddressBook-' . date('Ymd-His') . '.' . ($filters['format'] ?? 'xlsx');
+        $filename = 'Address-' . date('Ymd-His') . '.' . ($filters['format'] ?? 'xlsx');
 
         return $addressBookExport->download($filename, function ($addressBook) use ($addressBookExport) {
             return $addressBookExport->map($addressBook);
@@ -254,7 +254,7 @@ class AddressBookController extends Controller
 
         $addressBookExport = $this->addressBookService->exportAddressBook($filters);
 
-        $filename = 'AddressBook-' . date('Ymd-His') . '.' . ($filters['format'] ?? 'xlsx');
+        $filename = 'Address-' . date('Ymd-His') . '.' . ($filters['format'] ?? 'xlsx');
 
         return $addressBookExport->download($filename, function ($addressBook) use ($addressBookExport) {
             return $addressBookExport->map($addressBook);

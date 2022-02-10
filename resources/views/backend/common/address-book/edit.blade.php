@@ -1,6 +1,6 @@
 @extends('core::layouts.app')
 
-@section('title', 'Edit AddressBook')
+@section('title', 'Edit Address')
 
 @push('meta')
 

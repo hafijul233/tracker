@@ -18,8 +18,9 @@ class CreateAddressBooksTable extends Migration
         Schema::disableForeignKeyConstraints();
 
         //Table Structure
-        Schema::create('address_books', function (Blueprint $table) {
+        Schema::create('addresses', function (Blueprint $table) {
             $table->id();
+            $table->morphs('addressable');
             $table->foreignId('user_id')->index()->nullable();
             $table->string('type');
             $table->string('phone');
@@ -54,7 +55,7 @@ class CreateAddressBooksTable extends Migration
         Schema::disableForeignKeyConstraints();
 
         //Remove Table Structure
-        Schema::dropIfExists('address_books');
+        Schema::dropIfExists('addresses');
 
         //Temporary Disable Foreign Key Constraints
         Schema::enableForeignKeyConstraints();

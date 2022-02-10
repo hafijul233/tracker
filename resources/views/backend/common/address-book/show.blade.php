@@ -82,7 +82,7 @@
             </div>
         </div>
     </div>
-    {!! \App\Supports\CHTML::confirmModal('AddressBook', ['delete', 'restore']) !!}
+    {!! \App\Supports\CHTML::confirmModal('Address', ['delete', 'restore']) !!}
 @endsection
 
 

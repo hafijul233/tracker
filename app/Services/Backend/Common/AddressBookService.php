@@ -4,7 +4,7 @@ namespace App\Services\Backend\Common;
 
 use App\Abstracts\Service\Service;
 use App\Exports\Backend\Common\AddressBookExport;
-use App\Models\Backend\Common\AddressBook;
+use App\Models\Backend\Common\Address;
 use App\Repositories\Eloquent\Backend\Common\AddressBookRepository;
 use App\Services\Auth\AuthenticatedSessionService;
 use App\Supports\Constant;
@@ -38,7 +38,7 @@ class AddressBookService extends Service
     }
 
     /**
-     * Get All AddressBook models as collection
+     * Get All Address models as collection
      *
      * @param array $filters
      * @param array $eagerRelations
@@ -51,7 +51,7 @@ class AddressBookService extends Service
     }
 
     /**
-     * Create AddressBook Model Pagination
+     * Create Address Model Pagination
      *
      * @param array $filters
      * @param array $eagerRelations
@@ -68,7 +68,7 @@ class AddressBookService extends Service
     }
 
     /**
-     * Show AddressBook Model
+     * Show Address Model
      *
      * @param int $id
      * @param bool $purge
@@ -81,7 +81,7 @@ class AddressBookService extends Service
     }
 
     /**
-     * Save AddressBook Model
+     * Save Address Model
      *
      * @param array $inputs
      * @return array
@@ -93,14 +93,14 @@ class AddressBookService extends Service
         DB::beginTransaction();
         try {
             $newAddressBook = $this->addressBookRepository->create($inputs);
-            if ($newAddressBook instanceof AddressBook) {
+            if ($newAddressBook instanceof Address) {
                 DB::commit();
-                return ['status' => true, 'message' => __('New AddressBook Created'),
+                return ['status' => true, 'message' => __('New Address Created'),
                     'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
             }
 
             DB::rollBack();
-            return ['status' => false, 'message' => __('New AddressBook Creation Failed'),
+            return ['status' => false, 'message' => __('New Address Creation Failed'),
                 'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
         } catch (Exception $exception) {
             $this->addressBookRepository->handleException($exception);
@@ -111,7 +111,7 @@ class AddressBookService extends Service
     }
 
     /**
-     * Update AddressBook Model
+     * Update Address Model
      *
      * @param array $inputs
      * @param $id
@@ -123,18 +123,18 @@ class AddressBookService extends Service
         DB::beginTransaction();
         try {
             $addressBook = $this->addressBookRepository->show($id);
-            if ($addressBook instanceof AddressBook) {
+            if ($addressBook instanceof Address) {
                 if ($this->addressBookRepository->update($inputs, $id)) {
                     DB::commit();
-                    return ['status' => true, 'message' => __('AddressBook Info Updated'),
+                    return ['status' => true, 'message' => __('Address Info Updated'),
                         'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
                 } else {
                     DB::rollBack();
-                    return ['status' => false, 'message' => __('AddressBook Info Update Failed'),
+                    return ['status' => false, 'message' => __('Address Info Update Failed'),
                         'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
                 }
             } else {
-                return ['status' => false, 'message' => __('AddressBook Model Not Found'),
+                return ['status' => false, 'message' => __('Address Model Not Found'),
                     'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Alert!'];
             }
         } catch (Exception $exception) {
@@ -146,7 +146,7 @@ class AddressBookService extends Service
     }
 
     /**
-     * Destroy AddressBook Model
+     * Destroy Address Model
      *
      * @param $id
      * @return array
@@ -158,12 +158,12 @@ class AddressBookService extends Service
         try {
             if ($this->addressBookRepository->delete($id)) {
                 DB::commit();
-                return ['status' => true, 'message' => __('AddressBook is Trashed'),
+                return ['status' => true, 'message' => __('Address is Trashed'),
                     'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
 
             } else {
                 DB::rollBack();
-                return ['status' => false, 'message' => __('AddressBook is Delete Failed'),
+                return ['status' => false, 'message' => __('Address is Delete Failed'),
                     'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
             }
         } catch (Exception $exception) {
@@ -175,7 +175,7 @@ class AddressBookService extends Service
     }
 
     /**
-     * Restore AddressBook Model
+     * Restore Address Model
      *
      * @param $id
      * @return array
@@ -187,12 +187,12 @@ class AddressBookService extends Service
         try {
             if ($this->addressBookRepository->restore($id)) {
                 DB::commit();
-                return ['status' => true, 'message' => __('AddressBook is Restored'),
+                return ['status' => true, 'message' => __('Address is Restored'),
                     'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
 
             } else {
                 DB::rollBack();
-                return ['status' => false, 'message' => __('AddressBook is Restoration Failed'),
+                return ['status' => false, 'message' => __('Address is Restoration Failed'),
                     'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
             }
         } catch (Exception $exception) {

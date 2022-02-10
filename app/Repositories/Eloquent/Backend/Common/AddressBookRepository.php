@@ -3,7 +3,7 @@
 namespace App\Repositories\Eloquent\Backend\Common;
 
 use App\Abstracts\Repository\EloquentRepository;
-use App\Models\Backend\Common\AddressBook;
+use App\Models\Backend\Common\Address;
 use App\Services\Auth\AuthenticatedSessionService;
 use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -24,7 +24,7 @@ class AddressBookRepository extends EloquentRepository
         /**
          * Set the model that will be used for repo
          */
-        parent::__construct(new AddressBook);
+        parent::__construct(new Address);
     }
 
     /**

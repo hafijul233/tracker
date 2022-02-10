@@ -3,7 +3,7 @@
 namespace App\Exports\Backend\Common;
 
 use App\Abstracts\Export\FastExcelExport;
-use App\Models\Backend\Common\AddressBook;
+use App\Models\Backend\Common\Address;
 use Box\Spout\Common\Exception\InvalidArgumentException;
 
 /**
@@ -26,7 +26,7 @@ class AddressBookExport extends FastExcelExport
     }
 
     /**
-     * @param AddressBook $row
+     * @param Address $row
      * @return array
      */
     public function map($row): array
