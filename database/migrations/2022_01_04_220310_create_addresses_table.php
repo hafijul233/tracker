@@ -5,7 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAddressBooksTable extends Migration
+class CreateAddressesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -21,17 +21,20 @@ class CreateAddressBooksTable extends Migration
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
             $table->morphs('addressable');
-            $table->foreignId('user_id')->index()->nullable();
             $table->string('type');
             $table->string('phone');
             $table->string('name');
-            $table->string('address');
+            $table->string('street_1');
+            $table->string('street_2');
+            $table->string('url');
+            $table->string('longitude', 20);
+            $table->string('latitude', 20);
             $table->string('post_code')->nullable();
-            $table->string('remark')->nullable();
             $table->enum('fallback', array_keys(Constant::ENABLED_OPTIONS))
                 ->default(Constant::ENABLED_OPTION)->nullable();
             $table->enum('enabled', array_keys(Constant::ENABLED_OPTIONS))
                 ->default(Constant::ENABLED_OPTION)->nullable();
+            $table->string('remark')->nullable();
             $table->foreignId('city_id')->index()->nullable();
             $table->foreignId('state_id')->index()->nullable();
             $table->foreignId('country_id')->index()->nullable();
