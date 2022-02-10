@@ -112,7 +112,7 @@ Breadcrumbs::for('backend.settings.users.edit', function (BreadcrumbTrail $trail
 
     $trail->parent('backend.settings.users.show', [$user]);
 
-    $trail->push('Edit User', route('backend.settings.users.edit', $user->id));
+    $trail->push(__('common.Edit'), route('backend.settings.users.edit', $user->id));
 });
 
 /****************************************** Permission ******************************************/
@@ -128,7 +128,7 @@ Breadcrumbs::for('backend.settings.permissions.create', function (BreadcrumbTrai
 
     $trail->parent('backend.settings.permissions.index');
 
-    $trail->push('Add Permission', route('backend.settings.permissions.create'));
+    $trail->push(__('common.Add'), route('backend.settings.permissions.create'));
 });
 
 Breadcrumbs::for('backend.settings.permissions.show', function (BreadcrumbTrail $trail, $permission) {
@@ -144,7 +144,7 @@ Breadcrumbs::for('backend.settings.permissions.edit', function (BreadcrumbTrail 
 
     $trail->parent('backend.settings.permissions.show', [$permission]);
 
-    $trail->push('Edit Permission', route('backend.settings.permissions.edit', $permission->id));
+    $trail->push(__('common.Edit'), route('backend.settings.permissions.edit', $permission->id));
 });
 
 /****************************************** Role ******************************************/
@@ -160,7 +160,7 @@ Breadcrumbs::for('backend.settings.roles.create', function (BreadcrumbTrail $tra
 
     $trail->parent('backend.settings.roles.index');
 
-    $trail->push('Add Role', route('backend.settings.roles.create'));
+    $trail->push(__('common.Add'), route('backend.settings.roles.create'));
 });
 
 Breadcrumbs::for('backend.settings.roles.show', function (BreadcrumbTrail $trail, $role) {
@@ -176,7 +176,7 @@ Breadcrumbs::for('backend.settings.roles.edit', function (BreadcrumbTrail $trail
 
     $trail->parent('backend.settings.roles.show', [$role]);
 
-    $trail->push('Edit Role', route('backend.settings.roles.edit', $role->id));
+    $trail->push(__('common.Edit'), route('backend.settings.roles.edit', $role->id));
 });
 
 
@@ -193,7 +193,7 @@ Breadcrumbs::for('backend.settings.catalogs.create', function (BreadcrumbTrail $
 
     $trail->parent('backend.settings.catalogs.index');
 
-    $trail->push('Add Catalog', route('backend.settings.catalogs.create'));
+    $trail->push(__('common.Add'), route('backend.settings.catalogs.create'));
 });
 
 Breadcrumbs::for('backend.settings.catalogs.show', function (BreadcrumbTrail $trail, $catalog) {
@@ -209,7 +209,7 @@ Breadcrumbs::for('backend.settings.catalogs.edit', function (BreadcrumbTrail $tr
 
     $trail->parent('backend.settings.catalogs.show', [$catalog]);
 
-    $trail->push('Edit Catalog', route('backend.settings.catalogs.edit', $catalog->id));
+    $trail->push(__('common.Edit'), route('backend.settings.catalogs.edit', $catalog->id));
 });
 
 /****************************************** Country ******************************************/
@@ -225,7 +225,7 @@ Breadcrumbs::for('backend.settings.countries.create', function (BreadcrumbTrail 
 
     $trail->parent('backend.settings.countries.index');
 
-    $trail->push('Add Country', route('backend.settings.countries.create'));
+    $trail->push(__('common.Add'), route('backend.settings.countries.create'));
 });
 
 Breadcrumbs::for('backend.settings.countries.show', function (BreadcrumbTrail $trail, $country) {
@@ -241,7 +241,7 @@ Breadcrumbs::for('backend.settings.countries.edit', function (BreadcrumbTrail $t
 
     $trail->parent('backend.settings.countries.show', [$country]);
 
-    $trail->push('Edit Country', route('backend.settings.countries.edit', $country->id));
+    $trail->push(__('common.Edit'), route('backend.settings.countries.edit', $country->id));
 });
 
 /****************************************** State ******************************************/
@@ -257,7 +257,7 @@ Breadcrumbs::for('backend.settings.states.create', function (BreadcrumbTrail $tr
 
     $trail->parent('backend.settings.states.index');
 
-    $trail->push('Add State', route('backend.settings.states.create'));
+    $trail->push(__('common.Add'), route('backend.settings.states.create'));
 });
 
 Breadcrumbs::for('backend.settings.states.show', function (BreadcrumbTrail $trail, $state) {
@@ -273,7 +273,7 @@ Breadcrumbs::for('backend.settings.states.edit', function (BreadcrumbTrail $trai
 
     $trail->parent('backend.settings.states.show', [$state]);
 
-    $trail->push('Edit State', route('backend.settings.states.edit', $state->id));
+    $trail->push(__('common.Edit'), route('backend.settings.states.edit', $state->id));
 });
 
 /****************************************** City ******************************************/
@@ -289,7 +289,7 @@ Breadcrumbs::for('backend.settings.cities.create', function (BreadcrumbTrail $tr
 
     $trail->parent('backend.settings.cities.index');
 
-    $trail->push('Add City', route('backend.settings.cities.create'));
+    $trail->push(__('common.Add'), route('backend.settings.cities.create'));
 });
 
 Breadcrumbs::for('backend.settings.cities.show', function (BreadcrumbTrail $trail, $city) {
@@ -305,7 +305,7 @@ Breadcrumbs::for('backend.settings.cities.edit', function (BreadcrumbTrail $trai
 
     $trail->parent('backend.settings.cities.show', [$city]);
 
-    $trail->push('Edit City', route('backend.settings.cities.edit', $city->id));
+    $trail->push(__('common.Edit'), route('backend.settings.cities.edit', $city->id));
 });
 
 /****************************************** Occupation ******************************************/
@@ -320,7 +320,7 @@ Breadcrumbs::for('backend.settings.occupations.create', function (BreadcrumbTrai
 
     $trail->parent('backend.settings.occupations.index');
 
-    $trail->push('Add Occupation', route('backend.settings.occupations.create'));
+    $trail->push(__('common.Add'), route('backend.settings.occupations.create'));
 });
 
 Breadcrumbs::for('backend.settings.occupations.show', function (BreadcrumbTrail $trail, $occupation) {
@@ -336,7 +336,7 @@ Breadcrumbs::for('backend.settings.occupations.edit', function (BreadcrumbTrail 
 
     $trail->parent('backend.settings.occupations.show', [$occupation]);
 
-    $trail->push('Edit Occupation', route('backend.settings.occupations.edit', $occupation->id));
+    $trail->push(__('common.Edit'), route('backend.settings.occupations.edit', $occupation->id));
 });
 
 /****************************************** Cost ******************************************/
@@ -352,7 +352,7 @@ Breadcrumbs::for('backend.setting.costs.create', function (BreadcrumbTrail $trai
 
     $trail->parent('backend.setting.costs.index');
 
-    $trail->push('Add Cost', route('backend.setting.costs.create'));
+    $trail->push(__('common.Add'), route('backend.setting.costs.create'));
 });
 
 Breadcrumbs::for('backend.setting.costs.show', function (BreadcrumbTrail $trail, $cost) {
@@ -368,7 +368,7 @@ Breadcrumbs::for('backend.setting.costs.edit', function (BreadcrumbTrail $trail,
 
     $trail->parent('backend.setting.costs.show', [$cost]);
 
-    $trail->push('Edit Cost', route('backend.setting.costs.edit', $cost->id));
+    $trail->push(__('common.Edit'), route('backend.setting.costs.edit', $cost->id));
 });
 
 /****************************************** Sms ******************************************/
@@ -384,7 +384,7 @@ Breadcrumbs::for('backend.setting.smss.create', function (BreadcrumbTrail $trail
 
     $trail->parent('backend.setting.smss.index');
 
-    $trail->push('Add Sms', route('backend.setting.smss.create'));
+    $trail->push(__('common.Add'), route('backend.setting.smss.create'));
 });
 
 Breadcrumbs::for('backend.setting.smss.show', function (BreadcrumbTrail $trail, $sms) {
@@ -400,7 +400,7 @@ Breadcrumbs::for('backend.setting.smss.edit', function (BreadcrumbTrail $trail, 
 
     $trail->parent('backend.setting.smss.show', [$sms]);
 
-    $trail->push('Edit Sms', route('backend.setting.smss.edit', $sms->id));
+    $trail->push(__('common.Edit'), route('backend.setting.smss.edit', $sms->id));
 });
 
 /****************************************** SmsTemplate ******************************************/
@@ -416,7 +416,7 @@ Breadcrumbs::for('backend.setting.smstemplates.create', function (BreadcrumbTrai
 
     $trail->parent('backend.setting.smstemplates.index');
 
-    $trail->push('Add SmsTemplate', route('backend.setting.smstemplates.create'));
+    $trail->push(__('common.Add'), route('backend.setting.smstemplates.create'));
 });
 
 Breadcrumbs::for('backend.setting.smstemplates.show', function (BreadcrumbTrail $trail, $smstemplate) {
@@ -432,7 +432,7 @@ Breadcrumbs::for('backend.setting.smstemplates.edit', function (BreadcrumbTrail 
 
     $trail->parent('backend.setting.smstemplates.show', [$smstemplate]);
 
-    $trail->push('Edit SmsTemplate', route('backend.setting.smstemplates.edit', $smstemplate->id));
+    $trail->push(__('common.Edit'), route('backend.setting.smstemplates.edit', $smstemplate->id));
 });
 
 /****************************************** Barcode ******************************************/
@@ -448,7 +448,7 @@ Breadcrumbs::for('backend.setting.barcodes.create', function (BreadcrumbTrail $t
 
     $trail->parent('backend.setting.barcodes.index');
 
-    $trail->push('Add Barcode', route('backend.setting.barcodes.create'));
+    $trail->push(__('common.Add'), route('backend.setting.barcodes.create'));
 });
 
 Breadcrumbs::for('backend.setting.barcodes.show', function (BreadcrumbTrail $trail, $barcode) {
@@ -464,7 +464,7 @@ Breadcrumbs::for('backend.setting.barcodes.edit', function (BreadcrumbTrail $tra
 
     $trail->parent('backend.setting.barcodes.show', [$barcode]);
 
-    $trail->push('Edit Barcode', route('backend.setting.barcodes.edit', $barcode->id));
+    $trail->push(__('common.Edit'), route('backend.setting.barcodes.edit', $barcode->id));
 });
 
 
@@ -488,7 +488,7 @@ Breadcrumbs::for('backend.shipment.customers.create', function (BreadcrumbTrail 
 
     $trail->parent('backend.shipment.customers.index');
 
-    $trail->push('Add Customer', route('backend.shipment.customers.create'));
+    $trail->push(__('common.Add'), route('backend.shipment.customers.create'));
 });
 
 Breadcrumbs::for('backend.shipment.customers.show', function (BreadcrumbTrail $trail, $customer) {
@@ -504,7 +504,7 @@ Breadcrumbs::for('backend.shipment.customers.edit', function (BreadcrumbTrail $t
 
     $trail->parent('backend.shipment.customers.show', [$customer]);
 
-    $trail->push('Edit Customer', route('backend.shipment.customers.edit', $customer->id));
+    $trail->push(__('common.Edit'), route('backend.shipment.customers.edit', $customer->id));
 });
 
 /****************************************** Item ******************************************/
@@ -519,7 +519,7 @@ Breadcrumbs::for('backend.shipment.items.create', function (BreadcrumbTrail $tra
 
     $trail->parent('backend.shipment.items.index');
 
-    $trail->push('Add Item', route('backend.shipment.items.create'));
+    $trail->push(__('common.Add'), route('backend.shipment.items.create'));
 });
 
 Breadcrumbs::for('backend.shipment.items.show', function (BreadcrumbTrail $trail, $item) {
@@ -535,7 +535,7 @@ Breadcrumbs::for('backend.shipment.items.edit', function (BreadcrumbTrail $trail
 
     $trail->parent('backend.shipment.items.show', [$item]);
 
-    $trail->push('Edit Item', route('backend.shipment.items.edit', $item->id));
+    $trail->push(__('common.Edit'), route('backend.shipment.items.edit', $item->id));
 });
 
 /****************************************** Invoice ******************************************/
@@ -551,7 +551,7 @@ Breadcrumbs::for('backend.shipment.invoices.create', function (BreadcrumbTrail $
 
     $trail->parent('backend.shipment.invoices.index');
 
-    $trail->push('Add Invoice', route('backend.shipment.invoices.create'));
+    $trail->push(__('common.Add'), route('backend.shipment.invoices.create'));
 });
 
 Breadcrumbs::for('backend.shipment.invoices.show', function (BreadcrumbTrail $trail, $invoice) {
@@ -567,7 +567,7 @@ Breadcrumbs::for('backend.shipment.invoices.edit', function (BreadcrumbTrail $tr
 
     $trail->parent('backend.shipment.invoices.show', [$invoice]);
 
-    $trail->push('Edit Invoice', route('backend.shipment.invoices.edit', $invoice->id));
+    $trail->push(__('common.Edit'), route('backend.shipment.invoices.edit', $invoice->id));
 });
 
 /****************************************** Transaction ******************************************/
@@ -583,7 +583,7 @@ Breadcrumbs::for('backend.shipment.transactions.create', function (BreadcrumbTra
 
     $trail->parent('backend.shipment.transactions.index');
 
-    $trail->push('Add Transaction', route('backend.shipment.transactions.create'));
+    $trail->push(__('common.Add'), route('backend.shipment.transactions.create'));
 });
 
 Breadcrumbs::for('backend.shipment.transactions.show', function (BreadcrumbTrail $trail, $transaction) {
@@ -599,7 +599,7 @@ Breadcrumbs::for('backend.shipment.transactions.edit', function (BreadcrumbTrail
 
     $trail->parent('backend.shipment.transactions.show', [$transaction]);
 
-    $trail->push('Edit Transaction', route('backend.shipment.transactions.edit', $transaction->id));
+    $trail->push(__('common.Edit'), route('backend.shipment.transactions.edit', $transaction->id));
 });
 
 /****************************************** Transport ******************************************/
@@ -624,7 +624,7 @@ Breadcrumbs::for('backend.transport.vehicles.create', function (BreadcrumbTrail 
 
     $trail->parent('backend.transport.vehicles.index');
 
-    $trail->push('Add Vehicle', route('backend.transport.vehicles.create'));
+    $trail->push(__('common.Add'), route('backend.transport.vehicles.create'));
 });
 
 Breadcrumbs::for('backend.transport.vehicles.show', function (BreadcrumbTrail $trail, $vehicle) {
@@ -640,7 +640,7 @@ Breadcrumbs::for('backend.transport.vehicles.edit', function (BreadcrumbTrail $t
 
     $trail->parent('backend.transport.vehicles.show', [$vehicle]);
 
-    $trail->push('Edit Vehicle', route('backend.transport.vehicles.edit', $vehicle->id));
+    $trail->push(__('common.Edit'), route('backend.transport.vehicles.edit', $vehicle->id));
 });
 
 /****************************************** Driver ******************************************/
@@ -656,7 +656,7 @@ Breadcrumbs::for('backend.transport.drivers.create', function (BreadcrumbTrail $
 
     $trail->parent('backend.transport.drivers.index');
 
-    $trail->push('Add Driver', route('backend.transport.drivers.create'));
+    $trail->push(__('common.Add'), route('backend.transport.drivers.create'));
 });
 
 Breadcrumbs::for('backend.transport.drivers.show', function (BreadcrumbTrail $trail, $driver) {
@@ -672,7 +672,7 @@ Breadcrumbs::for('backend.transport.drivers.edit', function (BreadcrumbTrail $tr
 
     $trail->parent('backend.transport.drivers.show', [$driver]);
 
-    $trail->push('Edit Driver', route('backend.transport.drivers.edit', $driver->id));
+    $trail->push(__('common.Edit'), route('backend.transport.drivers.edit', $driver->id));
 });
 
 /****************************************** CheckPoint ******************************************/
@@ -688,7 +688,7 @@ Breadcrumbs::for('backend.transport.check-points.create', function (BreadcrumbTr
 
     $trail->parent('backend.transport.check-points.index');
 
-    $trail->push('Add CheckPoint', route('backend.transport.check-points.create'));
+    $trail->push(__('common.Add'), route('backend.transport.check-points.create'));
 });
 
 Breadcrumbs::for('backend.transport.check-points.show', function (BreadcrumbTrail $trail, $checkPoint) {
@@ -704,7 +704,7 @@ Breadcrumbs::for('backend.transport.check-points.edit', function (BreadcrumbTrai
 
     $trail->parent('backend.transport.check-points.show', [$checkPoint]);
 
-    $trail->push('Edit CheckPoint', route('backend.transport.check-points.edit', $checkPoint->id));
+    $trail->push(__('common.Edit'), route('backend.transport.check-points.edit', $checkPoint->id));
 });
 
 /****************************************** TruckLoad ******************************************/
@@ -720,7 +720,7 @@ Breadcrumbs::for('backend.transport.truck-loads.create', function (BreadcrumbTra
 
     $trail->parent('backend.transport.truck-loads.index');
 
-    $trail->push('Add Truck Load', route('backend.transport.truck-loads.create'));
+    $trail->push(__('common.Add'), route('backend.transport.truck-loads.create'));
 });
 
 Breadcrumbs::for('backend.transport.truck-loads.show', function (BreadcrumbTrail $trail, $trackLoad) {
@@ -736,7 +736,7 @@ Breadcrumbs::for('backend.transport.truck-loads.edit', function (BreadcrumbTrail
 
     $trail->parent('backend.transport.truck-loads.show', [$trackLoad]);
 
-    $trail->push('Edit Truck Load', route('backend.transport.truck-loads.edit', $trackLoad->id));
+    $trail->push(__('common.Edit'), route('backend.transport.truck-loads.edit', $trackLoad->id));
 });
 
 /****************************************** Organization ******************************************/
@@ -761,7 +761,7 @@ Breadcrumbs::for('backend.organization.branches.create', function (BreadcrumbTra
 
     $trail->parent('backend.organization.branches.index');
 
-    $trail->push('Add Branch', route('backend.organization.branches.create'));
+    $trail->push(__('common.Add'), route('backend.organization.branches.create'));
 });
 
 Breadcrumbs::for('backend.organization.branches.show', function (BreadcrumbTrail $trail, $branch) {
@@ -777,7 +777,7 @@ Breadcrumbs::for('backend.organization.branches.edit', function (BreadcrumbTrail
 
     $trail->parent('backend.organization.branches.show', [$branch]);
 
-    $trail->push('Edit Branch', route('backend.organization.branches.edit', $branch->id));
+    $trail->push(__('common.Edit'), route('backend.organization.branches.edit', $branch->id));
 });
 
 /****************************************** Employee ******************************************/
@@ -793,7 +793,7 @@ Breadcrumbs::for('backend.organization.employees.create', function (BreadcrumbTr
 
     $trail->parent('backend.organization.employees.index');
 
-    $trail->push('Add Employee', route('backend.organization.employees.create'));
+    $trail->push(__('common.Add'), route('backend.organization.employees.create'));
 });
 
 Breadcrumbs::for('backend.organization.employees.show', function (BreadcrumbTrail $trail, $employee) {
@@ -809,7 +809,7 @@ Breadcrumbs::for('backend.organization.employees.edit', function (BreadcrumbTrai
 
     $trail->parent('backend.organization.employees.show', [$employee]);
 
-    $trail->push('Edit Employee', route('backend.organization.employees.edit', $employee->id));
+    $trail->push(__('common.Edit'), route('backend.organization.employees.edit', $employee->id));
 });
 
 /****************************************** Address Book ******************************************/
@@ -824,7 +824,7 @@ Breadcrumbs::for('backend.common.address-books.create', function (BreadcrumbTrai
 
     $trail->parent('backend.common.address-books.index');
 
-    $trail->push('Add Address Book', route('backend.common.address-books.create'));
+    $trail->push(__('common.Add'), route('backend.common.address-books.create'));
 });
 
 Breadcrumbs::for('backend.common.address-books.show', function (BreadcrumbTrail $trail, $addressBook) {
@@ -840,5 +840,5 @@ Breadcrumbs::for('backend.common.address-books.edit', function (BreadcrumbTrail 
 
     $trail->parent('backend.common.address-books.show', [$addressBook]);
 
-    $trail->push('Edit Address Book', route('backend.common.address-books.edit', $addressBook->id));
+    $trail->push(__('common.Edit'), route('backend.common.address-books.edit', $addressBook->id));
 });

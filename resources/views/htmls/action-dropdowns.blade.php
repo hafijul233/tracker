@@ -21,7 +21,7 @@
                             <li>
                                 <a href="{{ route($resourceRouteName . '.show', $id) }}" title="Show"
                                    class="d-flex align-items-center link-muted py-2 px-3">
-                                    <i class="fas fa-eye  mr-2"></i> Details
+                                    <i class="fas fa-eye  mr-2"></i> {!! __('common.Details') !!}
                                 </a>
                             </li>
                         @endcan
@@ -32,7 +32,7 @@
                             <li>
                                 <a href="{{ route($resourceRouteName . '.edit', $id) }}" title="Edit"
                                    class="d-flex align-items-center link-muted py-2 px-3">
-                                    <i class="fas fa-edit  mr-2"></i> Edit
+                                    <i class="fas fa-edit  mr-2"></i> {!! __('Edit') !!}
                                 </a>
                             </li>
                         @endcan
@@ -43,7 +43,7 @@
                             <li>
                                 <a href="{{ route('backend.common.delete', [$resourceRouteName, $id]) }}" title="Delete"
                                    class="d-flex align-items-center link-muted py-2 px-3 delete-btn">
-                                    <i class="fas fa-trash  mr-2"></i> Delete
+                                    <i class="fas fa-trash  mr-2"></i> {!! __('common.Delete') !!}
                                 </a>
                             </li>
                         @endcan
@@ -55,7 +55,7 @@
                                 <a href="{{ route('backend.common.restore', [$resourceRouteName, $id]) }}"
                                    title="Restore"
                                    class="d-flex align-items-center link-muted py-2 px-3 restore-btn">
-                                    <i class="fas fa-trash-restore  mr-2"></i> Restore
+                                    <i class="fas fa-trash-restore  mr-2"></i> {!! __('common.Restore') !!}
                                 </a>
                             </li>
                         @endcan
@@ -67,7 +67,7 @@
                                 <a href="{{ route('backend.common.restore', [$resourceRouteName, $id]) }}"
                                    title="Restore"
                                    class="d-flex align-items-center link-muted py-2 px-3 restore-btn">
-                                    <i class="far fa-paper-plane  mr-2"></i> Send
+                                    <i class="far fa-paper-plane  mr-2"></i> {!! __('common.Send') !!}
                                 </a>
                             </li>
                         @endcan
@@ -79,7 +79,7 @@
                                 <a href="{{ route('backend.common.restore', [$resourceRouteName, $id]) }}"
                                    title="Restore"
                                    class="d-flex align-items-center link-muted py-2 px-3 restore-btn">
-                                    <i class="far fa-copy  mr-2"></i> Clone
+                                    <i class="far fa-copy  mr-2"></i> {!! __('common.Clone') !!}
                                 </a>
                             </li>
                         @endcan
