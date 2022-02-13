@@ -8,6 +8,7 @@ use App\Supports\Constant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -165,10 +166,10 @@ class User extends Authenticatable implements HasMedia, Auditable
     }
 
     /**
-     * @return HasMany
+     * @return MorphMany
      */
-    public function addressBooks(): HasMany
+    public function addresses(): MorphMany
     {
-        return $this->hasMany(Address::class, 'user_id', 'id');
+        return $this->morphMany(Address::class, 'addressable');
     }
 }

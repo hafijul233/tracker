@@ -2,14 +2,13 @@
 
 namespace Modules\Contact\Database\Seeders\Backend\Shipment;
 
-use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @class Backend/Shipment/CustomerTableSeeder
+ * @class Backend/Shipment/InvoiceTableSeeder
  * @package Modules\Contact\Database\Seeders\Backend\Shipment
  */
-class Backend/Shipment/CustomerTableSeeder extends Seeder
+class Backend/Shipment/InvoiceTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.

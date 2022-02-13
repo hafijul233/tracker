@@ -1,22 +1,27 @@
 <?php
 
-namespace Database\Seeders\Setting;
+namespace Database\Seeders\Shipment;
 
 use App\Models\Backend\Common\Address;
 use App\Models\Backend\Setting\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 
-
-class UserSeeder extends Seeder
+/**
+ * @class Backend/Shipment/CustomerTableSeeder
+ * @package Modules\Contact\Database\Seeders\Backend\Shipment
+ */
+class CustomerSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      *
      * @return void
-     * @throws \Exception|\Throwable
      */
     public function run()
     {
+        Model::unguard();
+
         User::factory(10)
             ->has(Address::factory()
                 ->count(2), 'addressBooks')

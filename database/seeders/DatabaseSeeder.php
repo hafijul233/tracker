@@ -2,14 +2,15 @@
 
 namespace Database\Seeders;
 
-use Database\Seeders\Setting\CitySeeder;
-use Database\Seeders\Setting\CountrySeeder;
-use Database\Seeders\Setting\OccupationSeeder;
-use Database\Seeders\Setting\PermissionSeeder;
-use Database\Seeders\Setting\RolePermissionSeeder;
-use Database\Seeders\Setting\RoleSeeder;
-use Database\Seeders\Setting\StateSeeder;
-use Database\Seeders\Setting\UserSeeder;
+use Database\Seeders\Backend\Setting\CitySeeder;
+use Database\Seeders\Backend\Setting\CountrySeeder;
+use Database\Seeders\Backend\Setting\OccupationSeeder;
+use Database\Seeders\Backend\Setting\PermissionSeeder;
+use Database\Seeders\Backend\Setting\RolePermissionSeeder;
+use Database\Seeders\Backend\Setting\RoleSeeder;
+use Database\Seeders\Backend\Setting\StateSeeder;
+use Database\Seeders\Backend\Setting\UserSeeder;
+use Database\Seeders\Backend\UserRegisterSeeder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 

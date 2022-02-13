@@ -39,7 +39,7 @@ class Address extends Model implements Auditable
      *
      * @var array
      */
-    protected $fillable = [ 'user_id', 'type', 'phone', 'name', 'address', 'post_code', 'remark', 'enabled', 'city_id', 'state_id', 'country_id', 'created_by', 'updated_by', 'deleted_by'];
+    protected $fillable = [ 'addressable_type', 'addressable_id', 'type', 'phone', 'name', 'street_1', 'street_2', 'url', 'longitude', 'latitude', 'post_code', 'fallback', 'enabled', 'remark', 'city_id', 'state_id', 'country_id', 'created_by', 'updated_by', 'deleted_by'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -88,14 +88,6 @@ class Address extends Model implements Auditable
     public function deletedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'deleted_by');
-    }
-
-    /**
-     * @return BelongsTo
-     */
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
     }
 
     /**

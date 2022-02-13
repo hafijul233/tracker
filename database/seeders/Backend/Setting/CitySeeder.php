@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders\Setting;
+namespace Database\Seeders\Backend\Setting;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model;

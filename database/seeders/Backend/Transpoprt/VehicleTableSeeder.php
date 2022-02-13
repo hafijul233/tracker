@@ -2,7 +2,6 @@
 
 namespace Modules\Contact\Database\Seeders\Backend\Transpoprt;
 
-use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
 /**

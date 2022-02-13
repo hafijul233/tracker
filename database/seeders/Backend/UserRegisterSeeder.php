@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\Backend;
 
 use App\Models\Backend\Setting\Role;
 use App\Models\Backend\Setting\User;

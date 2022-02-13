@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 
 class UserFactory extends Factory
 {
+
     /**
      * @var User $model
      */
@@ -48,13 +49,8 @@ class UserFactory extends Factory
         $fileUploadService = new FileUploadService();
 
         return $this->afterCreating(function (User $user) use ($fileUploadService) {
-            if ($user->id > 1):
-                $user->parent_id = ($user->id - 1);
-                $user->roles()->attach(Constant::RECEIVER_ROLE_ID);
-                $user->save();
-            endif;
             //attach role
-            $user->roles()->attach(Constant::SENDER_ROLE_ID);
+            $user->roles()->attach(mt_rand(2,5));
             //add profile image
             $profileImagePath = $fileUploadService->createAvatarImageFromText($user->name);
             if (is_string($profileImagePath)) {

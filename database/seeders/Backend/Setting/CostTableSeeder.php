@@ -1,15 +1,15 @@
 <?php
 
-namespace Modules\Contact\Database\Seeders\Backend\Setting;
+namespace Database\Seeders\Backend\Setting;
 
-use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Seeder;
 
 /**
- * @class Backend/Setting/SmsTemplateTableSeeder
+ * @class Backend/Setting/CostTableSeeder
  * @package Modules\Contact\Database\Seeders\Backend\Setting
  */
-class Backend/Setting/SmsTemplateTableSeeder extends Seeder
+class CostTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.

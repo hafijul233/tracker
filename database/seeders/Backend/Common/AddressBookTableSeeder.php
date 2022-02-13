@@ -1,15 +1,15 @@
 <?php
 
-namespace Modules\Contact\Database\Seeders\Backend\Common;
+namespace Database\Seeders\Backend\Common;
 
-use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Seeder;
 
 /**
  * @class Backend/Common/AddressBookTableSeeder
  * @package Modules\Contact\Database\Seeders\Backend\Common
  */
-class Backend/Common/AddressBookTableSeeder extends Seeder
+class AddressBookTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.

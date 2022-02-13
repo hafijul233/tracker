@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders\Setting;
+namespace Database\Seeders\Backend\Setting;
 
 use App\Models\Backend\Setting\Permission;
 use App\Supports\Utility;

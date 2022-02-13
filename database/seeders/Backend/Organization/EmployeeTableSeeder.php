@@ -1,15 +1,15 @@
 <?php
 
-namespace Modules\Contact\Database\Seeders\Backend\Organization;
+namespace Database\Seeders\Backend\Organization;
 
-use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Seeder;
 
 /**
  * @class Backend/Organization/EmployeeTableSeeder
  * @package Modules\Contact\Database\Seeders\Backend\Organization
  */
-class Backend/Organization/EmployeeTableSeeder extends Seeder
+class EmployeeTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
