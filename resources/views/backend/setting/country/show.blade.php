@@ -221,7 +221,7 @@
                                             <th class="align-middle">Type</th>
                                             <th class="text-center">Enabled</th>
                                             <th class="text-center">Created</th>
-                                            <th class="text-center">Actions</th>
+                                            <th class="text-center">{!! __('common.Actions') !!}</th>
                                         </tr>
                                         </thead>
                                         <tbody>

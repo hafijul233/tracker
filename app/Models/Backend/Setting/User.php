@@ -28,6 +28,16 @@ class User extends Authenticatable implements HasMedia, Auditable
     use AuditableTrait, HasFactory, Notifiable, InteractsWithMedia, HasRoles, Sortable, SoftDeletes;
 
     /**
+     * @var string $table
+     */
+    protected $table = 'users';
+
+    /**
+     * @var string $primaryKey
+     */
+    protected $primaryKey = 'id';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -170,6 +180,6 @@ class User extends Authenticatable implements HasMedia, Auditable
      */
     public function addresses(): MorphMany
     {
-        return $this->morphMany(Address::class, 'addressable');
+        return $this->morphMany(Address::class, 'addressable', 'addressable_type', 'addressable_id');
     }
 }

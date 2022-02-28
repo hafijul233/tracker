@@ -2,6 +2,7 @@
 
 namespace Database\Factories\Backend\Setting;
 
+use App\Models\Backend\Common\Address;
 use App\Models\Backend\Setting\User;
 use App\Services\Backend\Common\FileUploadService;
 use App\Supports\Constant;
@@ -51,11 +52,20 @@ class UserFactory extends Factory
         return $this->afterCreating(function (User $user) use ($fileUploadService) {
             //attach role
             $user->roles()->attach(mt_rand(2,5));
+
             //add profile image
             $profileImagePath = $fileUploadService->createAvatarImageFromText($user->name);
             if (is_string($profileImagePath)) {
                 $user->addMedia($profileImagePath)->toMediaCollection('avatars')->save();
             }
+
+            //Attach Contact Address
+            Address::factory()->create([
+                'addressable_type' => get_class($user),
+                'addressable_id' => $user->id,
+                'type' => 'home'
+            ]);
+
         });
     }
 }

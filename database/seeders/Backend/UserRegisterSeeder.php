@@ -2,8 +2,10 @@
 
 namespace Database\Seeders\Backend;
 
+use App\Models\Backend\Common\Address;
 use App\Models\Backend\Setting\Role;
 use App\Models\Backend\Setting\User;
+use App\Repositories\Eloquent\Backend\Common\AddressBookRepository;
 use App\Repositories\Eloquent\Backend\Setting\UserRepository;
 use App\Services\Backend\Common\FileUploadService;
 use App\Supports\Constant;
@@ -25,18 +27,25 @@ class UserRegisterSeeder extends Seeder
      * @var FileUploadService
      */
     private $fileUploadService;
+    /**
+     * @var AddressBookRepository
+     */
+    private $addressBookRepository;
 
 
     /**
      * UserSeeder constructor.
      * @param UserRepository $userRepository
      * @param FileUploadService $fileUploadService
+     * @param AddressBookRepository $addressBookRepository
      */
-    public function __construct(UserRepository    $userRepository,
-                                FileUploadService $fileUploadService)
+    public function __construct(UserRepository $userRepository,
+                                FileUploadService $fileUploadService,
+                                AddressBookRepository $addressBookRepository)
     {
         $this->userRepository = $userRepository;
         $this->fileUploadService = $fileUploadService;
+        $this->addressBookRepository = $addressBookRepository;
     }
 
     /**
@@ -73,6 +82,10 @@ class UserRegisterSeeder extends Seeder
 
                 if (!$this->attachUserRoles($newUser)) {
                     throw new \RuntimeException("User Role Assignment Failed");
+                }
+
+                if (!$this->attachHomeAddress($newUser)) {
+                    throw new \RuntimeException("User Address Assignment Failed");
                 }
             } else {
                 throw new \RuntimeException("Failed to Create  User Model");
@@ -116,5 +129,37 @@ class UserRegisterSeeder extends Seeder
         $adminRole = Role::findByName(Constant::SUPER_ADMIN_ROLE);
         $this->userRepository->setModel($user);
         return $this->userRepository->manageRoles([$adminRole->id]);
+    }
+
+    /**
+     * Attach user contact address
+     *
+     * @param User $user
+     * @return bool
+     * @throws Exception
+     */
+    protected function attachHomeAddress(User $user): bool
+    {
+        $address = [
+            'addressable_type' => get_class($user),
+            'addressable_id' => $user->id,
+            'type' => 'home',
+            'phone' => $user->mobile,
+            'name' => 'Mohammad Mustak Ahmed',
+            'street_1' => 'Hamida Vila, 334/1 No Baherchor, Vakutta',
+            'street_2' => 'Shalampur, Savar',
+            'url' => 'https://goo.gl/maps/F3jmV27XfAC3ABSt8',
+            'longitude' => 23.7511307,
+            'latitude' => 90.3015192,
+            'post_code' => 1310,
+            'fallback' => Constant::DISABLED_OPTION,
+            'enabled' => Constant::ENABLED_OPTION,
+            'remark' => 'testing real data',
+            'city_id' => config('contact.default.city'),
+            'state_id' => config('contact.default.state'),//Dhaka
+            'country_id' => config('contact.default.country') //Bangladesh
+        ];
+
+        return ($this->addressBookRepository->create($address) instanceof Address);
     }
 }

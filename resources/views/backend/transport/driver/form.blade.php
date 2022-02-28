@@ -8,7 +8,7 @@
 
     <div class="row">
         <div class="col-md-6">
-            {!! \Form::nText('name', 'Name', old('name', $driver->name ?? null), true) !!}
+            {!! \Form::nText('name', __('common.Name'), old('name', $driver->name ?? null), true) !!}
         </div>
         <div class="col-md-6">
             {!! \Form::nText('username', 'Drivername', old('username', $driver->username ?? null),
@@ -23,7 +23,7 @@
                     && config('auth.credential_otp_field') == \App\Supports\Constant::OTP_EMAIL))) !!}
         </div>
         <div class="col-md-6">
-            {!! \Form::nTel('mobile', 'Mobile', old('mobile', $driver->mobile ?? null),
+            {!! \Form::nTel('mobile', __('common.Mobile'), old('mobile', $driver->mobile ?? null),
                 (config('auth.credential_field') == \App\Supports\Constant::LOGIN_MOBILE
                 || (config('auth.credential_field') == \App\Supports\Constant::LOGIN_OTP
                     && config('auth.credential_otp_field') == \App\Supports\Constant::OTP_MOBILE))) !!}
@@ -45,7 +45,7 @@
     old('role_id.*', ($driver_roles ?? [\App\Supports\Constant::GUEST_ROLE_ID])), true,
     ['class' => 'form-control custom-select select2']) !!}
 
-            {!! \Form::nSelect('enabled', 'Enabled', \App\Supports\Constant::ENABLED_OPTIONS,
+            {!! \Form::nSelect('enabled', __('common.Enabled'), \App\Supports\Constant::ENABLED_OPTIONS,
 old('enabled', ($driver->enabled ?? \App\Supports\Constant::ENABLED_OPTION))) !!}
         </div>
         <div class="col-md-6">

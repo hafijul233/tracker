@@ -52,11 +52,11 @@
                                             @sortablelink('id', '#')
                                         </th>
                                         <th>@sortablelink('display_name', 'Display Name')</th>
-                                        <th>@sortablelink('name', 'Name')</th>
+                                        <th>@sortablelink('name', __('common.Name'))</th>
                                         <th>@sortablelink('guard_name', 'Guard')</th>
-                                        <th class="text-center">@sortablelink('enabled', 'Enabled')</th>
-                                        <th class="text-center">@sortablelink('created_at', 'Created')</th>
-                                        <th class="text-center">Actions</th>
+                                        <th class="text-center">@sortablelink('enabled', __('common.Enabled'))</th>
+                                        <th class="text-center">@sortablelink('created_at', __('common.Created'))</th>
+                                        <th class="text-center">{!! __('common.Actions') !!}</th>
                                     </tr>
                                     </thead>
                                     <tbody>

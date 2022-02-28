@@ -12,6 +12,7 @@ return [
     | these language lines according to your application's requirements.
     |
     */
+    'Home' => 'Home',
     'Dashboard' => 'Dashboard',
     'Address Book' => 'Address Book',
     'Shipment' => 'Shipment',

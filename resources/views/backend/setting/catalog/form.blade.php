@@ -4,10 +4,10 @@
             {!! \Form::nSelect('model_type', 'Model', $catalogTypes, old('model_type', ($catalog->model_type ?? null)), true) !!}
         </div>
         <div class="col-md-4">
-            {!! \Form::nText('name', 'Name', old('name', $catalog->name ?? null), true) !!}
+            {!! \Form::nText('name', __('common.Name'), old('name', $catalog->name ?? null), true) !!}
         </div>
         <div class="col-md-4">
-            {!! \Form::nSelect('enabled', 'Enabled', \App\Supports\Constant::ENABLED_OPTIONS,
+            {!! \Form::nSelect('enabled', __('common.Enabled'), \App\Supports\Constant::ENABLED_OPTIONS,
                 old('enabled', ($catalog->enabled ?? \App\Supports\Constant::ENABLED_OPTION)), true) !!}
         </div>
     </div>

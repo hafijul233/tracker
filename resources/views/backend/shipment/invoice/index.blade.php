@@ -49,9 +49,9 @@
                                         <th>@sortablelink('number', 'Invoice')</th>
                                         <th>@sortablelink('user.name', 'Customer')</th>
                                         <th>@sortablelink('total', 'Amount')</th>
-                                        <th class="text-center">@sortablelink('enabled', 'Enabled')</th>
-                                        <th class="text-center">@sortablelink('invoiced_at', 'Created')</th>
-                                        <th class="text-center">Actions</th>
+                                        <th class="text-center">@sortablelink('enabled', __('common.Enabled'))</th>
+                                        <th class="text-center">@sortablelink('invoiced_at', __('common.Created'))</th>
+                                        <th class="text-center">{!! __('common.Actions') !!}</th>
                                     </tr>
                                     </thead>
                                     <tbody>

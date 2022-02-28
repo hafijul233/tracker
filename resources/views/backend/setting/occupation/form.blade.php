@@ -1,11 +1,11 @@
 <div class="card-body">
     <div class="row">
         <div class="@if(isset($occupation->name)) col-md-6 @else col-md-12 @endif">
-            {!! \Form::nText('name', 'Name', old('name', $occupation->name ?? null), true) !!}
+            {!! \Form::nText('name', __('common.Name'), old('name', $occupation->name ?? null), true) !!}
         </div>
         @if(isset($occupation->name))
             <div class="col-md-6">
-                {!! \Form::nSelect('enabled', 'Enabled', \App\Supports\Constant::ENABLED_OPTIONS,
+                {!! \Form::nSelect('enabled', __('common.Enabled'), \App\Supports\Constant::ENABLED_OPTIONS,
                     old('enabled', ($occupation->enabled ?? \App\Supports\Constant::ENABLED_OPTION)), true) !!}
             </div>
         @endif

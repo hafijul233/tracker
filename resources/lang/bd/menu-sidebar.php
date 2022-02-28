@@ -12,6 +12,7 @@ return [
     | these language lines according to your application's requirements.
     |
     */
+    'Home' => 'বাসা',
     'Dashboard' => 'ড্যাশবোর্ড',
     'Address Book' => 'ঠিকানা বই',
     'Shipment' => 'শিপমেন্ট',

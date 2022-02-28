@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            {!! \Form::nText('name', 'Name', old('name', $item->name ?? null), true) !!}
+            {!! \Form::nText('name', __('common.Name'), old('name', $item->name ?? null), true) !!}
         </div>
     </div>
     <div class="row">
@@ -34,7 +34,7 @@
                 old('tax', ($item->enabled ?? \App\Supports\Constant::ENABLED_OPTION)), false) !!}
         </div>
         <div class="col-md-6">
-            {!! \Form::nSelect('enabled', 'Enabled', \App\Supports\Constant::ENABLED_OPTIONS,
+            {!! \Form::nSelect('enabled', __('common.Enabled'), \App\Supports\Constant::ENABLED_OPTIONS,
                 old('enabled', ($item->enabled ?? \App\Supports\Constant::ENABLED_OPTION)), true) !!}
         </div>
     </div>

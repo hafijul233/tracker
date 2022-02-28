@@ -4,14 +4,14 @@
             {!! \Form::nText('display_name', 'Display Name', old('display_name', $permission->display_name ?? null), true) !!}
         </div>
         <div class="col-md-4">
-            {!! \Form::nText('name', 'Name', old('name', $permission->name ?? null), true ,[
+            {!! \Form::nText('name', __('common.Name'), old('name', $permission->name ?? null), true ,[
             'pattern' => \App\Supports\Constant::PERMISSION_NAME_ALLOW_CHAR,
              'onkeyup' => 'this.value = this.value.replace(/\s+/g, \'-\').toLowerCase()',
              'title' => 'Only Alphanumeric, Hyphen(-), UnderScope(_), Fullstops(.) Allowed'
              ]) !!}
         </div>
         <div class="col-md-4">
-            {!! \Form::nSelect('enabled', 'Enabled', \App\Supports\Constant::ENABLED_OPTIONS,
+            {!! \Form::nSelect('enabled', __('common.Enabled'), \App\Supports\Constant::ENABLED_OPTIONS,
                 old('enabled', ($permission->enabled ?? \App\Supports\Constant::ENABLED_OPTION)), true) !!}
         </div>
     </div>
