@@ -12,16 +12,16 @@
         @foreach($actions as $action)
             <!-- timeline item -->
                 <div>
-                    {!! \App\Supports\Utility::eventIcons($action->event) !!}
+                    {!! \App\Supports\CHTML::eventIcons($action->event) !!}
                     <div class="timeline-item">
                         <span class="time">
                             <i class="far fa-clock"></i>
                             {{ \Carbon\Carbon::parse($action->created_at)->format('h:i a')  }}
                         </span>
                         <h3 class="timeline-header">
-                            <a href="{{ route('backend.settings.users.show', $action->user->id) }}">
-                                {{ $action->user->name }}</a> {{ ucwords($action->event) }} this
-                            permission
+                            <a href="{{ route('backend.settings.users.show', ($action->user->id ?? 1)) }}">
+                                {{ $action->user->name ?? 'System' }}</a> {{ ucwords($action->event) }} this
+                            {{ strtolower(class_basename($action->auditable_type)) }}
                         </h3>
 
                         <div class="timeline-body">
