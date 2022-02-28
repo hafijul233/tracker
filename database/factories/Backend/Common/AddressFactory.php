@@ -23,12 +23,12 @@ class AddressFactory extends Factory
     public function definition(): array
     {
         return [
-/*            'type' => 'home',*/
-            'phone'=> str_replace('+', '', $this->faker->unique()->e164PhoneNumber()),
+            'type' => 'home',
+            'phone'=> str_replace('+', '0', $this->faker->unique()->e164PhoneNumber()),
             'name'=> $this->faker->name(),
             'street_1'=> $this->faker->streetAddress(),
             'street_2' => $this->faker->streetName(),
-            'url' => null,
+            'url' => $this->faker->url(),
             'longitude' => $this->faker->longitude(),
             'latitude' => $this->faker->latitude(),
             'post_code' => $this->faker->postcode(),

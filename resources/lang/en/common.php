@@ -27,5 +27,9 @@ return [
     'Print' => 'Print',
     'Export' => 'Export',
     'Import' => 'Import',
-
+    'Name' => 'Name',
+    'Mobile' => 'Mobile',
+    'Email'  => 'Email',
+    'Enabled' => 'Enabled',
+    'Created' => 'Created',
 ];

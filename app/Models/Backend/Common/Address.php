@@ -9,6 +9,7 @@ use App\Models\Backend\Setting\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kyslik\ColumnSortable\Sortable;
 use OwenIt\Auditing\Auditable as AuditableTrait;
@@ -25,7 +26,7 @@ class Address extends Model implements Auditable
     /**
      * @var string $table
      */
-    protected $table = 'address_books';
+    protected $table = 'addresses';
 
     /**
      * @var string $primaryKey
@@ -88,6 +89,14 @@ class Address extends Model implements Auditable
     public function deletedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'deleted_by');
+    }
+
+    /**
+     * @return MorphTo
+     */
+    public function addressable(): MorphTo
+    {
+        return $this->morphTo();
     }
 
     /**
