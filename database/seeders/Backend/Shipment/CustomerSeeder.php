@@ -1,8 +1,7 @@
 <?php
 
-namespace Database\Seeders\Shipment;
+namespace Database\Seeders\Backend\Shipment;
 
-use App\Models\Backend\Common\Address;
 use App\Models\Backend\Setting\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
@@ -21,10 +20,9 @@ class CustomerSeeder extends Seeder
     public function run()
     {
         Model::unguard();
-
-        User::factory(10)
-            ->has(Address::factory()
-                ->count(2), 'addressBooks')
+        User::factory()
+            ->count(25)
+            ->asCustomer()
             ->create();
     }
 }

@@ -212,7 +212,7 @@ class CustomerService extends Service
         DB::beginTransaction();
         try {
             $user = $this->userRepository->show($id);
-            if ($user instanceof Customer) {
+            if ($user instanceof User) {
                 if ($this->userRepository->update($inputs, $id)) {
                     DB::commit();
                     return ['status' => true, 'message' => __('Customer Info Updated'),

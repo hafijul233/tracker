@@ -1,14 +1,16 @@
 <?php
 
-namespace Modules\Contact\Database\Seeders\Backend\Transpoprt;
+namespace Database\Seeders\Backend\Transpoprt;
 
+use App\Models\Backend\Setting\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Seeder;
 
 /**
  * @class Backend/Transport/DriverTableSeeder
  * @package Modules\Contact\Database\Seeders\Backend\Transport
  */
-class Backend/Transpoprt/DriverTableSeeder extends Seeder
+class DriverSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,7 +20,9 @@ class Backend/Transpoprt/DriverTableSeeder extends Seeder
     public function run()
     {
         Model::unguard();
-
-        // $this->call("OthersTableSeeder");
+        User::factory()
+            ->count(25)
+            ->asDriver()
+            ->create();
     }
 }

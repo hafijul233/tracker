@@ -6,11 +6,13 @@ use App\Abstracts\Service\Service;
 use App\Exports\Backend\Transport\DriverExport;
 use App\Models\Backend\Setting\User;
 use App\Repositories\Eloquent\Backend\Setting\UserRepository;
+use App\Services\Auth\AuthenticatedSessionService;
 use App\Supports\Constant;
 use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
@@ -45,6 +47,12 @@ class DriverService extends Service
      */
     public function getAllDrivers(array $filters = [], array $eagerRelations = [])
     {
+        $filters['role'] = [Constant::DRIVER_ROLE_ID, Constant::HELPER_ROLE_ID];
+
+        if (!AuthenticatedSessionService::isSuperAdmin()) :
+            $filters['parent_id'] = Auth::user()->id;
+        endif;
+
         return $this->userRepository->getWith($filters, $eagerRelations, true);
     }
 
@@ -58,6 +66,12 @@ class DriverService extends Service
      */
     public function driverPaginate(array $filters = [], array $eagerRelations = []): LengthAwarePaginator
     {
+        $filters['role'] = [Constant::DRIVER_ROLE_ID, Constant::HELPER_ROLE_ID];
+
+        if (!AuthenticatedSessionService::isSuperAdmin()) :
+            $filters['parent_id'] = Auth::user()->id;
+        endif;
+
         return $this->userRepository->paginateWith($filters, $eagerRelations, true);
     }
 

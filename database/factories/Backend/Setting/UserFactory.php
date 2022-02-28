@@ -50,9 +50,6 @@ class UserFactory extends Factory
         $fileUploadService = new FileUploadService();
 
         return $this->afterCreating(function (User $user) use ($fileUploadService) {
-            //attach role
-            $user->roles()->attach(mt_rand(2,5));
-
             //add profile image
             $profileImagePath = $fileUploadService->createAvatarImageFromText($user->name);
             if (is_string($profileImagePath)) {
@@ -67,5 +64,48 @@ class UserFactory extends Factory
             ]);
 
         });
+    }
+
+    /**
+     * @return UserFactory
+     * Admins, Manager, Operator, Accountant ...
+     */
+    public function asUser()
+    {
+        return $this->afterCreating(function (User $user) {
+            //attach role
+            $user->roles()->attach(mt_rand(2, 5));
+        });
+
+    }
+
+    /**
+     * @return UserFactory
+     * Sender & Receiver
+     */
+    public function asCustomer()
+    {
+        return $this->afterCreating(function (User $user) {
+            $role =
+                (($user->id % 2) == 0)
+                ? Constant::SENDER_ROLE_ID
+                : Constant::RECEIVER_ROLE_ID;
+            //attach role
+            $user->roles()->attach($role);
+        });
+
+    }
+
+    /**
+     * @return UserFactory
+     * Driver
+     */
+    public function asDriver()
+    {
+        return $this->afterCreating(function (User $user) {
+            //attach role
+            $user->roles()->attach(Constant::DRIVER_ROLE_ID);
+        });
+
     }
 }

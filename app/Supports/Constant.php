@@ -75,13 +75,25 @@ class Constant
     const GUEST_ROLE_ID = 7;
 
     /**
+     * Default Driver ID for frontend registered user
+     */
+    const DRIVER_ROLE_ID = 6;
+
+    /**
+     * Default Helper ID for frontend registered user
+     */
+    const HELPER_ROLE_ID = 7;
+
+    /**
      * Default Sender ID for frontend registered user
      */
-    const SENDER_ROLE_ID = 7;
+    const SENDER_ROLE_ID = 8;
+
     /**
      * Default Receiver ID for frontend registered user
      */
-    const RECEIVER_ROLE_ID = 8;
+    const RECEIVER_ROLE_ID = 9;
+
     /**
      * Default Role Name for system administrator
      */
