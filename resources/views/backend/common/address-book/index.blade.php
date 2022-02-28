@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'AddressBooks')
+@section('title', 'Address Books')
 
 @push('meta')
 
@@ -70,7 +70,7 @@
                                             </td>
                                             @if(\App\Services\Auth\AuthenticatedSessionService::isSuperAdmin())
                                                 <td class="text-left pl-0">
-                                                    @include('layouts.includes.user-media-card', ['dynamicUser' => $addressbook->user])
+                                                    @include('layouts.includes.user-media-card', ['dynamicUser' => $addressbook->addressable])
                                                 </td>
                                             @endif
                                             <td>{{ config("contact.address_type.{$addressbook->type}") }}</td>

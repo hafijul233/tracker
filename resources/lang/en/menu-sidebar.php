@@ -13,6 +13,7 @@ return [
     |
     */
     'Home' => 'Home',
+    'Backend' => 'Backend',
     'Dashboard' => 'Dashboard',
     'Address Book' => 'Address Book',
     'Shipment' => 'Shipment',

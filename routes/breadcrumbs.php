@@ -29,7 +29,7 @@ Breadcrumbs::for('home', function (BreadcrumbTrail $trail) {
 
 Breadcrumbs::for('backend', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
-    $trail->push('Backend', route('backend'));
+    $trail->push(__('menu-sidebar.Backend'), route('backend'));
 });
 
 Breadcrumbs::for('backend.dashboard', function (BreadcrumbTrail $trail) {
@@ -817,7 +817,7 @@ Breadcrumbs::for('backend.common.address-books.index', function (BreadcrumbTrail
 
     $trail->parent('backend');
 
-    $trail->push(__('menu-sidebar.Address Books'), route('backend.common.address-books.index'));
+    $trail->push(__('menu-sidebar.Address Book'), route('backend.common.address-books.index'));
 });
 
 Breadcrumbs::for('backend.common.address-books.create', function (BreadcrumbTrail $trail) {

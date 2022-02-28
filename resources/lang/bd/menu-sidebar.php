@@ -13,6 +13,7 @@ return [
     |
     */
     'Home' => 'বাসা',
+    'Backend' => 'ব্যাকএন্ড',
     'Dashboard' => 'ড্যাশবোর্ড',
     'Address Book' => 'ঠিকানা বই',
     'Shipment' => 'শিপমেন্ট',

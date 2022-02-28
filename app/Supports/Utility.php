@@ -154,7 +154,14 @@ class Utility
     public static function getAddressBlock(Address $addressBook): string
     {
 
-        $address = ($addressBook->address ?? null) . ', ';
+        //`, `, `street_1`, `street_2`, `url`, `longitude`, `latitude`, `post_code`, `fallback`, `enabled`, `remark`, `city_id`, `state_id`, `country_id`
+
+        $address = ($addressBook->street_1 ?? null) . ', ';
+
+
+        if (!empty($addressBook->street_2)):
+            $address .= ($addressBook->street_2 . ', ');
+        endif;
 
         if (!empty($addressBook->post_code)):
             $address .= ($addressBook->post_code . ', ');
@@ -169,7 +176,7 @@ class Utility
         endif;
 
         if (!empty($addressBook->country_id)):
-            $address .= ($addressBook->country->name . ', ' . $addressBook->country->iso3 . '.');
+            $address .= ($addressBook->country->name . /*', ' . $addressBook->country->iso3 .*/ '.');
         endif;
 
         return $address;
