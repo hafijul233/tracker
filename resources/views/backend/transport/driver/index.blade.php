@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Drivers')
+@section('title', __('menu-sidebar.Drivers'))
 
 @push('meta')
 

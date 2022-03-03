@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Vehicles')
+@section('title', __('menu-sidebar.Vehicles'))
 
 @push('meta')
 

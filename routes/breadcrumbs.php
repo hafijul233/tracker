@@ -681,7 +681,7 @@ Breadcrumbs::for('backend.transport.check-points.index', function (BreadcrumbTra
 
     $trail->parent('backend.transport');
 
-    $trail->push(__('menu-sidebar.CheckPoints'), route('backend.transport.check-points.index'));
+    $trail->push(__('menu-sidebar.Check Points'), route('backend.transport.check-points.index'));
 });
 
 Breadcrumbs::for('backend.transport.check-points.create', function (BreadcrumbTrail $trail) {
@@ -713,7 +713,7 @@ Breadcrumbs::for('backend.transport.truck-loads.index', function (BreadcrumbTrai
 
     $trail->parent('backend.transport');
 
-    $trail->push(__('menu-sidebar.Track Loads'), route('backend.transport.truck-loads.index'));
+    $trail->push(__('menu-sidebar.Truck Loads'), route('backend.transport.truck-loads.index'));
 });
 
 Breadcrumbs::for('backend.transport.truck-loads.create', function (BreadcrumbTrail $trail) {

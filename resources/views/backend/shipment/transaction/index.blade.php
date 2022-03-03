@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Transactions')
+@section('title', __('menu-sidebar.Transactions'))
 
 @push('meta')
 

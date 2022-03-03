@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'CheckPoints')
+@section('title', __('menu-sidebar.Check Points'))
 
 @push('meta')
 

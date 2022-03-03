@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Invoices')
+@section('title', __('menu-sidebar.Invoices'))
 
 @push('meta')
 
