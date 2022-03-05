@@ -26,7 +26,7 @@
         <div class="col-md-4">
             {!! \Form::nText('number', 'Invoice Number', old('number', $invoice->number ?? null), true) !!}
             {!! \Form::nText('invoiced_at', 'Invoice Date',
-                    old('invoiced_at', $invoice->invoiced_at ?? \Carbon\Carbon::now()->format(config('backend.datetime'))), true,
+                    old('invoiced_at', $invoice->invoiced_at ?? \Carbon\Carbon::now()->format(config('backend.date'))), true,
                      ['class' => 'form-control date-range-picker']) !!}
         </div>
         <div class="col-md-4">
@@ -35,6 +35,73 @@
         </div>
         <div class="col-md-4">
             {!! \Form::nSelect('receiver_id', 'Receiver', [], old('receiver_id', ($invoice->receiver_id ?? null)), true, ['placeholder' => 'Select Receiver']) !!}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 table-responsive">
+
+            <table class="table table-center table-hover">
+                <thead>
+                <tr class="text-center">
+                    <th>#</th>
+                    <th>Quantity</th>
+                    <th>Items</th>
+                    <th>Weight</th>
+                    <th>Price</th>
+                    <th>Amount</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="invoice-body">
+                <tr class="invoice-item">
+                    <td style="width: 40px;" class="align-content-center text-center pr-0 pb-0">
+                        <button class="btn btn-outline-secondary  btn-sm remove-btn">
+                            <i class="fas fa-times-circle"></i>
+                        </button>
+                    </td>
+                    <td class="pb-0">
+                        {!! \Form::iNumber('item_quantity_0', 'Quantity', '0.00', true, null, 'before', ['placeholder' => 'Enter Item Quantity', 'class' => 'form-control text-right']) !!}
+                    </td>
+                    <td class="pb-0">
+                        {!! \Form::iText('item_name_0', 'Name', null, true, null, 'before', ['placeholder' => 'Enter Item Name']) !!}
+                        <div class="detail-panel">
+                            {!! \Form::iTextarea('item_description_0', 'Description', null, false, null, 'before', ['placeholder' => 'Enter Item Description', 'rows' => 2 ]) !!}
+                        </div>
+                    </td>
+                    <td class="pb-0" colspan="2">
+                        <div class="row">
+                            <div class="col-6">
+                                {!! \Form::iNumber('item_weight_0', 'Weight', '0.00', true, null, 'before', ['placeholder' => 'Enter Item Weight', 'class' => 'form-control text-right']) !!}
+                            </div>
+                            <div class="col-6">
+                                {!! \Form::iNumber('item_price_0', 'Price', '0.00', true, null, 'before', ['placeholder' => 'Enter Item Price', 'class' => 'form-control text-right']) !!}
+                            </div>
+                        </div>
+                        <div class="row detail-panel">
+                            <div class="col-12 ">
+                                {!! \Form::nText('item_dimension_0', 'Dimension', null, false, ['placeholder' => 'Enter Item Dimension', 'class' => 'form-control dimension-field text-right']) !!}
+                            </div>
+                        </div>
+                    </td>
+                    <td class="pb-0">
+                        <input type="text" class="form-control bg-white text-right" disabled="" placeholder="0.00"
+                               value="0.00">
+                    </td>
+                    <td>
+                        <a href="#" class="text-secondary detail-panel-btn">
+                            <i class="fas fa-angle-double-down"></i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="7">
+                        {!! \Form::iSelect('item_query', 'Items', [], null, true, null, 'before', ['class' => 'form-control custom-select item-query-select2']) !!}
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
         </div>
     </div>
     <div class="row">
@@ -52,6 +119,7 @@
 
 @push('page-script')
     <script type="text/javascript" src="{{ asset('plugins/select2/js/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('plugins/inputmask/jquery.inputmask.min.js') }}"></script>
     <script>
         const customer_ajax_route = '{{ route('backend.shipment.customers.ajax') }}';
         var selected_user_id = '{{ old('user_id', $invoice->user_id ?? null) }}';
@@ -139,10 +207,6 @@
                 templateSelection: selectedOption
             });
 
-            $("#select2-user_id-results").append('<li role="alert" aria-live="assertive" class="select2-results__option select2-results__message">\
-                <a href="#" class="btn btn-outline-primary btn-block">Add New Customer</a>\
-                </li>');
-
             $("#receiver_id").select2({
                 width: "100%",
                 placeholder: "Select a Receiver",
@@ -155,20 +219,16 @@
                 templateSelection: selectedOption
             });
 
-            /*            $("#invoice-form").validate({
-                            rules: {
-                                name: {
-                                    required: true,
-                                    minlength: 3,
-                                    maxlength: 255
-                                },
-                                enabled: {
-                                    required: true
-                                },
-                                remarks: {
-                                },
-                            }
-                        });*/
+            $(".item-query-select2").select2({
+                width: "100%",
+                placeholder: "Please Select Item"
+            });
+            $(".dimension-field").inputmask('999X999X999', {'placeholder': '___X___X___'});
+
+            $(".detail-panel").addClass('d-none');
+            $(".detail-panel-btn").on("click", function () {
+               $(".detail-panel").toggleClass('d-none');
+            });
         });
     </script>
 @endpush

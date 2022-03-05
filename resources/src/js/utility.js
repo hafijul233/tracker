@@ -569,5 +569,13 @@ $(document).ready(function () {
                 highLightQueryString(searchElementId, targetTableId);
             }
         }
-    })
+    });
+
+    $('form').on('focus', 'input[type=number]', function (e) {
+        $(this).on('wheel.disableScroll', function (e) {
+            e.preventDefault()
+        })
+    }).on('blur', 'input[type=number]', function (e) {
+        $(this).off('wheel.disableScroll')
+    });
 });

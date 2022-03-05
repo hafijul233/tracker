@@ -18,4 +18,5 @@ mix.copyDirectory('node_modules/admin-lte/dist', 'public/assets/')
     .copyDirectory('node_modules/bootstrap4-toggle', 'public/plugins/bootstrap4-toggle/')
     .copyDirectory('node_modules/fontawesome-iconpicker/dist', 'public/plugins/fontawesome-iconpicker/')
     .copy('resources/src/js/utility.js', 'public/assets/js/utility.js')
+    .css('resources/src/css/utility.css', 'public/assets/css/utility.css')
     .minify('public/assets/js/utility.js');

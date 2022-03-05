@@ -1,40 +1,15 @@
 {
-  "_from": "@sweetalert2/theme-bootstrap-4@^4.0.3",
-  "_id": "@sweetalert2/theme-bootstrap-4@4.0.5",
-  "_inBundle": false,
-  "_integrity": "sha512-pe5mQ98sgrphNVq6Xe5BsWxsfI1Z8zT9C2oux6+4B6Qt30qYo58Q+bnzRs8pV95O9/URt/QJZyl+R8SabMeW6g==",
-  "_location": "/@sweetalert2/theme-bootstrap-4",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "range",
-    "registry": true,
-    "raw": "@sweetalert2/theme-bootstrap-4@^4.0.3",
-    "name": "@sweetalert2/theme-bootstrap-4",
-    "escapedName": "@sweetalert2%2ftheme-bootstrap-4",
-    "scope": "@sweetalert2",
-    "rawSpec": "^4.0.3",
-    "saveSpec": null,
-    "fetchSpec": "^4.0.3"
-  },
-  "_requiredBy": [
-    "/admin-lte"
-  ],
-  "_resolved": "https://registry.npmjs.org/@sweetalert2/theme-bootstrap-4/-/theme-bootstrap-4-4.0.5.tgz",
-  "_shasum": "488eac0a85e7601a42dc8b1d95ec8fc73ff330aa",
-  "_spec": "@sweetalert2/theme-bootstrap-4@^4.0.3",
-  "_where": "I:\\XAMPP\\htdocs\\tracker\\node_modules\\admin-lte",
-  "author": "",
-  "bugs": {
-    "url": "https://github.com/sweetalert2/sweetalert2-themes/issues"
-  },
-  "bundleDependencies": false,
-  "deprecated": false,
+  "name": "@sweetalert2/theme-bootstrap-4",
+  "version": "4.0.5",
+  "repository": "sweetalert2/sweetalert2-themes",
+  "homepage": "https://sweetalert2.github.io/",
   "description": "Bootstrap 4 theme for SweetAlert2",
+  "author": "",
   "files": [
     "*.css",
     "*.scss"
   ],
-  "homepage": "https://sweetalert2.github.io/",
+  "main": "bootstrap-4.css",
   "keywords": [
     "sweetalert2",
     "bootstrap-4",
@@ -43,12 +18,6 @@
     "theming",
     "sass"
   ],
-  "license": "MIT",
-  "main": "bootstrap-4.css",
-  "name": "@sweetalert2/theme-bootstrap-4",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/sweetalert2/sweetalert2-themes.git"
-  },
-  "version": "4.0.5"
+  "bugs": "https://github.com/sweetalert2/sweetalert2-themes/issues",
+  "license": "MIT"
 }

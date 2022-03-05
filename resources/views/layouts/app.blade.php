@@ -19,6 +19,8 @@
 @push('theme-style')
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('assets/css/adminlte.min.css') }}">
+    <!-- Custom style -->
+    <link rel="stylesheet" href="{{ asset('assets/css/utility.css') }}">
 @endpush
 
 @section('body-class', 'layout-fixed layout-navbar-fixed  sidebar-collapse')

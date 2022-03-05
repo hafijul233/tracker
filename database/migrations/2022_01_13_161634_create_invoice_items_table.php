@@ -23,6 +23,7 @@ class CreateInvoiceItemsTable extends Migration
             $table->id();
             $table->foreignId('item_id');
             $table->string('name');
+            $table->text('description')->nullable();
             $table->double('quantity', 7, 3);
             $table->string('weight')->nullable();
             $table->string('dimension')->nullable();
@@ -31,6 +32,7 @@ class CreateInvoiceItemsTable extends Migration
             $table->string('discount')->nullable();
             $table->string('tax')->nullable();
             $table->double('total', 15, 4);
+            $table->json('item_json')->nullable();
             $table->enum('enabled', array_keys(Constant::ENABLED_OPTIONS))
                   ->default(Constant::ENABLED_OPTION)->nullable();
             $table->foreignId('created_by')->index()->nullable();

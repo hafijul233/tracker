@@ -38,7 +38,7 @@
         "diglactic/laravel-breadcrumbs": "^7.0",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
-        "hafijul233/form": "^0.0.7",
+        "hafijul233/form": "^0.0.8",
         "intervention/image": "^2.7",
         "kyslik/column-sortable": "^6.4",
         "laravel/framework": "^8.54",
