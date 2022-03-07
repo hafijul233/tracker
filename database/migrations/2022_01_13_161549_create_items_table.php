@@ -24,8 +24,10 @@ class CreateItemsTable extends Migration
             $table->string('name');
             $table->string('dimension')->nullable();
             $table->double('rate', 15, 4)->default(0)->nullable();
+            $table->string('currency')->default('BDT')->nullable();
             $table->string('tax')->nullable();
             $table->string('description')->nullable();
+            $table->json('additional_info')->nullable();
             $table->enum('enabled', array_keys(Constant::ENABLED_OPTIONS))
                             ->default(Constant::ENABLED_OPTION)->nullable();
             $table->foreignId('created_by')->index()->nullable();

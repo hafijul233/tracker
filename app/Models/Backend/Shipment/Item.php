@@ -36,7 +36,7 @@ class Item extends Model implements Auditable
      *
      * @var array
      */
-    protected $fillable = ['user_id', 'name', 'dimension', 'rate', 'tax', 'description', 'enabled', 'created_by', 'updated_by', 'deleted_by'];
+    protected $fillable = ['user_id', 'name', 'dimension', 'rate', 'currency', 'tax', 'description', 'enabled', 'created_by', 'updated_by', 'deleted_by'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -115,5 +115,12 @@ class Item extends Model implements Auditable
         return $this->belongsTo(User::class, 'deleted_by');
     }
 
+    /**
+     * @return
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
 }

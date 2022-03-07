@@ -93,6 +93,7 @@ class ItemController extends Controller
      */
     public function store(ItemRequest $request): RedirectResponse
     {
+        dd($request->all());
         $confirm = $this->itemService->storeItem($request->except(['_token', 'submit']));
 
         if ($confirm['status'] == true) {

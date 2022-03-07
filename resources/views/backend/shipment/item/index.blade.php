@@ -69,8 +69,12 @@
                                                     {{ $item->name }}
                                                 @endcan
                                             </td>
-                                            <td class="text-right">@money($item->rate, 'BDT', true)</td>
-                                            <td class="text-center">{{ $item->dimension ?? null }}</td>
+                                            <td class="text-right">@money($item->rate, $item->currency, true)</td>
+                                            <td class="text-center" data-toggle="tooltip" data-html="true"
+                                                data-title="<p><b>Length: </b> <span class='text-success'>{{ $item->length  }} CM</span><br>
+                                                            <b>Width: </b> <span class='text-success'>{{ $item->width  }} CM</span><br>
+                                                            <b>Height: </b> <span class='text-success'>{{ $item->height  }} CM</span></p>"
+                                            >{{ $item->dimension ?? null }}</td>
                                             <td class="text-center exclude-search">
                                                 {!! \Html::enableToggle($item) !!}
                                             </td>
@@ -81,7 +85,7 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="6" class="exclude-search text-center">No data to display</td>
+                                            <td colspan="7" class="exclude-search text-center">No data to display</td>
                                         </tr>
                                     @endforelse
                                     </tbody>

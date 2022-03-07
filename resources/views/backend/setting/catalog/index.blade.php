@@ -45,9 +45,7 @@
                                 <table class="table table-hover mb-0" id="catalog-table">
                                     <thead class="thead-light">
                                     <tr>
-                                        <th class="align-middle">
-                                            @sortablelink('id', '#')
-                                        </th>
+                                        <th class="align-middle">@sortablelink('id', '#')</th>
                                         <th>@sortablelink('name', __('common.Name'))</th>
                                         <th class="text-center">@sortablelink('model_type', 'Model')</th>
                                         <th class="text-center">@sortablelink('enabled', __('common.Enabled'))</th>

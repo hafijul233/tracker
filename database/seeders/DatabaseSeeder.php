@@ -11,6 +11,7 @@ use Database\Seeders\Backend\Setting\RoleSeeder;
 use Database\Seeders\Backend\Setting\StateSeeder;
 use Database\Seeders\Backend\Setting\UserSeeder;
 use Database\Seeders\Backend\Shipment\CustomerSeeder;
+use Database\Seeders\Backend\Shipment\ItemSeeder;
 use Database\Seeders\Backend\Transpoprt\DriverSeeder;
 use Database\Seeders\Backend\UserRegisterSeeder;
 use Illuminate\Database\Eloquent\Model;
@@ -36,6 +37,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RolePermissionSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(CustomerSeeder::class);
+        $this->call(ItemSeeder::class);
         $this->call(DriverSeeder::class);
         $this->call(UserRegisterSeeder::class);
 

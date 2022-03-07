@@ -34,7 +34,6 @@
         "ext-tokenizer": "*",
         "ext-xmlreader": "*",
         "ext-zip": "*",
-        "akaunting/laravel-money": "^1.2",
         "diglactic/laravel-breadcrumbs": "^7.0",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",

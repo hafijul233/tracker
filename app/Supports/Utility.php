@@ -153,11 +153,7 @@ class Utility
      */
     public static function getAddressBlock(Address $addressBook): string
     {
-
-        //`, `, `street_1`, `street_2`, `url`, `longitude`, `latitude`, `post_code`, `fallback`, `enabled`, `remark`, `city_id`, `state_id`, `country_id`
-
         $address = ($addressBook->street_1 ?? null) . ', ';
-
 
         if (!empty($addressBook->street_2)):
             $address .= ($addressBook->street_2 . ', ');
@@ -180,6 +176,36 @@ class Utility
         endif;
 
         return $address;
+    }
+
+    /**
+     * Return Currency Formatted string from number
+     *
+     * @param null $amount
+     * @param string $currency
+     * @param bool $onlyCurrency
+     * @return string|null
+     */
+    public static function money($amount = null, string $currency = 'USD', bool $onlyCurrency = false)
+    {
+        $currencyConfig = config('money.' . $currency);
+
+        if (empty($currencyConfig)) {
+            $currencyConfig = config('money.USD');
+        }
+
+        if(is_numeric($amount)) {
+            $formattedAmount = number_format($amount, $currencyConfig['precision'],
+                $currencyConfig['decimal_mark'], $currencyConfig['thousands_separator']);
+
+            $amount =  ($onlyCurrency == true)
+                ? $currency . ' ' . $formattedAmount
+                : (($currencyConfig['symbol_first'] == true)
+                    ? $currencyConfig['symbol'] . ' ' . $formattedAmount
+                    : $formattedAmount . ' ' . $currencyConfig['symbol']);
+        }
+
+        return $amount;
     }
 
 }
