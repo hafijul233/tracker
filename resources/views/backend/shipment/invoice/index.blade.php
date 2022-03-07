@@ -48,7 +48,9 @@
                                         <th class="align-middle">@sortablelink('id', '#')</th>
                                         <th>@sortablelink('number', 'Invoice')</th>
                                         <th>@sortablelink('user.name', 'Customer')</th>
+                                        <th>@sortablelink('entry_date', 'Entry Date')</th>
                                         <th>@sortablelink('total', 'Amount')</th>
+                                        <th class="text-center">@sortablelink('status', 'Status')</th>
                                         <th class="text-center">@sortablelink('enabled', __('common.Enabled'))</th>
                                         <th class="text-center">@sortablelink('invoiced_at', __('common.Created'))</th>
                                         <th class="text-center">{!! __('common.Actions') !!}</th>
@@ -79,7 +81,7 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="6" class="exclude-search text-center">No data to display</td>
+                                            <td colspan="9" class="exclude-search text-center">No data to display</td>
                                         </tr>
                                     @endforelse
                                     </tbody>

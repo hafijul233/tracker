@@ -21,7 +21,7 @@ class CreateInvoicesTable extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
             $table->string('number')->nullable();
-            $table->dateTime('invoiced_at')->nullable();
+            $table->date('entry_date')->nullable();
             $table->foreignId('user_id')->nullable();
             $table->json('user_info')->nullable();
             $table->foreignId('receiver_id')->nullable();
@@ -32,6 +32,7 @@ class CreateInvoicesTable extends Migration
             $table->string('discount')->nullable();
             $table->string('tax')->nullable();
             $table->double('total', 15, 4);
+            $table->string('status')->default('pending')->nullable();
             $table->enum('enabled', array_keys(Constant::ENABLED_OPTIONS))
                             ->default(Constant::ENABLED_OPTION)->nullable();
             $table->foreignId('created_by')->index()->nullable();
