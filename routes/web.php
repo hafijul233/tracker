@@ -170,6 +170,7 @@ Route::prefix('backend')->group(function () {
                 Route::get('/import', [ItemController::class, 'import'])->name('import');
                 Route::post('/import', [ItemController::class, 'importBulk']);
                 Route::post('/print', [ItemController::class, 'print'])->name('print');
+                Route::get('ajax', [ItemController::class, 'ajax'])->name('ajax');
             });
 
             //Invoice

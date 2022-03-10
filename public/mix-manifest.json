@@ -13,5 +13,7 @@
     "/plugins/bootstrap4-toggle/README.md": "/plugins/bootstrap4-toggle/README.md",
     "/plugins/bootstrap4-toggle/package.json": "/plugins/bootstrap4-toggle/package.json",
     "/assets/js/utility.js": "/assets/js/utility.js",
-    "/assets/js/utility.min.js": "/assets/js/utility.min.js"
+    "/assets/js/pages/invoice.js": "/assets/js/pages/invoice.js",
+    "/assets/js/utility.min.js": "/assets/js/utility.min.js",
+    "/assets/js/pages/invoice.min.js": "/assets/js/pages/invoice.min.js"
 }

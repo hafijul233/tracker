@@ -39,6 +39,8 @@ class ItemRepository extends EloquentRepository
         $query = $this->getQueryBuilder();
         if (!empty($filters['search'])) :
             $query->where('name', 'like', "%{$filters['search']}%")
+                ->orWhere('currency', 'like', "%{$filters['search']}%")
+                ->orWhere('description', 'like', "%{$filters['search']}%")
                 ->orWhere('enabled', '=', "%{$filters['search']}%");
         endif;
 
