@@ -39,39 +39,48 @@ Breadcrumbs::for('backend.dashboard', function (BreadcrumbTrail $trail) {
 
 /****************************************** Http Error ******************************************/
 
+/*
+'Unauthorized' => 'অননুমোদিত',
+    'Forbidden' => 'নিষিদ্ধ',
+    'Page Not Found' => 'পৃষ্ঠা পাওয়া যায়নি',
+    'Page Expired' => 'পৃষ্ঠার মেয়াদ শেষ',
+    'Too Many Requests' => 'অনেক অনুরোধ',
+    'Server Error' => 'সার্ভার ত্রুটি',
+    'Service Unavailable' => 'পরিষেবা অনুপলব্ধ',
+    */
 Breadcrumbs::for('errors.401', function (BreadcrumbTrail $trail) {
     $trail->parent('backend');
-    $trail->push('Unauthorized Access', route('errors.401'));
+    $trail->push(__('error.Unauthorized'));
 });
 
 Breadcrumbs::for('errors.403', function (BreadcrumbTrail $trail) {
     $trail->parent('backend');
-    $trail->push('Access Forbidden', route('errors.403'));
+    $trail->push(__('error.Forbidden'));
 });
 
 Breadcrumbs::for('errors.404', function (BreadcrumbTrail $trail) {
     $trail->parent('backend');
-    $trail->push('Page Not Found');
+    $trail->push(__('error.Page Not Found'));
 });
 
 Breadcrumbs::for('errors.419', function (BreadcrumbTrail $trail) {
     $trail->parent('backend');
-    $trail->push('Page/Request Expired', route('errors.419'));
+    $trail->push('Page Expired');
 });
 
 Breadcrumbs::for('errors.429', function (BreadcrumbTrail $trail) {
     $trail->parent('backend');
-    $trail->push('Too Many Requests', route('errors.429'));
+    $trail->push(__('error.Too Many Requests'));
 });
 
 Breadcrumbs::for('errors.500', function (BreadcrumbTrail $trail) {
     $trail->parent('backend');
-    $trail->push('Internal Server Error', route('errors.500'));
+    $trail->push(__('error.Server Error'));
 });
 
 Breadcrumbs::for('errors.503', function (BreadcrumbTrail $trail) {
     $trail->parent('backend');
-    $trail->push('Service Unavailable', route('errors.503'));
+    $trail->push(__('error.Service Unavailable'));
 });
 
 /****************************************** Setting ******************************************/

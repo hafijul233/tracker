@@ -1,94 +1,99 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <title>{{ config('app.name', 'Laravel') }} | @yield('title')</title>
-    <!-- meta Tags -->
-@include('admin::Core.Resources.views.layouts.includes.meta')
-<!-- Web Font-->
-@include('admin::Core.Resources.views.layouts.includes.webfont')
-<!-- Icon -->
-@include('admin::Core.Resources.views.layouts.includes.icon')
-<!-- Plugins -->
-@include('admin::Core.Resources.views.layouts.includes.plugin-style')
-<!-- Theme style -->
+@extends('layouts.master')
+
+@push('meta')
+
+@endpush
+
+@push('icon')
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
+@endpush
+
+@push('plugin-style')
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="{{ asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
+@endpush
+
+@push('theme-style')
+    <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('assets/css/adminlte.min.css') }}">
-    <!-- Page Level Style -->
-@include('admin::Core.Resources.views.layouts.includes.inline-style')
-<!-- Page Level Script -->
-    @include('admin::Core.Resources.views.layouts.includes.head-script')
-</head>
-<body class="hold-transition @yield('body-class')">
-<div class="wrapper">
-    <!-- Preloader -->
-@include('admin::Core.Resources.views.layouts.includes.preloader')
-<!-- Navbar -->
-@include('admin::Core.Resources.views.layouts.partials.navbar')
+@endpush
 
-<!-- Main Sidebar Container -->
-@include('admin::Core.Resources.views.layouts.partials.menu-sidebar')
+@section('body-class', 'layout-fixed layout-navbar-fixed  sidebar-collapse')
 
-<!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-    @include('admin::Core.Resources.views.layouts.partials.content-header')
-    <!-- Main content -->
-        <section class="content">
+@section('body')
+    <body class="hold-transition @yield('body-class')">
+    <div class="wrapper">
+        <!-- Preloader -->
+    @include('layouts.includes.preloader')
+    <!-- Navbar -->
+    @include('layouts.partials.navbar')
 
-            <div class="error-page">
-                <h2 class="headline text-@yield('text-color', 'danger')">@yield('code')</h2>
+    <!-- Main Sidebar Container -->
+    @include('layouts.partials.menu-sidebar')
 
-                <div class="error-content">
-                    <h3>
-                        <i class="fas fa-exclamation-triangle text-@yield('text-color', 'danger')"></i> @yield('message')
-                    </h3>
+    <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+        @include('layouts.partials.content-header')
+        <!-- Main content -->
+            <section class="content">
 
-                    <p>
-                        We could not find the page you were looking for.
-                        Meanwhile, you may <a href="../../index.html">return to dashboard</a> or try using the search
-                        form.
-                    </p>
+                <div class="error-page">
+                    <h2 class="headline text-@yield('text-color', 'danger')">@yield('code')</h2>
 
-                    {!! \Form::open(['link' => '#', 'method' => 'get', 'class' => 'search-form']) !!}
-                    <div class="input-group">
-                        {!! \Form::search('search', \request()->query('search'),
-                                ['class' => 'form-control', 'id' => 'search-from',
-                                'placeholder' => 'Type you search ...']) !!}
-                        <div class="input-group-append">
-                            <button type="submit" name="submit" class="btn btn-warning">
-                                <i class="fas fa-search"></i>
-                            </button>
+                    <div class="error-content pt-3">
+                        <h3>
+                            <i class="fas fa-exclamation-triangle text-@yield('text-color', 'danger')"></i> @yield('message')
+                        </h3>
+
+{{--                        <p>
+                            We could not find the page you were looking for.
+                            Meanwhile, you may <a href="../../index.html">return to dashboard</a> or try using the search
+                            form.
+                        </p>--}}
+
+                        {!! \Form::open(['link' => '#', 'method' => 'get', 'class' => 'search-form']) !!}
+                        <div class="input-group">
+                            {!! \Form::search('search', \request()->query('search'),
+                                    ['class' => 'form-control', 'id' => 'search-from',
+                                    'placeholder' => 'Type you search ...']) !!}
+                            <div class="input-group-append">
+                                <button type="submit" name="submit" class="btn btn-warning">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
                         </div>
+                        <!-- /.input-group -->
+                        {!! \Form::close() !!}
                     </div>
-                    <!-- /.input-group -->
-                    {!! \Form::close() !!}
+                    <!-- /.error-content -->
                 </div>
-                <!-- /.error-content -->
-            </div>
-            <!-- /.error-page -->
-            @yield('content')
-        </section>
-        <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
+                <!-- /.error-page -->
+                @yield('content')
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
 
-    <!-- Control Sidebar -->
-@include('admin::Core.Resources.views.layouts.partials.control-sidebar')
-<!-- Main Footer -->
-    @include('admin::Core.Resources.views.layouts.partials.main-footer')
-</div>
-<!-- ./wrapper -->
-<!-- JS Constants -->
-@include('admin::Core.Resources.views.layouts.includes.js-constants')
-<!-- jQuery -->
-<script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
-<!-- Bootstrap 4 -->
-<script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<!-- Plugin JS -->
-@include('admin::Core.Resources.views.layouts.includes.plugin-script')
-<!-- AdminLTE App -->
-<script src="{{ asset('assets/js/adminlte.min.js') }}"></script>
-<script src="{{ asset('assets/js/utility.min.js') }}"></script>
-<!-- inline js -->
-@include('admin::Core.Resources.views.layouts.includes.page-script')
-</body>
-</html>
+        <!-- Control Sidebar -->
+    @include('layouts.partials.control-sidebar')
+    <!-- Main Footer -->
+        @include('layouts.partials.main-footer')
+    </div>
+    <!-- ./wrapper -->
+
+    @include('layouts.includes.js-constants')
+
+    <!-- jQuery -->
+    <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- Plugin JS -->
+    @include('layouts.includes.plugin-script')
+    <!-- AdminLTE App -->
+    <script src="{{ asset('assets/js/adminlte.min.js') }}"></script>
+    <script src="{{ asset('assets/js/utility.min.js') }}"></script>
+    <!-- inline js -->
+    @include('layouts.includes.page-script')
+    @endsection
