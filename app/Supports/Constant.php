@@ -120,7 +120,7 @@ class Constant
     const ENABLED_OPTION = 'yes';
 
     /**
-     * Default model disabled status
+     * Default model disabled statusENABLED_OPTION
      */
     const DISABLED_OPTION = 'no';
 
