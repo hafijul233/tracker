@@ -28,7 +28,7 @@ class UserFactory extends Factory
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
             'username' => $this->faker->unique()->userName(),
-            'mobile' => str_replace('+', '', $this->faker->unique()->e164PhoneNumber()),
+            'mobile' => str_replace('+', '0', $this->faker->unique()->e164PhoneNumber()),
             'force_pass_reset' => false,
             'remarks' => $this->faker->paragraph(2),
             'enabled' => Constant::ENABLED_OPTION,
