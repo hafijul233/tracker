@@ -2,7 +2,7 @@ function userSelectDropdown(options) {
     $("#" + options.target).select2({
         width: "100%",
         placeholder: options.placeholder,
-        minimumInputLength: 3,
+        /*minimumInputLength: 3,*/
         allowClear:true,
         ajax: {
             url: options.route,
@@ -18,6 +18,7 @@ function userSelectDropdown(options) {
                 'Accept': 'application/json'
             },
             cache: false,
+            delay:250,
             processResults: function (response) {
                 var returnObject = {results: []};
                 if (response.status === true) {
