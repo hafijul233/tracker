@@ -1,6 +1,7 @@
 <pre>
 <?php
 var_dump(exec("php -v"));
+var_dump(exec("echo \$HOME"));
 var_dump(ini_set('max_execution_time', "2100"));
 var_dump(exec("php -r \"file_exists('.htaccess') || copy('.htaccess.example', '.htaccess');\""));
 var_dump(exec("php -r \"file_exists('public/.htaccess') || copy('public/.htaccess.example', 'public/.htaccess');\""));
