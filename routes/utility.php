@@ -21,6 +21,7 @@ Route::get('reset-system', function (Request $request) {
 
     if (Artisan::call('db:wipe') == 0
         && Artisan::call('migrate:refresh', ['--seed' => true]) == 0
+        && Artisan::call('permission:cache-reset') == 0
         && Artisan::call('optimize:clear') == 0) {
         echo "Reset Complete";
         echo "<a href=\"" . \route('auth.login') . "\">Login Page</a>";
