@@ -19,7 +19,7 @@ Route::get('reset-system', function (Request $request) {
 
     ini_set('max_execution_time', 300); // 300 (seconds) = 5 Minutes
 
-    if (Artisan::call('db::wipe') == 0
+    if (Artisan::call('db:wipe') == 0
         && Artisan::call('migrate:refresh', ['--seed' => true]) == 0
         && Artisan::call('optimize:clear') == 0) {
         echo "Reset Complete";
