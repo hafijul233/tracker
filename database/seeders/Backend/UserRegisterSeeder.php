@@ -77,7 +77,7 @@ class UserRegisterSeeder extends Seeder
             $newUser = $this->userRepository->create($newUser);
             if ($newUser instanceof User) {
                 if (!$this->attachProfilePicture($newUser)) {
-                    throw new \RuntimeException("User Photo Create Failed");
+                    //throw new \RuntimeException("User Photo Create Failed");
                 }
 
                 if (!$this->attachUserRoles($newUser)) {
@@ -127,8 +127,9 @@ class UserRegisterSeeder extends Seeder
     {
 
         $adminRole = Role::findByName(Constant::SUPER_ADMIN_ROLE);
-        $this->userRepository->setModel($user);
-        return $this->userRepository->manageRoles([$adminRole->id]);
+        return (bool)$user->assignRole($adminRole);
+//        $this->userRepository->setModel($user);
+//        return $this->userRepository->manageRoles([$adminRole->id]);
     }
 
     /**
