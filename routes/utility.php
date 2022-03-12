@@ -28,3 +28,13 @@ Route::get('reset-system', function (Request $request) {
     }
 });
 
+Route::get('update-system', function (Request $request) {
+    if (Artisan::call('migrate') == 0
+        && Artisan::call('optimize:clear') == 0) {
+        echo "New Migration Complete";
+        echo "<a href=\"" . \route('backend.auth.login') . "\">Login Page</a>";
+    } else {
+        echo "Reset Failed";
+    }
+});
+
