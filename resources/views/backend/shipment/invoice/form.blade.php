@@ -13,14 +13,6 @@
         span[aria-labelledby="select2-receiver_id-container"] span.select2-selection__arrow {
             margin-top: calc(2.50rem);
         }
-
-        .select2-results__option--highlighted {
-            color: white !important;
-        }
-        /*span#select2-user_id-container,
-        span#select2-receiver_id-container {
-            margin-top: calc(2.50rem);
-        }*/
     </style>
 @endpush
 
@@ -47,8 +39,8 @@
                 <thead>
                 <tr class="text-center">
                     <th>#</th>
-                    <th>Quantity</th>
                     <th>Items</th>
+                    <th>Quantity</th>
                     <th>Price</th>
                     <th>Amount</th>
                     <th></th>
@@ -63,27 +55,21 @@
                             </button>
                         </td>
                         <td class="pb-0">
-                            {!! \Form::iNumber("item_quantity_{$index}", 'Quantity', '0.00', true, null, 'before', ['placeholder' => 'Enter Item Quantity', 'class' => 'form-control text-right']) !!}
-                        </td>
-                        <td class="pb-0">
                             {!! \Form::iText("item_name_{$index}", 'Name', null, true, null, 'before', ['placeholder' => 'Enter Item Name']) !!}
                             <div class="detail-panel">
                                 {!! \Form::iTextarea("item_description_{$index}", 'Description', null, false, null, 'before', ['placeholder' => 'Enter Item Description', 'rows' => 2 ]) !!}
                             </div>
                         </td>
                         <td class="pb-0">
-                            <div class="row">
-                                <div class="col-12">
-                                    {!! \Form::iNumber("item_price_{$index}", 'Price', '0.00', true, null, 'before', ['placeholder' => 'Enter Item Price', 'class' => 'form-control text-right']) !!}
-                                </div>
+                            {!! \Form::iNumber("item_quantity_{$index}", 'Quantity', '0.00', true, null, 'before', ['placeholder' => 'Enter Item Quantity', 'class' => 'form-control text-right']) !!}
+                            <div class="detail-panel">
+                                {!! \Form::nText("item_dimension_{$index}", 'Dimension', null, false, ['placeholder' => 'Enter Item Dimension', 'class' => 'form-control dimension-field']) !!}
                             </div>
-                            <div class="row detail-panel">
-                                <div class="col-6">
-                                    {!! \Form::nText("item_dimension_{$index}", 'Dimension', null, false, ['placeholder' => 'Enter Item Dimension', 'class' => 'form-control dimension-field']) !!}
-                                </div>
-                                <div class="col-6">
-                                    {!! \Form::nNumber("item_weight_{$index}", 'Weight', '0.00', false, ['placeholder' => 'Enter Item Weight', 'class' => 'form-control text-right']) !!}
-                                </div>
+                        </td>
+                        <td class="pb-0">
+                            {!! \Form::iNumber("item_price_{$index}", 'Price', '0.00', true, null, 'before', ['placeholder' => 'Enter Item Price', 'class' => 'form-control text-right']) !!}
+                            <div class="detail-panel">
+                                {!! \Form::nNumber("item_weight_{$index}", 'Weight', '0.00', false, ['placeholder' => 'Enter Item Weight', 'class' => 'form-control text-right']) !!}
                             </div>
                         </td>
                         <td class="pb-0">
@@ -99,7 +85,7 @@
                 </tbody>
                 <tfoot>
                 <tr>
-                    <td colspan="7" class="px-0">
+                    <td colspan="6" class="px-0">
                         {!! \Form::iSelect('item_query', 'Items', [], null, true, null, 'before', ['class' => 'form-control custom-select item-query-select2']) !!}
                     </td>
                 </tr>
@@ -125,10 +111,10 @@
     <script type="text/javascript" src="{{ asset('plugins/inputmask/jquery.inputmask.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/pages/invoice.min.js') }}"></script>
     <script>
-        const customer_ajax_route = "{{ route('backend.shipment.customers.ajax') }}";
         var selected_user_id = '{{ old('user_id', $invoice->user_id ?? null) }}';
         var selected_receiver_id = '{{ old('receiver_id', $invoice->receiver_id ?? null) }}';
         const defaultMedia = '{{ asset(\App\Supports\Constant::USER_PROFILE_IMAGE) }}' + "##";
+
         $(function () {
             $(".dimension-field").inputmask('999X999X999', {'placeholder': '___X___X___'});
             $(".detail-panel").addClass('d-none');
@@ -139,87 +125,19 @@
             userSelectDropdown({
                 target: "user_id",
                 placeholder: "Select a Sender",
-                route: customer_ajax_route
+                route: "{{ route('backend.shipment.customers.ajax') }}"
             });
+
             userSelectDropdown({
                 target: "receiver_id",
                 placeholder: "Select a Receiver",
-                route: customer_ajax_route
+                route: "{{ route('backend.shipment.customers.ajax') }}"
             });
 
-            $(".item-query-select2").select2({
-                width: "100%",
+            itemSelectDropdown({
+                target: 'item_query',
                 placeholder: "Please Select Item",
-                minimumInputLength: 2,
-                ajax: {
-                    url: "{{ route('backend.shipment.items.ajax') }}",
-                    data: function (params) {
-                        return {
-                            user: $("#user_id").val(),
-                            search: params.term,
-                            type: 'public-v2'
-                        }
-                    },
-                    dataType: 'json',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'Accept': 'application/json'
-                    },
-                    cache: false,
-                    processResults: function (response) {
-                        var returnObject = {results: []};
-                        if (response.status === true) {
-                            var options = [];
-                            response.data.forEach(function (customer) {
-                                var id = customer.id;
-                                var text = '';
-                                if (customer.media.length > 0) {
-                                    var avatarImage = customer.media.pop();
-                                    text = avatarImage.original_url + "##";
-                                } else {
-                                    text = defaultMedia + "##";
-                                }
-
-                                text += (customer.name + "##") + (customer.mobile + "##") + (customer.username + "##");
-
-                                options.push({
-                                    "id": id,
-                                    "text": text
-                                });
-                            });
-                            returnObject.results = options;
-                        } else {
-                            notify("No Active Senders Found", 'warning', 'Alert!');
-                        }
-                        return returnObject;
-                    }
-                },
-                templateResult: function (item) {
-                    if (!item.id) {
-                        return item.text;
-                    }
-                    var itemValues = item.text.trim().split("##");
-                    return $('<div class="media">\
-                                <img class="align-self-center mr-1 img-circle direct-chat-img elevation-1"\
-                                 src="' + itemValues[0] + '" alt="' + itemValues[1] + '">\
-                                <div class="media-body">\
-                                    <p class="my-0 text-dark">' + itemValues[1] + '</p>\
-                                    <p class="mb-0 small">\
-                                    <span class="text-muted"><i class="fas fa-user"></i> ' + itemValues[3] + '</span>\
-                                    <span class="ml-1 text-muted"><i class="fas fa-phone"></i> ' + itemValues[2] + '</span>\
-                                    </p>\
-                                </div>\
-                            </div>');
-                },
-                templateSelection: function (item) {
-                    if (!item.id) {
-                        return item.text;
-                    }
-                    var itemValues = item.text.trim().split("##");
-                    return $('<p class="my-0 text-dark font-weight-bold d-flex justify-content-between align-content-center">\
-                    <span><i class="fas fa-user text-muted"></i> ' + itemValues[1] + '</span>\
-                        <span><i class="fas fa-phone text-muted"></i> ' + itemValues[2] + '</span></p>');
-                }
+                route: "{{ route('backend.shipment.items.ajax') }}"
             });
 
         });

@@ -1,84 +1,87 @@
+/**
+ *
+ * @param options
+ */
 function userSelectDropdown(options) {
-    $("#" + options.target).select2({
-        width: "100%",
-        placeholder: options.placeholder,
-        minimumResultsForSearch: Infinity,
-        /*minimumInputLength: 3,*/
-        /*allowClear:true,*/
-        ajax: {
-            url: options.route,
-            data: function (params) {
-                return {
-                    search: params.term,
-                    enabled: 'yes'
-                }
-            },
-            dataType: 'json',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json'
-            },
-            cache: false,
-            delay: 250,
-            processResults: function (response) {
-                var returnObject = {results: []};
-                if (response.status === true) {
-                    var options = [];
-                    response.data.forEach(function (customer) {
-                        var id = customer.id;
-                        var text = '';
-                        var roleStr = "";
+    if (jQuery.fn.select2) {
+        $("#" + options.target).select2({
+            width: "100%",
+            placeholder: options.placeholder,
+            minimumResultsForSearch: Infinity,
+            ajax: {
+                url: options.route,
+                data: function (params) {
+                    return {
+                        search: params.term,
+                        enabled: 'yes'
+                    }
+                },
+                dataType: 'json',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
+                },
+                cache: false,
+                delay: 250,
+                processResults: function (response) {
+                    var returnObject = {results: []};
+                    if (response.status === true) {
+                        var options = [];
+                        response.data.forEach(function (customer) {
+                            var id = customer.id;
+                            var text = '';
+                            var roleStr = "";
 
-                        if (customer.media.length > 0) {
-                            var avatarImage = customer.media.pop();
-                            text = avatarImage.original_url + "##";
-                        } else {
-                            text = defaultMedia + "##";
-                        }
+                            if (customer.media.length > 0) {
+                                var avatarImage = customer.media.pop();
+                                text = avatarImage.original_url + "##";
+                            } else {
+                                text = defaultMedia + "##";
+                            }
 
-                        if (customer.roles.length > 0) {
-                            roleStr = customer.roles.pop().name;
-                        } else {
-                            roleStr = "Guest";
-                        }
+                            if (customer.roles.length > 0) {
+                                roleStr = customer.roles.pop().name;
+                            } else {
+                                roleStr = "Guest";
+                            }
 
-                        text += (customer.name + "##") + (customer.mobile + "##") + (customer.username + "##") + (roleStr + "##");
+                            text += (customer.name + "##") + (customer.mobile + "##") + (customer.username + "##") + (roleStr + "##");
 
-                        options.push({
-                            "id": id,
-                            "text": text
+                            options.push({
+                                "id": id,
+                                "text": text
+                            });
                         });
-                    });
-                    returnObject.results = options;
-                } else {
-                    notify("No Active Senders Found", 'warning', 'Alert!');
+                        returnObject.results = options;
+                    } else {
+                        notify("No Active Senders Found", 'warning', 'Alert!');
+                    }
+                    return returnObject;
                 }
-                return returnObject;
-            }
-        },
-        templateResult: function (item) {
-            if (!item.id) {
-                return item.text;
-            }
-            var itemValues = item.text.trim().split("##");
-            return $('<div class="media">\
+            },
+            templateResult: function (item) {
+                if (!item.id) {
+                    return item.text;
+                }
+                var itemValues = item.text.trim().split("##");
+                return $('<div class="media">\
                                 <img class="align-self-center mr-1 img-circle direct-chat-img elevation-1"\
                                  src="' + itemValues[0] + '" alt="' + itemValues[1] + '">\
                                 <div class="media-body">\
-                                    <p class="my-0 text-dark">' + itemValues[1] + '</p>\
+                                    <p class="my-0">' + itemValues[1] + '</p>\
                                     <p class="mb-0 small">\
                                     <span class="text-muted"><i class="fas fa-user"></i> ' + itemValues[3] + '</span>\
                                     <span class="ml-1 text-muted"><i class="fas fa-phone"></i> ' + itemValues[2] + '</span>\
                                     </p>\
                                 </div>\
                             </div>');
-        },
-        templateSelection: function (item) {
-            if (!item.id) {
-                return item.text;
-            }
-            var itemValues = item.text.trim().split("##");
-            return $('<div class="media" style="padding-top: 0.75rem;">\
+            },
+            templateSelection: function (item) {
+                if (!item.id) {
+                    return item.text;
+                }
+                var itemValues = item.text.trim().split("##");
+                return $('<div class="media" style="padding-top: 0.75rem;">\
                                 <img class="align-self-center mr-3 ml-0 img-circle elevation-1" style="max-width: 65px; max-height: 65px;" \
                                  src="' + itemValues[0] + '" alt="User">\
                                 <div class="media-body">\
@@ -94,11 +97,99 @@ function userSelectDropdown(options) {
                                     </p>\
                                 </div>\
                             </div>');
-            /*            return $('<p class="my-0 text-dark font-weight-bold d-flex justify-content-between align-content-center">\
-                                <span><i class="fas fa-user text-muted"></i> ' + itemValues[1] + '</span>\
-                                    <span><i class="fas fa-phone text-muted"></i> ' + itemValues[2] + '</span></p>');*/
-        }
-    });
+                /*            return $('<p class="my-0 text-dark font-weight-bold d-flex justify-content-between align-content-center">\
+                                    <span><i class="fas fa-user text-muted"></i> ' + itemValues[1] + '</span>\
+                                        <span><i class="fas fa-phone text-muted"></i> ' + itemValues[2] + '</span></p>');*/
+            }
+        });
+    }
+}
+
+/**
+ *
+ * @param options
+ */
+function itemSelectDropdown(options) {
+    if (jQuery.fn.select2) {
+        $("#" + options.target).select2({
+            width: "100%",
+            placeholder: options.placeholder,
+            minimumResultsForSearch: Infinity,
+            ajax: {
+                url: options.route,
+                data: function (params) {
+                    return {
+                        user: $("#user_id").val(),
+                        search: params.term,
+                        enabled: 'yes'
+                    }
+                },
+                dataType: 'json',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
+                },
+                cache: false,
+                delay: 250,
+                processResults: function (response) {
+                    var returnObject = {results: []};
+                    console.log(response);
+                    if (response.status === true) {
+                        var options = [];
+                        response.data.forEach(function (item) {
+                            var id = item.id;
+                            var text = "";
+
+                            text += (item.name + "##") + (item.dimension + "##") + (item.rate + " " + item.currency+ "##") + (item.description + "##");
+
+                            options.push({
+                                "id": id,
+                                "text": text
+                            });
+                        });
+                        returnObject.results = options;
+                    } else {
+                        notify("No Active Items Found", 'warning', 'Alert!');
+                    }
+                    return returnObject;
+                }
+            },
+            templateResult: function (item) {
+                if (!item.id) {
+                    return item.text;
+                }
+                var itemValues = item.text.trim().split("##");
+                return $('<div class="media">\
+                                <img class="align-self-center mr-1 img-circle direct-chat-img elevation-1"\
+                                 src="' + itemValues[0] + '" alt="' + itemValues[1] + '">\
+                                <div class="media-body">\
+                                    <p class="my-0">' + itemValues[1] + '</p>\
+                                    <p class="mb-0 small">\
+                                    <span class="text-muted"><i class="fas fa-user"></i> ' + itemValues[3] + '</span>\
+                                    <span class="ml-1 text-muted"><i class="fas fa-phone"></i> ' + itemValues[2] + '</span>\
+                                    </p>\
+                                </div>\
+                            </div>');
+            },
+            templateSelection: function (item) {
+                if (!item.id) {
+                    return item.text;
+                }
+                var itemValues = item.text.trim().split("##");
+                return $('<div class="media" style="padding-top: 0.75rem;">\
+                                <div class="media-body">\
+                                    <h5 class="text-dark font-weight-bold">' + itemValues[0] + '</h5>\
+                                </div>\
+                            </div>');
+                //<p class="mb-0">\
+                //                                         <span class="text-muted">\
+                //                                         <span class="text-dark d-none d-lg-inline-block">Username: </span><i class="fas fa-user d-inline-block d-lg-none"></i> ' + itemValues[3] + '</span>\
+                //                                         <span class="ml-1 text-muted">\
+                //                                         <span class="text-dark d-none d-lg-inline-block">Phone: </span><i class="fas fa-phone d-inline-block d-lg-none"></i> ' + itemValues[2] + '</span>\
+                //                                     </p>\
+            }
+        });
+    }
 }
 
 /*function getRowTemplate(index) {
