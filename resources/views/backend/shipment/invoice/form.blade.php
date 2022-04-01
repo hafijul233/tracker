@@ -26,7 +26,7 @@
         </div>
         <div class="col-md-4">
             {!! \Form::nSelect('user_id', 'Sender', [], old('user_id', ($invoice->user_id ?? null)),
- true, ['placeholder' => 'Select Sender', 'custom-select customer-select2']) !!}
+ true, ['placeholder' => 'Select Sender']) !!}
         </div>
         <div class="col-md-4">
             {!! \Form::nSelect('receiver_id', 'Receiver', [], old('receiver_id', ($invoice->receiver_id ?? null)), true, ['placeholder' => 'Select Receiver']) !!}
@@ -47,7 +47,7 @@
                 </thead>
                 <tbody id="invoice-body">
                 @for($index=0;$index<10; $index++)
-                    <tr class="invoice-item" data-invoice-item-id="{{ $index }}">
+                    <tr data-invoice-item-id="{{ $index }}">
                         <td style="width: 40px;" class="align-content-center text-center pr-0 pb-0">
                             <button class="btn btn-outline-secondary  btn-sm" onclick="removeRow(this)">
                                 <i class="fas fa-times-circle"></i>
@@ -76,7 +76,7 @@
                             {!! \Form::iNumber("item_total_{$index}", 'Amount', '0.00', false, null, 'before', ['placeholder' => 'Enter Item Total', 'class' => 'form-control bg-white text-right']) !!}
                         </td>
                         <td>
-                            <a href="#" class="text-secondary detail-panel-btn">
+                            <a href="#" class="text-secondary" onclick="toggleDetailPanel(this); return false;">
                                 <i class="fas fa-angle-double-down"></i>
                             </a>
                         </td>
@@ -87,7 +87,8 @@
                 <tr>
                     <td colspan="2">
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#staticBackdrop">
+                        <button type="button" class="btn btn-primary btn-block" data-toggle="modal"
+                                data-target="#staticBackdrop">
                             Add New Item
                         </button>
                     </td>
@@ -112,7 +113,8 @@
     </div>
 </div>
 <!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -122,7 +124,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                ...
+                {{--@include('backend.shipment.item.form')--}}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -141,23 +143,19 @@
         var selected_receiver_id = '{{ old('receiver_id', $invoice->receiver_id ?? null) }}';
         const defaultMedia = '{{ asset(\App\Supports\Constant::USER_PROFILE_IMAGE) }}' + "##";
 
-        $(function () {
-            $(".dimension-field").inputmask('999X999X999', {'placeholder': '___X___X___'});
-            $(".detail-panel").addClass('d-none');
-            $(".detail-panel-btn").on("click", function () {
-                $(".detail-panel").toggleClass('d-none');
-            });
-
+        $(document).ready(function () {
             userSelectDropdown({
                 target: "user_id",
                 placeholder: "Select a Sender",
-                route: "{{ route('backend.shipment.customers.ajax') }}"
+                route: "{{ route('backend.shipment.customers.ajax') }}",
+                selected: selected_user_id
             });
 
             userSelectDropdown({
                 target: "receiver_id",
                 placeholder: "Select a Receiver",
-                route: "{{ route('backend.shipment.customers.ajax') }}"
+                route: "{{ route('backend.shipment.customers.ajax') }}",
+                selected: selected_receiver_id
             });
 
             itemSelectDropdown({
@@ -182,7 +180,7 @@
                     "name": textArray[0],
                     "dimension": textArray[1],
                     "description": textArray[3],
-/*                    "weight": (textArray[4] !== undefined) ? textArray[4] : null,*/
+                    /*                    "weight": (textArray[4] !== undefined) ? textArray[4] : null,*/
                     "price": parseFloat(textArray[2]).toFixed(2),
                     "quantity": parseFloat('1.00').toFixed(2),
                     "total": (parseFloat(textArray[2])).toFixed(2),

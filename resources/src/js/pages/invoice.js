@@ -50,7 +50,8 @@ function userSelectDropdown(options) {
 
                             options.push({
                                 "id": id,
-                                "text": text
+                                "text": text,
+                                "selected": (options.selected === id)
                             });
                         });
                         returnObject.results = options;
@@ -146,9 +147,9 @@ function itemSelectDropdown(options) {
                             options.push({
                                 "id": id,
                                 "text": text,
-                                "name" : item.name,
-                                "rate" : item.rate,
-                                "dimension" : item.dimension
+                                "name": item.name,
+                                "rate": item.rate,
+                                "dimension": item.dimension
                             });
                         });
                         returnObject.results = options;
@@ -189,7 +190,36 @@ function itemSelectDropdown(options) {
                                 </div>\
                             </div>');
             }
-        });
+        })
+            .on('select2:open', function () {
+                let a = $(this).data('select2');
+                if (!$('.select2-link').length) {
+                    var select2results = a.$results.parents('.select2-results');
+                    if (select2results.find(".add-new-btn").length === 0) {
+                        select2results.append('<div class="select2-link2 select2-close p-2">\
+                                            <button type="button" class="btn btn-primary btn-block add-new-btn">\
+                                                Add New Customer\
+                                            </button>\
+                                        </div>')
+                            .on('click', function (b) {
+                                $("#user_id").trigger({
+                                    type: 'select2:closing',
+                                    params: {
+                                        data: {
+                                            "id": 1,
+                                            "text": "Tyto alba",
+                                            "genus": "Tyto",
+                                            "species": "alba"
+                                        }
+                                    }
+                                })
+                                $("#staticBackdrop").modal({
+                                    backdrop: 'static'
+                                });
+                            });
+                    }
+                }
+            });
     }
 }
 
@@ -246,3 +276,14 @@ function removeRow(element) {
     var r = $(element).parent().parent().remove();
     //updateInvoice();
 }
+
+function toggleDetailPanel(element) {
+    $(element).parent().parent().find('.detail-panel').each(function () {
+        $(this).toggleClass('d-none');
+    })
+}
+
+$(document).ready(function () {
+    $(".dimension-field").inputmask('999X999X999', {'placeholder': '___X___X___'});
+    $(".detail-panel").addClass('d-none');
+});
