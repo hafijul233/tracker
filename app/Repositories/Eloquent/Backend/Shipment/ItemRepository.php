@@ -48,8 +48,8 @@ class ItemRepository extends EloquentRepository
             $query->where('enabled', '=', $filters['enabled']);
         endif;
 
-        if (!empty($filters['user_id'])) :
-            $query->where('user_id', '=', $filters['user_id']);
+        if (!empty($filters['user'])) :
+            $query->where('user_id', '=', $filters['user']);
         endif;
 
         if (!empty($filters['sort']) && !empty($filters['direction'])) :
