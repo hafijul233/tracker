@@ -85,7 +85,7 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    {!! \Form::nTextarea('remarks', 'Remarks', old('remarks', $contact->remarks ?? null), false) !!}
+                    {!! \Form::nTextarea('remarks', __('common.Remarks'), old('remarks', $contact->remarks ?? null), false) !!}
                 </div>
             </div>
         </div>
