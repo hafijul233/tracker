@@ -1,4 +1,5 @@
 /**
+ * init sender and receiver select2 dropdown
  *
  * @param options
  */
@@ -106,7 +107,7 @@ function userSelectDropdown(options) {
 }
 
 /**
- *
+ * init item select2 dropdown
  * @param options
  */
 function itemSelectDropdown(options) {
@@ -140,11 +141,14 @@ function itemSelectDropdown(options) {
                             var id = item.id;
                             var text = "";
 
-                            text += (item.name + "##") + (item.dimension + "##") + (item.rate + " " + item.currency+ "##") + (item.description + "##");
+                            text += (item.name + "##") + (item.dimension + "##") + (item.rate + " " + item.currency + "##") + (item.description + "##") + (item.weight + "##");
 
                             options.push({
                                 "id": id,
-                                "text": text
+                                "text": text,
+                                "name" : item.name,
+                                "rate" : item.rate,
+                                "dimension" : item.dimension
                             });
                         });
                         returnObject.results = options;
@@ -160,13 +164,15 @@ function itemSelectDropdown(options) {
                 }
                 var itemValues = item.text.trim().split("##");
                 return $('<div class="media">\
-                                <img class="align-self-center mr-1 img-circle direct-chat-img elevation-1"\
-                                 src="' + itemValues[0] + '" alt="' + itemValues[1] + '">\
                                 <div class="media-body">\
-                                    <p class="my-0">' + itemValues[1] + '</p>\
-                                    <p class="mb-0 small">\
-                                    <span class="text-muted"><i class="fas fa-user"></i> ' + itemValues[3] + '</span>\
-                                    <span class="ml-1 text-muted"><i class="fas fa-phone"></i> ' + itemValues[2] + '</span>\
+                                    <h5 class="mt-0">' + itemValues[0] + '</h5>\
+                                    <p class="mb-0">\
+                                        <span class="text-muted">\
+                                            <span class="text-dark d-none d-lg-inline-block">Dimension: </span>\
+                                            <i class="fas fa-box d-inline-block d-lg-none"></i> ' + itemValues[1] + '</span>\
+                                        <span class="ml-1 text-muted">\
+                                            <span class="text-dark d-none d-lg-inline-block">Rate: </span>\
+                                            <i class="fas fa-usd d-inline-block d-lg-none"></i> ' + itemValues[2] + '</span>\
                                     </p>\
                                 </div>\
                             </div>');
@@ -176,17 +182,12 @@ function itemSelectDropdown(options) {
                     return item.text;
                 }
                 var itemValues = item.text.trim().split("##");
-                return $('<div class="media" style="padding-top: 0.75rem;">\
+
+                return $('<div class="media">\
                                 <div class="media-body">\
                                     <h5 class="text-dark font-weight-bold">' + itemValues[0] + '</h5>\
                                 </div>\
                             </div>');
-                //<p class="mb-0">\
-                //                                         <span class="text-muted">\
-                //                                         <span class="text-dark d-none d-lg-inline-block">Username: </span><i class="fas fa-user d-inline-block d-lg-none"></i> ' + itemValues[3] + '</span>\
-                //                                         <span class="ml-1 text-muted">\
-                //                                         <span class="text-dark d-none d-lg-inline-block">Phone: </span><i class="fas fa-phone d-inline-block d-lg-none"></i> ' + itemValues[2] + '</span>\
-                //                                     </p>\
             }
         });
     }

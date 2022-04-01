@@ -34,7 +34,6 @@
     </div>
     <div class="row">
         <div class="col-12 table-responsive">
-
             <table class="table table-center table-hover">
                 <thead>
                 <tr class="text-center">
@@ -48,11 +47,12 @@
                 </thead>
                 <tbody id="invoice-body">
                 @for($index=0;$index<10; $index++)
-                    <tr class="invoice-item">
+                    <tr class="invoice-item" data-invoice-item-id="{{ $index }}">
                         <td style="width: 40px;" class="align-content-center text-center pr-0 pb-0">
-                            <button class="btn btn-outline-secondary  btn-sm remove-btn">
+                            <button class="btn btn-outline-secondary  btn-sm" onclick="removeRow(this)">
                                 <i class="fas fa-times-circle"></i>
                             </button>
+                            <input type="hidden" id="item_id_{{$index}}" value="">
                         </td>
                         <td class="pb-0">
                             {!! \Form::iText("item_name_{$index}", 'Name', null, true, null, 'before', ['placeholder' => 'Enter Item Name']) !!}
@@ -85,7 +85,13 @@
                 </tbody>
                 <tfoot>
                 <tr>
-                    <td colspan="6" class="px-0">
+                    <td colspan="2">
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#staticBackdrop">
+                            Add New Item
+                        </button>
+                    </td>
+                    <td colspan="4" class="px-0">
                         {!! \Form::iSelect('item_query', 'Items', [], null, true, null, 'before', ['class' => 'form-control custom-select item-query-select2']) !!}
                     </td>
                 </tr>
@@ -102,6 +108,26 @@
         <div class="col-12 justify-content-between d-flex">
             {!! \Form::nCancel(__('common.Cancel')) !!}
             {!! \Form::nSubmit('submit', __('common.Save')) !!}
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Understood</button>
+            </div>
         </div>
     </div>
 </div>
@@ -138,6 +164,40 @@
                 target: 'item_query',
                 placeholder: "Please Select Item",
                 route: "{{ route('backend.shipment.items.ajax') }}"
+            });
+
+            /*$("#user_id").on("change.select2", function () {
+                alert("select2 event triggered");
+            });*/
+
+            $("#item_query").on("change.select2", function () {
+                var option = $('#item_query').find(':selected');
+                var text = option.text().trim();
+                var textArray = text.split("##");
+                var id = option.val().trim();
+
+                var item = {
+                    "id": id,
+                    "text": text,
+                    "name": textArray[0],
+                    "dimension": textArray[1],
+                    "description": textArray[3],
+/*                    "weight": (textArray[4] !== undefined) ? textArray[4] : null,*/
+                    "price": parseFloat(textArray[2]).toFixed(2),
+                    "quantity": parseFloat('1.00').toFixed(2),
+                    "total": (parseFloat(textArray[2])).toFixed(2),
+                }
+
+                var lastRow = $("#invoice-body>tr:last-child");
+                var item_invoice_id = lastRow.data('invoice-item-id');
+                lastRow.find("#item_id_" + item_invoice_id).val(item.id);
+                lastRow.find("#item_name_" + item_invoice_id).val(item.name);
+                lastRow.find("#item_description_" + item_invoice_id).val(item.description);
+                lastRow.find("#item_dimension_" + item_invoice_id).val(item.dimension);
+                lastRow.find("#item_quantity_" + item_invoice_id).val(item.quantity);
+                lastRow.find("#item_price_" + item_invoice_id).val(item.price);
+                lastRow.find("#item_total_" + item_invoice_id).val(item.total);
+
             });
 
         });
