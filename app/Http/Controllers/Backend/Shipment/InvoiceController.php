@@ -57,6 +57,7 @@ class InvoiceController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return Application|Factory|View
      * @throws Exception
      */
@@ -77,6 +78,7 @@ class InvoiceController extends Controller
      */
     public function create()
     {
+
         return view('backend.shipment.invoice.create');
     }
 

@@ -308,7 +308,7 @@ class CustomerController extends Controller
     public function ajax(Request $request): JsonResponse
     {
         $filters = $request->except('page');
-        $customers = $this->customerService->getAllCustomers($filters, ['media']);
+        $customers = $this->customerService->getAllCustomers($filters, ['media', 'roles']);
 
         if(count($customers) > 0):
             $jsonReturn = ['status' => true, 'data' => $customers];

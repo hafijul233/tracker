@@ -2,14 +2,15 @@ function userSelectDropdown(options) {
     $("#" + options.target).select2({
         width: "100%",
         placeholder: options.placeholder,
+        minimumResultsForSearch: Infinity,
         /*minimumInputLength: 3,*/
-        allowClear:true,
+        /*allowClear:true,*/
         ajax: {
             url: options.route,
             data: function (params) {
                 return {
                     search: params.term,
-                    type: 'public'
+                    enabled: 'yes'
                 }
             },
             dataType: 'json',
@@ -18,7 +19,7 @@ function userSelectDropdown(options) {
                 'Accept': 'application/json'
             },
             cache: false,
-            delay:250,
+            delay: 250,
             processResults: function (response) {
                 var returnObject = {results: []};
                 if (response.status === true) {
@@ -26,6 +27,8 @@ function userSelectDropdown(options) {
                     response.data.forEach(function (customer) {
                         var id = customer.id;
                         var text = '';
+                        var roleStr = "";
+
                         if (customer.media.length > 0) {
                             var avatarImage = customer.media.pop();
                             text = avatarImage.original_url + "##";
@@ -33,7 +36,13 @@ function userSelectDropdown(options) {
                             text = defaultMedia + "##";
                         }
 
-                        text += (customer.name + "##") + (customer.mobile + "##") + (customer.username + "##");
+                        if (customer.roles.length > 0) {
+                            roleStr = customer.roles.pop().name;
+                        } else {
+                            roleStr = "Guest";
+                        }
+
+                        text += (customer.name + "##") + (customer.mobile + "##") + (customer.username + "##") + (roleStr + "##");
 
                         options.push({
                             "id": id,
@@ -69,9 +78,25 @@ function userSelectDropdown(options) {
                 return item.text;
             }
             var itemValues = item.text.trim().split("##");
-            return $('<p class="my-0 text-dark font-weight-bold d-flex justify-content-between align-content-center">\
-                    <span><i class="fas fa-user text-muted"></i> ' + itemValues[1] + '</span>\
-                        <span><i class="fas fa-phone text-muted"></i> ' + itemValues[2] + '</span></p>');
+            return $('<div class="media" style="padding-top: 0.75rem;">\
+                                <img class="align-self-center mr-3 ml-0 img-circle elevation-1" style="max-width: 65px; max-height: 65px;" \
+                                 src="' + itemValues[0] + '" alt="User">\
+                                <div class="media-body">\
+                                    <h5 class="text-dark font-weight-bold">' + itemValues[1] + '</h5>\
+                                    <p class="mb-0">\
+                                    <span class="badge badge-pill badge-success">' + itemValues[4] + '</span>\
+                                    </p>\
+                                    <p class="mb-0">\
+                                        <span class="text-muted">\
+                                        <span class="text-dark d-none d-lg-inline-block">Username: </span><i class="fas fa-user d-inline-block d-lg-none"></i> ' + itemValues[3] + '</span>\
+                                        <span class="ml-1 text-muted">\
+                                        <span class="text-dark d-none d-lg-inline-block">Phone: </span><i class="fas fa-phone d-inline-block d-lg-none"></i> ' + itemValues[2] + '</span>\
+                                    </p>\
+                                </div>\
+                            </div>');
+            /*            return $('<p class="my-0 text-dark font-weight-bold d-flex justify-content-between align-content-center">\
+                                <span><i class="fas fa-user text-muted"></i> ' + itemValues[1] + '</span>\
+                                    <span><i class="fas fa-phone text-muted"></i> ' + itemValues[2] + '</span></p>');*/
         }
     });
 }
@@ -249,57 +274,57 @@ $(document).ready(function () {
         }
     });
 
-/*    $("#user").change(function () {
-        var user = $(this).val();
-        var company = $('#company').val();
-        if (user) {
-            $.post('{{ route('users.find-user-have-id') }}', {
-                user_id: user,
-                company_id: company,
-                '_token': CSRF_TOKEN
-            },
-                function (response) {
-                    $("#name").val(response.name);
-                    $("#phone").val(response.mobile_number);
-                    $("#email").val(response.email);
-                }, 'json');
-        }
-    });
+    /*    $("#user").change(function () {
+            var user = $(this).val();
+            var company = $('#company').val();
+            if (user) {
+                $.post('{{ route('users.find-user-have-id') }}', {
+                    user_id: user,
+                    company_id: company,
+                    '_token': CSRF_TOKEN
+                },
+                    function (response) {
+                        $("#name").val(response.name);
+                        $("#phone").val(response.mobile_number);
+                        $("#email").val(response.email);
+                    }, 'json');
+            }
+        });
 
-    $("#coupon-apply").click(function () {
-        var coupon = $("#coupon_code").val();
-        var company = $('#company').val();
-        var subTotalCol = $('#sub-total');
+        $("#coupon-apply").click(function () {
+            var coupon = $("#coupon_code").val();
+            var company = $('#company').val();
+            var subTotalCol = $('#sub-total');
 
-        if ((coupon.length > 3) && (!isNaN(subTotalCol.val()))) {
-            $.post('{{ route('coupons.check') }}', {
-                'company_id': company,
-                'coupon_code': coupon,
-                '_token': CSRF_TOKEN,
-                'coupon_status': 'ACTIVE',
-                'coupon_end_verify': 'YES',
-                'coupon_end': 'CHECK'
-            }, function (response) {
-                if (response.status === true) {
-                    alert(response.message);
-                    var discountCol = $('#discount');
-                    var discountAmount = 0;
+            if ((coupon.length > 3) && (!isNaN(subTotalCol.val()))) {
+                $.post('{{ route('coupons.check') }}', {
+                    'company_id': company,
+                    'coupon_code': coupon,
+                    '_token': CSRF_TOKEN,
+                    'coupon_status': 'ACTIVE',
+                    'coupon_end_verify': 'YES',
+                    'coupon_end': 'CHECK'
+                }, function (response) {
+                    if (response.status === true) {
+                        alert(response.message);
+                        var discountCol = $('#discount');
+                        var discountAmount = 0;
 
-                    var disAmt = parseFloat(response.coupon.discount_amount);
-                    if (response.coupon.discount_type === 'percent') {
-                        discountAmount = ((parseFloat(subTotalCol.val()) * disAmt) / 100) || 0;
+                        var disAmt = parseFloat(response.coupon.discount_amount);
+                        if (response.coupon.discount_type === 'percent') {
+                            discountAmount = ((parseFloat(subTotalCol.val()) * disAmt) / 100) || 0;
+                        } else {
+                            discountAmount = disAmt || 0;
+                        }
+
+                        discountCol.val(discountAmount);
+                        updateInvoice();
                     } else {
-                        discountAmount = disAmt || 0;
+                        alert(response.message);
                     }
-
-                    discountCol.val(discountAmount);
-                    updateInvoice();
-                } else {
-                    alert(response.message);
-                }
-            }, 'json');
-        }
-    });*/
+                }, 'json');
+            }
+        });*/
 
     if (selected_user_id.length > 0) {
         $("#user").val(selected_user_id);

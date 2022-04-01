@@ -14,10 +14,13 @@
             margin-top: calc(2.50rem);
         }
 
-        span#select2-user_id-container,
+        .select2-results__option--highlighted {
+            color: white !important;
+        }
+        /*span#select2-user_id-container,
         span#select2-receiver_id-container {
             margin-top: calc(2.50rem);
-        }
+        }*/
     </style>
 @endpush
 
