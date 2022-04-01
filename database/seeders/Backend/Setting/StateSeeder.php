@@ -4907,10 +4907,11 @@ class StateSeeder extends Seeder
                 array('id' => '3723', 'name' => 'Prizren District', 'country_id' => '248', 'type' => NULL, 'native' => 'Prizren District', 'latitude' => '42.21525220', 'longitude' => '20.74147720', 'enabled' => 'yes', 'created_by' => NULL, 'updated_by' => NULL, 'deleted_by' => NULL, 'created_at' => '2019-10-05 23:48:55', 'updated_at' => '2021-12-09 00:13:37', 'deleted_at' => NULL),
                 array('id' => '4874', 'name' => 'Uroševac District (Ferizaj)', 'country_id' => '248', 'type' => NULL, 'native' => 'Uroševac District (Ferizaj)', 'latitude' => '42.37018440', 'longitude' => '21.14832810', 'enabled' => 'yes', 'created_by' => NULL, 'updated_by' => NULL, 'deleted_by' => NULL, 'created_at' => '2020-08-15 22:05:46', 'updated_at' => '2021-12-09 00:13:37', 'deleted_at' => NULL)
             );
-
-            DB::table('states')->insert($states);
-            DB::table('states')->where('country_id', '!=','19')->delete();
+            foreach (array_chunk($states, 2000) as $block):
+                DB::table('states')->insert($block);
+            endforeach;
             DB::commit();
+            DB::table('states')->where('country_id', '!=', '19')->delete();
         } catch (\PDOException $exception) {
             DB::rollBack();
             throw new \PDOException($exception->getMessage());
