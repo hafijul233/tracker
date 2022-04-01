@@ -91,6 +91,8 @@ class InvoiceController extends Controller
      */
     public function store(InvoiceRequest $request): RedirectResponse
     {
+        dd($request->all());
+
         $confirm = $this->invoiceService->storeInvoice($request->except('_token'));
         if ($confirm['status'] == true) {
             notify($confirm['message'], $confirm['level'], $confirm['title']);

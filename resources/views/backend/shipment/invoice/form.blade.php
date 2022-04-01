@@ -38,7 +38,7 @@
                 <thead>
                 <tr class="text-center">
                     <th>#</th>
-                    <th>Items</th>
+                    <th width="40%">Items</th>
                     <th>Quantity</th>
                     <th>Price</th>
                     <th>Amount</th>
@@ -46,53 +46,53 @@
                 </tr>
                 </thead>
                 <tbody id="invoice-body">
-                @for($index=0;$index<10; $index++)
-                    <tr data-invoice-item-id="{{ $index }}">
-                        <td style="width: 40px;" class="align-content-center text-center pr-0 pb-0">
-                            <button class="btn btn-outline-secondary  btn-sm" onclick="removeRow(this)">
-                                <i class="fas fa-times-circle"></i>
-                            </button>
-                            <input type="hidden" id="item_id_{{$index}}" value="">
-                        </td>
-                        <td class="pb-0">
-                            {!! \Form::iText("item_name_{$index}", 'Name', null, true, null, 'before', ['placeholder' => 'Enter Item Name']) !!}
-                            <div class="detail-panel">
-                                {!! \Form::iTextarea("item_description_{$index}", 'Description', null, false, null, 'before', ['placeholder' => 'Enter Item Description', 'rows' => 2 ]) !!}
-                            </div>
-                        </td>
-                        <td class="pb-0">
-                            {!! \Form::iNumber("item_quantity_{$index}", 'Quantity', '0.00', true, null, 'before', ['placeholder' => 'Enter Item Quantity', 'class' => 'form-control text-right']) !!}
-                            <div class="detail-panel">
-                                {!! \Form::nText("item_dimension_{$index}", 'Dimension', null, false, ['placeholder' => 'Enter Item Dimension', 'class' => 'form-control dimension-field']) !!}
-                            </div>
-                        </td>
-                        <td class="pb-0">
-                            {!! \Form::iNumber("item_price_{$index}", 'Price', '0.00', true, null, 'before', ['placeholder' => 'Enter Item Price', 'class' => 'form-control text-right']) !!}
-                            <div class="detail-panel">
-                                {!! \Form::nNumber("item_weight_{$index}", 'Weight', '0.00', false, ['placeholder' => 'Enter Item Weight', 'class' => 'form-control text-right']) !!}
-                            </div>
-                        </td>
-                        <td class="pb-0">
-                            {!! \Form::iNumber("item_total_{$index}", 'Amount', '0.00', false, null, 'before', ['placeholder' => 'Enter Item Total', 'class' => 'form-control bg-white text-right']) !!}
-                        </td>
-                        <td>
-                            <a href="#" class="text-secondary" onclick="toggleDetailPanel(this); return false;">
-                                <i class="fas fa-angle-double-down"></i>
-                            </a>
-                        </td>
-                    </tr>
-                @endfor
+                @php $index = 0; @endphp
+                <input type="hidden" id="item_index" value="{{ $index }}"/>
+                <tr>
+                    <td style="width: 40px;" class="align-content-center text-center pr-0 pb-0">
+                        <button class="btn btn-outline-secondary  btn-sm" onclick="removeRow(this)">
+                            <i class="fas fa-times-circle"></i>
+                        </button>
+                        <input type="hidden" id="item[{{$index}}][id]" value="">
+                    </td>
+                    <td class="pb-0">
+                        {!! \Form::iText("item[{$index}][name]", 'Name', null, true, null, 'before', ['placeholder' => 'Enter Item Name']) !!}
+                        <div class="detail-panel">
+                            {!! \Form::iTextarea("item[{$index}][description]", 'Description', null, false, null, 'before', ['placeholder' => 'Enter Item Description', 'rows' => 2 ]) !!}
+                        </div>
+                    </td>
+                    <td class="pb-0">
+                        {!! \Form::iNumber("item[{$index}][quantity]", 'Quantity', '0.00', true, null, 'before', ['placeholder' => 'Enter Item Quantity', 'class' => 'form-control text-right']) !!}
+                        <div class="detail-panel">
+                            {!! \Form::nText("item[{$index}][dimension]", 'Dimension', null, false, ['placeholder' => 'Enter Item Dimension', 'class' => 'form-control dimension-field']) !!}
+                        </div>
+                    </td>
+                    <td class="pb-0">
+                        {!! \Form::iNumber("item[{$index}][price]", 'Price', '0.00', true, null, 'before', ['placeholder' => 'Enter Item Price', 'class' => 'form-control text-right']) !!}
+                        <div class="detail-panel">
+                            {!! \Form::nNumber("item[{$index}][weight]", 'Weight', '0.00', false, ['placeholder' => 'Enter Item Weight', 'class' => 'form-control text-right']) !!}
+                        </div>
+                    </td>
+                    <td class="pb-0">
+                        {!! \Form::iNumber("item[{$index}][total]", 'Amount', '0.00', false, null, 'before', ['placeholder' => 'Enter Item Total', 'class' => 'form-control bg-white text-right']) !!}
+                    </td>
+                    <td>
+                        <a href="#" class="text-secondary" onclick="toggleDetailPanel(this); return false;">
+                            <i class="fas fa-angle-double-down"></i>
+                        </a>
+                    </td>
+                </tr>
                 </tbody>
                 <tfoot>
                 <tr>
-                    <td colspan="2">
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary btn-block" data-toggle="modal"
-                                data-target="#staticBackdrop">
-                            Add New Item
-                        </button>
-                    </td>
-                    <td colspan="4" class="px-0">
+                    {{--                    <td colspan="2">
+                                            <!-- Button trigger modal -->
+                                            <button type="button" class="btn btn-primary btn-block" data-toggle="modal"
+                                                    data-target="#staticBackdrop">
+                                                Add New Item
+                                            </button>
+                                        </td>--}}
+                    <td colspan="6" class="px-0">
                         {!! \Form::iSelect('item_query', 'Items', [], null, true, null, 'before', ['class' => 'form-control custom-select item-query-select2']) !!}
                     </td>
                 </tr>
@@ -143,6 +143,75 @@
         var selected_receiver_id = '{{ old('receiver_id', $invoice->receiver_id ?? null) }}';
         const defaultMedia = '{{ asset(\App\Supports\Constant::USER_PROFILE_IMAGE) }}' + "##";
 
+        function addNewItem(index, item) {
+             $("#invoice-body").append('<tr>\
+                    <td style="width: 40px;" class="align-content-center text-center pr-0 pb-0">\
+                        <button class="btn btn-outline-secondary  btn-sm" onclick="removeRow(this)">\
+                            <i class="fas fa-times-circle"></i>\
+                        </button>\
+                        <input type="hidden" id="item[' + index + '][id]" value="' + item.id + '">\
+                    </td>\
+                    <td class="pb-0">\
+                        <div class="form-group">\
+    <label for="item[' + index + '][name]" class="sr-only d-none">Name<span style="color: #dc3545; font-weight:700">*</span></label>\
+            <input class="form-control" required="required" placeholder="Enter Item Name" name="item[' + index + '][name]" type="text" id="item[' + index + '][name]" value="' + item.name + '">\
+        <span id="item[' + index + '][name]-error" class="invalid-feedback"></span>\
+</div>\
+                        <div class="detail-panel d-none">\
+                            <div class="form-group">\
+    <label for="item[' + index + '][description]" class="sr-only d-none">Description</label>\
+            <textarea class="form-control" rows="2" placeholder="Enter Item Description" name="item[' + index + '][description]" cols="50" id="item[' + index + '][description]">' + item.description + '</textarea>\
+        <span id="item[' + index + '][description]-error" class="invalid-feedback"></span>\
+</div>\
+                        </div>\
+                    </td>\
+                    <td class="pb-0">\
+                        <div class="form-group">\
+    <label for="item[' + index + '][quantity]" class="sr-only d-none">Quantity<span style="color: #dc3545; font-weight:700">*</span></label>\
+            <input class="form-control text-right" required="required" placeholder="Enter Item Quantity" name="item[' + index + '][quantity]" type="number" value="' + item.quantity + '" id="item[' + index + '][quantity]">\
+    <span id="item[' + index + '][quantity]-error" class="invalid-feedback"></span>\
+</div>\
+                        <div class="detail-panel d-none">\
+                            <div class="form-group">\
+    <label for="item[' + index + '][dimension]">Dimension</label>\
+    <input class="form-control dimension-field" placeholder="Enter Item Dimension" name="item[' + index + '][dimension]" type="text" id="item[' + index + '][dimension]" value="' + item.quantity + '" inputmode="text">\
+    <span id="item[' + index + '][dimension]-error" class="invalid-feedback"></span>\
+</div>\
+                        </div>\
+                    </td>\
+                    <td class="pb-0">\
+                        <div class="form-group">\
+    <label for="item[' + index + '][price]" class="sr-only d-none">Price<span style="color: #dc3545; font-weight:700">*</span></label>\
+            <input class="form-control text-right" required="required" placeholder="Enter Item Price" name="item[' + index + '][price]" type="number" value="' + item.price + '" id="item[' + index + '][price]">\
+    <span id="item[' + index + '][price]-error" class="invalid-feedback"></span>\
+</div>\
+                        <div class="detail-panel d-none">\
+                            <div class="form-group">\
+    <label for="item[' + index + '][weight]">Weight</label>\
+    <input class="form-control text-right" placeholder="Enter Item Weight" name="item[' + index + '][weight]" type="number" value="' + item.weight + '" id="item[' + index + '][weight]">\
+    <span id="item[' + index + '][weight]-error" class="invalid-feedback"></span>\
+</div>\
+                        </div>\
+                    </td>\
+                    <td class="pb-0">\
+                        <div class="form-group">\
+    <label for="item[' + index + '][total]" class="sr-only d-none">Amount</label>\
+            <input class="form-control bg-white text-right" placeholder="Enter Item Total" name="item[' + index + '][total]" type="number" value="' + item.total + '" id="item[' + index + '][total]">\
+    <span id="item[' + index + '][total]-error" class="invalid-feedback"></span>\
+</div>\
+                    </td>\
+                    <td>\
+                        <a href="#" class="text-secondary" onclick="toggleDetailPanel(this); return false;">\
+                            <i class="fas fa-angle-double-down"></i>\
+                        </a>\
+                    </td>\
+                </tr>');
+            index++;
+
+            $("#item_index").val(index);
+
+        }
+
         $(document).ready(function () {
             userSelectDropdown({
                 target: "user_id",
@@ -180,12 +249,14 @@
                     "name": textArray[0],
                     "dimension": textArray[1],
                     "description": textArray[3],
-                    /*                    "weight": (textArray[4] !== undefined) ? textArray[4] : null,*/
+                    "weight": (textArray[4] !== undefined) ? textArray[4] : null,
                     "price": parseFloat(textArray[2]).toFixed(2),
                     "quantity": parseFloat('1.00').toFixed(2),
                     "total": (parseFloat(textArray[2])).toFixed(2),
                 }
 
+                addNewItem($("#item_index").val(), item);
+/*
                 var lastRow = $("#invoice-body>tr:last-child");
                 var item_invoice_id = lastRow.data('invoice-item-id');
                 lastRow.find("#item_id_" + item_invoice_id).val(item.id);
@@ -194,7 +265,7 @@
                 lastRow.find("#item_dimension_" + item_invoice_id).val(item.dimension);
                 lastRow.find("#item_quantity_" + item_invoice_id).val(item.quantity);
                 lastRow.find("#item_price_" + item_invoice_id).val(item.price);
-                lastRow.find("#item_total_" + item_invoice_id).val(item.total);
+                lastRow.find("#item_total_" + item_invoice_id).val(item.total);*/
 
             });
 
