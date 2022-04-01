@@ -53,7 +53,14 @@ class StateRepository extends EloquentRepository
             if (is_array($filters['country'])):
                 $query->whereIn('country_id', $filters['country']);
             else :
-                $query->where('country_id', $filters['country']);
+                $query->where('country_id', '=', $filters['country']);
+            endif;
+        endif;
+        if (isset($filters['type']) && !empty($filters['type'])) :
+            if (is_array($filters['type'])):
+                $query->whereIn('type', $filters['type']);
+            else :
+                $query->where('type', '=', $filters['type']);
             endif;
         endif;
 
@@ -61,7 +68,7 @@ class StateRepository extends EloquentRepository
             if (is_array($filters['id'])):
                 $query->whereIn('id', $filters['id']);
             else :
-                $query->where('id', $filters['id']);
+                $query->where('id', '=', $filters['id']);
             endif;
         endif;
 

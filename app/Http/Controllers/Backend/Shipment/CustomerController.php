@@ -94,6 +94,7 @@ class CustomerController extends Controller
 
         $states = $this->stateService->getStateDropdown([
             'country' => 19,
+            'type' => ''
         ]);
 
         return view('backend.shipment.customer.create', [
