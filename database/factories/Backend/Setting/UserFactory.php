@@ -56,13 +56,6 @@ class UserFactory extends Factory
                 $user->addMedia($profileImagePath)->toMediaCollection('avatars')->save();
             }
 
-            //Attach Contact Address
-            Address::factory()->create([
-                'addressable_type' => get_class($user),
-                'addressable_id' => $user->id,
-                'type' => 'home'
-            ]);
-
         });
     }
 
@@ -75,6 +68,14 @@ class UserFactory extends Factory
         return $this->afterCreating(function (User $user) {
             //attach role
             $user->roles()->attach(mt_rand(2, 5));
+
+            //Attach Contact Address
+            Address::factory()->create([
+                'addressable_type' => get_class($user),
+                'addressable_id' => $user->id,
+                'type' => 'home',
+                'fallback' => 'yes'
+            ]);
         });
 
     }
@@ -88,10 +89,25 @@ class UserFactory extends Factory
         return $this->afterCreating(function (User $user) {
             $role =
                 (($user->id % 2) == 0)
-                ? Constant::SENDER_ROLE_ID
-                : Constant::RECEIVER_ROLE_ID;
+                    ? Constant::SENDER_ROLE_ID
+                    : Constant::RECEIVER_ROLE_ID;
             //attach role
             $user->roles()->attach($role);
+
+            //Attach Contact Address
+            Address::factory()->create([
+                'addressable_type' => get_class($user),
+                'addressable_id' => $user->id,
+                'type' => 'bill',
+                'fallback' => 'yes'
+            ]);
+
+            Address::factory()->create([
+                'addressable_type' => get_class($user),
+                'addressable_id' => $user->id,
+                'type' => 'ship',
+                'fallback' => 'no'
+            ]);
         });
 
     }
@@ -105,6 +121,14 @@ class UserFactory extends Factory
         return $this->afterCreating(function (User $user) {
             //attach role
             $user->roles()->attach(Constant::DRIVER_ROLE_ID);
+
+            //Attach Contact Address
+            Address::factory()->create([
+                'addressable_type' => get_class($user),
+                'addressable_id' => $user->id,
+                'type' => 'home',
+                'fallback' => 'yes'
+            ]);
         });
 
     }
