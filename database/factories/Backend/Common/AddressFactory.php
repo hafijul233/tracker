@@ -32,7 +32,6 @@ class AddressFactory extends Factory
             'longitude' => $this->faker->longitude(),
             'latitude' => $this->faker->latitude(),
             'post_code' => $this->faker->postcode(),
-            'fallback' => Constant::DISABLED_OPTION,
             'enabled' => Constant::ENABLED_OPTION,
             'remark' => $this->faker->paragraph(2),
             'city_id' => config('contact.default.city'),
