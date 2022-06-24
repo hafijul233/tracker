@@ -53,7 +53,7 @@ class SmsController extends Controller
      */
     public function index(Request $request)
     {
-        $filters = $request->except('page');
+        $filters = $request->except('page', 'sort', 'direction');
         $smss = $this->smsService->smsPaginate($filters);
 
         return view('backend.setting.sms.index', [
@@ -204,7 +204,7 @@ class SmsController extends Controller
      */
     public function export(Request $request)
     {
-        $filters = $request->except('page');
+        $filters = $request->except('page', 'sort', 'direction');
 
         $smsExport = $this->smsService->exportSms($filters);
 
@@ -234,7 +234,7 @@ class SmsController extends Controller
      */
     public function importBulk(Request $request)
     {
-        $filters = $request->except('page');
+        $filters = $request->except('page', 'sort', 'direction');
         $smss = $this->smsService->getAllSmss($filters);
 
         return view('backend.setting.smsindex', [
@@ -250,7 +250,7 @@ class SmsController extends Controller
      */
     public function print(Request $request)
     {
-        $filters = $request->except('page');
+        $filters = $request->except('page', 'sort', 'direction');
 
         $smsExport = $this->smsService->exportSms($filters);
 

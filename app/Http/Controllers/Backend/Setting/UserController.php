@@ -61,7 +61,7 @@ class UserController extends Controller
      */
     public function index(Request $request): View
     {
-        $filters = $request->except('page');
+        $filters = $request->except('page', 'sort', 'direction');
         $users = $this->userService->userPaginate($filters);
 
         return view('backend.setting.user.index', [
@@ -239,7 +239,7 @@ class UserController extends Controller
      */
     public function importBulk(Request $request)
     {
-        $filters = $request->except('page');
+        $filters = $request->except('page', 'sort', 'direction');
         $users = $this->userService->getAllUsers($filters);
 
         return view('backend.setting.user.index', [
@@ -255,7 +255,7 @@ class UserController extends Controller
      */
     public function export(Request $request)
     {
-        $filters = $request->except('page');
+        $filters = $request->except('page', 'sort', 'direction');
 
         $userExport = $this->userService->exportUser($filters);
 
@@ -275,7 +275,7 @@ class UserController extends Controller
     public function print(Request $request)
     {
 
-        $filters = $request->except('page');
+        $filters = $request->except('page', 'sort', 'direction');
 
         $userExport = $this->userService->exportUser($filters);
 

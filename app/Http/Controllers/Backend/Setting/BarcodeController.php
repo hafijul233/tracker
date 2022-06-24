@@ -53,7 +53,7 @@ class BarcodeController extends Controller
      */
     public function index(Request $request)
     {
-        $filters = $request->except('page');
+        $filters = $request->except('page', 'sort', 'direction');
         $barcodes = $this->barcodeService->barcodePaginate($filters);
 
         return view('backend.setting.barcode.index', [
@@ -204,7 +204,7 @@ class BarcodeController extends Controller
      */
     public function export(Request $request)
     {
-        $filters = $request->except('page');
+        $filters = $request->except('page', 'sort', 'direction');
 
         $barcodeExport = $this->barcodeService->exportBarcode($filters);
 
@@ -234,7 +234,7 @@ class BarcodeController extends Controller
      */
     public function importBulk(Request $request)
     {
-        $filters = $request->except('page');
+        $filters = $request->except('page', 'sort', 'direction');
         $barcodes = $this->barcodeService->getAllBarcodes($filters);
 
         return view('backend.setting.barcodeindex', [
@@ -250,7 +250,7 @@ class BarcodeController extends Controller
      */
     public function print(Request $request)
     {
-        $filters = $request->except('page');
+        $filters = $request->except('page', 'sort', 'direction');
 
         $barcodeExport = $this->barcodeService->exportBarcode($filters);
 

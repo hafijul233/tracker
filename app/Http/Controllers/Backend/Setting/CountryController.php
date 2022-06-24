@@ -47,7 +47,7 @@ class CountryController extends Controller
      */
     public function index(Request $request)
     {
-        $filters = $request->except('page');
+        $filters = $request->except('page', 'sort', 'direction');
         $countries = $this->countryService->countryPaginate($filters);
 
         return view('setting.country.index', [
@@ -198,7 +198,7 @@ class CountryController extends Controller
      */
     public function export(Request $request)
     {
-        $filters = $request->except('page');
+        $filters = $request->except('page', 'sort', 'direction');
 
         $countryExport = $this->countryService->exportCountry($filters);
 
@@ -228,7 +228,7 @@ class CountryController extends Controller
      */
     public function importBulk(Request $request)
     {
-        $filters = $request->except('page');
+        $filters = $request->except('page', 'sort', 'direction');
         $countrys = $this->countryService->getAllCountries($filters);
 
         return view('setting.country.index', [
@@ -244,7 +244,7 @@ class CountryController extends Controller
      */
     public function print(Request $request)
     {
-        $filters = $request->except('page');
+        $filters = $request->except('page', 'sort', 'direction');
 
         $countryExport = $this->countryService->exportCountry($filters);
 

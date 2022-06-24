@@ -62,6 +62,9 @@ class AddressBookService extends Service
     {
         if (!AuthenticatedSessionService::isSuperAdmin()):
             $filters['user_id'] = Auth::user()->id;
+        else :
+            $filters['user_id_distinct'] = true;
+            $filters['only_fallback'] = Constant::ENABLED_OPTION;
         endif;
 
         return $this->addressBookRepository->paginateWith($filters, $eagerRelations, true);
