@@ -53,7 +53,7 @@ class CostController extends Controller
      */
     public function index(Request $request)
     {
-        $filters = $request->except('page');
+        $filters = $request->except('page', 'sort', 'direction');
         $costs = $this->costService->costPaginate($filters);
 
         return view('backend.setting.cost.index', [
@@ -204,7 +204,7 @@ class CostController extends Controller
      */
     public function export(Request $request)
     {
-        $filters = $request->except('page');
+        $filters = $request->except('page', 'sort', 'direction');
 
         $costExport = $this->costService->exportCost($filters);
 
@@ -234,7 +234,7 @@ class CostController extends Controller
      */
     public function importBulk(Request $request)
     {
-        $filters = $request->except('page');
+        $filters = $request->except('page', 'sort', 'direction');
         $costs = $this->costService->getAllCosts($filters);
 
         return view('backend.setting.costindex', [
@@ -250,7 +250,7 @@ class CostController extends Controller
      */
     public function print(Request $request)
     {
-        $filters = $request->except('page');
+        $filters = $request->except('page', 'sort', 'direction');
 
         $costExport = $this->costService->exportCost($filters);
 

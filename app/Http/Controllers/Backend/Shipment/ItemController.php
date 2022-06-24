@@ -62,7 +62,7 @@ class ItemController extends Controller
      */
     public function index(Request $request)
     {
-        $filters = $request->except('page');
+        $filters = $request->except('page', 'sort', 'direction');
         $items = $this->itemService->itemPaginate($filters);
 
         return view('backend.shipment.item.index', [
@@ -220,7 +220,7 @@ class ItemController extends Controller
      */
     public function export(Request $request)
     {
-        $filters = $request->except('page');
+        $filters = $request->except('page', 'sort', 'direction');
 
         $itemExport = $this->itemService->exportItem($filters);
 
@@ -250,7 +250,7 @@ class ItemController extends Controller
      */
     public function importBulk(Request $request)
     {
-        $filters = $request->except('page');
+        $filters = $request->except('page', 'sort', 'direction');
         $items = $this->itemService->getAllItems($filters);
 
         return view('backend.shipment.itemindex', [
@@ -266,7 +266,7 @@ class ItemController extends Controller
      */
     public function print(Request $request)
     {
-        $filters = $request->except('page');
+        $filters = $request->except('page', 'sort', 'direction');
 
         $itemExport = $this->itemService->exportItem($filters);
 
@@ -287,7 +287,7 @@ class ItemController extends Controller
      */
     public function ajax(Request $request): JsonResponse
     {
-        $filters = $request->except('page');
+        $filters = $request->except('page', 'sort', 'direction');
 
         $items = $this->itemService->getAllItems($filters);
 

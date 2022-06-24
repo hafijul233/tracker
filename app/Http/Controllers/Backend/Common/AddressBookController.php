@@ -53,7 +53,7 @@ class AddressBookController extends Controller
      */
     public function index(Request $request)
     {
-        $filters = $request->except('page');
+        $filters = $request->except('page', 'sort', 'direction');
         $addressBooks = $this->addressBookService->addressBookPaginate($filters);
 
         return view('backend.common.address-book.index', [
@@ -204,7 +204,7 @@ class AddressBookController extends Controller
      */
     public function export(Request $request)
     {
-        $filters = $request->except('page');
+        $filters = $request->except('page', 'sort', 'direction');
 
         $addressBookExport = $this->addressBookService->exportAddressBook($filters);
 
@@ -234,7 +234,7 @@ class AddressBookController extends Controller
      */
     public function importBulk(Request $request)
     {
-        $filters = $request->except('page');
+        $filters = $request->except('page', 'sort', 'direction');
         $addressBooks = $this->addressBookService->getAllAddressBooks($filters);
 
         return view('backend.common.address-book.index', [
@@ -250,7 +250,7 @@ class AddressBookController extends Controller
      */
     public function print(Request $request)
     {
-        $filters = $request->except('page');
+        $filters = $request->except('page', 'sort', 'direction');
 
         $addressBookExport = $this->addressBookService->exportAddressBook($filters);
 

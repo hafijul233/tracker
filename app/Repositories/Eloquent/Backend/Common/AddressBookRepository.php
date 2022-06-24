@@ -37,6 +37,7 @@ class AddressBookRepository extends EloquentRepository
     private function filterData(array $filters = [], bool $is_sortable = false): Builder
     {
         $query = $this->getQueryBuilder();
+
         if (!empty($filters['search'])) :
             $query->where('name', 'like', "%{$filters['search']}%")
                 ->orWhere('enabled', '=', "%{$filters['search']}%");
@@ -48,6 +49,14 @@ class AddressBookRepository extends EloquentRepository
 
         if (!empty($filters['user_id'])) :
             $query->where('user_id', '=', $filters['user_id']);
+        endif;
+
+        if (!empty($filters['user_id_distinct'])) :
+            $query->distinct();
+        endif;
+
+        if (!empty($filters['only_fallback'])) :
+            $query->where('fallback', '=', strtolower($filters['only_fallback']));
         endif;
 
         if (!empty($filters['sort']) && !empty($filters['direction'])) :
