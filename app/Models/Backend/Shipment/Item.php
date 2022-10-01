@@ -3,10 +3,13 @@
 namespace App\Models\Backend\Shipment;
 
 use App\Models\Backend\Setting\User;
+use App\Services\Auth\AuthenticatedSessionService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Traits\Conditionable;
 use Kyslik\ColumnSortable\Sortable;
 use OwenIt\Auditing\Auditable as AuditableTrait;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -14,6 +17,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 /**
  * @class Item
  * @package App\Models\Backend\Shipment
+ * @method Builder applyFilter(array $filters = [])
  */
 class Item extends Model implements Auditable
 {
@@ -87,6 +91,35 @@ class Item extends Model implements Auditable
             }
         });
 
+    }
+
+    /************************ Scope Method ************************/
+
+    /**
+     * @param Builder $query
+     * @param array $filters
+     * @return Builder|Conditionable|mixed
+     */
+    public function scopeApplyFilter(Builder $query, array $filters = [])
+    {
+        return $query->when(!empty($filters['search']), function ($query) use (&$filters) {
+            return $query->where('name', 'like', "%{$filters['search']}%")
+                ->orWhere('currency', 'like', "%{$filters['search']}%")
+                ->orWhere('description', 'like', "%{$filters['search']}%")
+                ->orWhere('enabled', '=', "%{$filters['search']}%");
+        })
+            ->when(!empty($filters['enabled']), function ($query) use (&$filters) {
+                return $query->where('enabled', '=', $filters['enabled']);
+            })
+            ->when(!empty($filters['user']), function ($query) use (&$filters) {
+                return $query->where('user_id', '=', $filters['user']);
+            })
+            ->when(!empty($filters['sort']), function ($query) use (&$filters) {
+                return $query->sortable($filters['sort'], ($filters['direction'] ?? 'asc'));
+            })
+            ->when(AuthenticatedSessionService::isSuperAdmin(), function ($query) use (&$filters) {
+                return $query->withTrashed();
+            });
     }
 
     /************************ Audit Relations ************************/

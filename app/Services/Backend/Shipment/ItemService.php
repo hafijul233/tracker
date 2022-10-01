@@ -3,6 +3,7 @@
 namespace App\Services\Backend\Shipment;
 
 use App\Abstracts\Service\Service;
+use App\Exports\Backend\Shipment\ItemExport;
 use App\Models\Backend\Shipment\Item;
 use App\Repositories\Eloquent\Backend\Shipment\ItemRepository;
 use App\Services\Auth\AuthenticatedSessionService;
@@ -21,7 +22,7 @@ use Throwable;
  */
 class ItemService extends Service
 {
-/**
+    /**
      * @var ItemRepository
      */
     private $itemRepository;
@@ -32,13 +33,14 @@ class ItemService extends Service
      */
     public function __construct(ItemRepository $itemRepository)
     {
+        $this->setModel(Item::class);
         $this->itemRepository = $itemRepository;
         $this->itemRepository->itemsPerPage = 10;
     }
 
     /**
      * Get All Item models as collection
-     * 
+     *
      * @param array $filters
      * @param array $eagerRelations
      * @return Builder[]|Collection
@@ -46,12 +48,19 @@ class ItemService extends Service
      */
     public function getAllItems(array $filters = [], array $eagerRelations = [])
     {
-        return $this->itemRepository->getWith($filters, $eagerRelations, true);
+        if (!AuthenticatedSessionService::isSuperAdmin()):
+            $filters['user_id'] = Auth::user()->id;
+        endif;
+
+        return $this->model
+            ->applyFilter($filters)
+            ->with($eagerRelations)
+            ->get();
     }
 
     /**
      * Create Item Model Pagination
-     * 
+     *
      * @param array $filters
      * @param array $eagerRelations
      * @return LengthAwarePaginator
@@ -63,12 +72,15 @@ class ItemService extends Service
             $filters['user_id'] = Auth::user()->id;
         endif;
 
-        return $this->itemRepository->paginateWith($filters, $eagerRelations, true);
+        return $this->model
+            ->applyFilter($filters)
+            ->with($eagerRelations)
+            ->paginate();
     }
 
     /**
      * Show Item Model
-     * 
+     *
      * @param int $id
      * @param bool $purge
      * @return mixed
@@ -76,12 +88,12 @@ class ItemService extends Service
      */
     public function getItemById($id, bool $purge = false)
     {
-        return $this->itemRepository->show($id, $purge);
+        return $this->show($id, $purge);
     }
 
     /**
      * Save Item Model
-     * 
+     *
      * @param array $inputs
      * @return array
      * @throws Exception
@@ -91,7 +103,7 @@ class ItemService extends Service
     {
         DB::beginTransaction();
         try {
-            $newItem = $this->itemRepository->create($inputs);
+            $newItem = $this->create($inputs);
             if ($newItem instanceof Item) {
                 DB::commit();
                 return ['status' => true, 'message' => __('New Item Created'),
@@ -102,7 +114,7 @@ class ItemService extends Service
                     'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
             }
         } catch (Exception $exception) {
-            $this->itemRepository->handleException($exception);
+            $this->handleException($exception);
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
@@ -111,7 +123,7 @@ class ItemService extends Service
 
     /**
      * Update Item Model
-     * 
+     *
      * @param array $inputs
      * @param $id
      * @return array
@@ -121,9 +133,9 @@ class ItemService extends Service
     {
         DB::beginTransaction();
         try {
-            $item = $this->itemRepository->show($id);
+            $item = $this->getItemById($id);
             if ($item instanceof Item) {
-                if ($this->itemRepository->update($inputs, $id)) {
+                if ($this->update($inputs, $id)) {
                     DB::commit();
                     return ['status' => true, 'message' => __('Item Info Updated'),
                         'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
@@ -137,7 +149,7 @@ class ItemService extends Service
                     'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Alert!'];
             }
         } catch (Exception $exception) {
-            $this->itemRepository->handleException($exception);
+            $this->handleException($exception);
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
@@ -146,7 +158,7 @@ class ItemService extends Service
 
     /**
      * Destroy Item Model
-     * 
+     *
      * @param $id
      * @return array
      * @throws Throwable
@@ -155,7 +167,7 @@ class ItemService extends Service
     {
         DB::beginTransaction();
         try {
-            if ($this->itemRepository->delete($id)) {
+            if ($this->delete($id)) {
                 DB::commit();
                 return ['status' => true, 'message' => __('Item is Trashed'),
                     'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
@@ -166,7 +178,7 @@ class ItemService extends Service
                     'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
             }
         } catch (Exception $exception) {
-            $this->itemRepository->handleException($exception);
+            $this->handleException($exception);
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
@@ -175,7 +187,7 @@ class ItemService extends Service
 
     /**
      * Restore Item Model
-     * 
+     *
      * @param $id
      * @return array
      * @throws Throwable
@@ -184,7 +196,7 @@ class ItemService extends Service
     {
         DB::beginTransaction();
         try {
-            if ($this->itemRepository->restore($id)) {
+            if ($this->restore($id)) {
                 DB::commit();
                 return ['status' => true, 'message' => __('Item is Restored'),
                     'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
@@ -195,7 +207,7 @@ class ItemService extends Service
                     'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
             }
         } catch (Exception $exception) {
-            $this->itemRepository->handleException($exception);
+            $this->handleException($exception);
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
@@ -211,6 +223,6 @@ class ItemService extends Service
      */
     public function exportItem(array $filters = []): ItemExport
     {
-        return (new ItemExport($this->itemRepository->getWith($filters)));
+        return (new ItemExport($this->getAllItems($filters)));
     }
 }
