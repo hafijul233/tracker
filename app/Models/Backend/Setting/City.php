@@ -2,6 +2,7 @@
 
 namespace App\Models\Backend\Setting;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,6 +11,11 @@ use Kyslik\ColumnSortable\Sortable;
 use OwenIt\Auditing\Auditable as AuditableTrait;
 use OwenIt\Auditing\Contracts\Auditable;
 
+/**
+ * Class City
+ * @package App\Models\Backend\Setting
+ * @method Builder applyFilter(array $filters = [])
+ */
 class City extends Model implements Auditable
 {
     use AuditableTrait, HasFactory, SoftDeletes, Sortable;

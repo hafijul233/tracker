@@ -5,7 +5,6 @@ namespace App\Services\Backend\Common;
 use App\Abstracts\Service\Service;
 use App\Exports\Backend\Common\AddressBookExport;
 use App\Models\Backend\Common\Address;
-use App\Repositories\Eloquent\Backend\Common\AddressBookRepository;
 use App\Services\Auth\AuthenticatedSessionService;
 use App\Supports\Constant;
 use Exception;
@@ -23,18 +22,11 @@ use Throwable;
 class AddressBookService extends Service
 {
     /**
-     * @var AddressBookRepository
-     */
-    private $addressBookRepository;
-
-    /**
      * AddressBookService constructor.
-     * @param AddressBookRepository $addressBookRepository
      */
-    public function __construct(AddressBookRepository $addressBookRepository)
+    public function __construct()
     {
-        $this->addressBookRepository = $addressBookRepository;
-        $this->addressBookRepository->itemsPerPage = 10;
+        $this->setModel(Address::class);
     }
 
     /**
@@ -47,7 +39,10 @@ class AddressBookService extends Service
      */
     public function getAllAddressBooks(array $filters = [], array $eagerRelations = [])
     {
-        return $this->addressBookRepository->getWith($filters, $eagerRelations, true);
+        return $this->model
+            ->applyFilter($filters)
+            ->with($eagerRelations)
+            ->get();
     }
 
     /**
@@ -67,7 +62,10 @@ class AddressBookService extends Service
             $filters['only_fallback'] = Constant::ENABLED_OPTION;
         endif;
 
-        return $this->addressBookRepository->paginateWith($filters, $eagerRelations, true);
+        return $this->model
+            ->applyFilter($filters)
+            ->with($eagerRelations)
+            ->paginate();
     }
 
     /**
@@ -80,7 +78,7 @@ class AddressBookService extends Service
      */
     public function getAddressBookById($id, bool $purge = false)
     {
-        return $this->addressBookRepository->show($id, $purge);
+        return $this->show($id, $purge);
     }
 
     /**
@@ -95,7 +93,7 @@ class AddressBookService extends Service
     {
         DB::beginTransaction();
         try {
-            $newAddressBook = $this->addressBookRepository->create($inputs);
+            $newAddressBook = $this->create($inputs);
             if ($newAddressBook instanceof Address) {
                 DB::commit();
                 return ['status' => true, 'message' => __('New Address Created'),
@@ -106,7 +104,7 @@ class AddressBookService extends Service
             return ['status' => false, 'message' => __('New Address Creation Failed'),
                 'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
         } catch (Exception $exception) {
-            $this->addressBookRepository->handleException($exception);
+            $this->handleException($exception);
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
@@ -125,9 +123,9 @@ class AddressBookService extends Service
     {
         DB::beginTransaction();
         try {
-            $addressBook = $this->addressBookRepository->show($id);
+            $addressBook = $this->show($id);
             if ($addressBook instanceof Address) {
-                if ($this->addressBookRepository->update($inputs, $id)) {
+                if ($this->update($inputs, $id)) {
                     DB::commit();
                     return ['status' => true, 'message' => __('Address Info Updated'),
                         'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
@@ -141,7 +139,7 @@ class AddressBookService extends Service
                     'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Alert!'];
             }
         } catch (Exception $exception) {
-            $this->addressBookRepository->handleException($exception);
+            $this->handleException($exception);
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
@@ -159,7 +157,7 @@ class AddressBookService extends Service
     {
         DB::beginTransaction();
         try {
-            if ($this->addressBookRepository->delete($id)) {
+            if ($this->delete($id)) {
                 DB::commit();
                 return ['status' => true, 'message' => __('Address is Trashed'),
                     'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
@@ -170,7 +168,7 @@ class AddressBookService extends Service
                     'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
             }
         } catch (Exception $exception) {
-            $this->addressBookRepository->handleException($exception);
+            $this->handleException($exception);
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
@@ -188,7 +186,7 @@ class AddressBookService extends Service
     {
         DB::beginTransaction();
         try {
-            if ($this->addressBookRepository->restore($id)) {
+            if ($this->restore($id)) {
                 DB::commit();
                 return ['status' => true, 'message' => __('Address is Restored'),
                     'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
@@ -199,7 +197,7 @@ class AddressBookService extends Service
                     'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
             }
         } catch (Exception $exception) {
-            $this->addressBookRepository->handleException($exception);
+            $this->handleException($exception);
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
@@ -215,6 +213,6 @@ class AddressBookService extends Service
      */
     public function exportAddressBook(array $filters = []): AddressBookExport
     {
-        return (new AddressBookExport($this->addressBookRepository->getWith($filters)));
+        return (new AddressBookExport($this->getAllAddressBooks()$filters)));
     }
 }

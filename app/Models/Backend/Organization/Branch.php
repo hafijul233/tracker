@@ -3,6 +3,7 @@
 namespace App\Models\Backend\Organization;
 
 use App\Models\Backend\Setting\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,6 +15,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 /**
  * @class Branch
  * @package App\Models\Backend\Organization
+ * @method Builder applyFilter(array $filters = [])
  */
 class Branch extends Model implements Auditable
 {

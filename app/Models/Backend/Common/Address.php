@@ -6,6 +6,8 @@ use App\Models\Backend\Setting\City;
 use App\Models\Backend\Setting\Country;
 use App\Models\Backend\Setting\State;
 use App\Models\Backend\Setting\User;
+use App\Services\Auth\AuthenticatedSessionService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,6 +20,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 /**
  * @class Address
  * @package App\Models\Backend\Common
+ * @method Builder applyFilter(array $filters = [])
  */
 class Address extends Model implements Auditable
 {
@@ -40,7 +43,7 @@ class Address extends Model implements Auditable
      *
      * @var array
      */
-    protected $fillable = [ 'addressable_type', 'addressable_id', 'type', 'phone', 'name', 'street_1', 'street_2', 'url', 'longitude', 'latitude', 'post_code', 'fallback', 'enabled', 'remark', 'city_id', 'state_id', 'country_id', 'created_by', 'updated_by', 'deleted_by'];
+    protected $fillable = ['addressable_type', 'addressable_id', 'type', 'phone', 'name', 'street_1', 'street_2', 'url', 'longitude', 'latitude', 'post_code', 'fallback', 'enabled', 'remark', 'city_id', 'state_id', 'country_id', 'created_by', 'updated_by', 'deleted_by'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -65,7 +68,29 @@ class Address extends Model implements Auditable
         'enabled' => 'yes'
     ];
 
-    /************************ Audit Relations ************************/
+    /************************ Scopes ************************/
+
+    public function scopeApplyFilter(Builder $query, array $filters = [])
+    {
+        return $query->when(!empty($filters['search']), function ($query) use (&$filters) {
+            return $query->where('name', 'like', "%{$filters['search']}%")
+                ->orWhere('enabled', '=', "%{$filters['search']}%");
+        })->when(!empty($filters['enabled']), function ($query) use (&$filters) {
+            return $query->where('enabled', '=', $filters['enabled']);
+        })->when(!empty($filters['user_id']), function ($query) use (&$filters) {
+            return $query->where('user_id', '=', $filters['user_id']);
+        })->when(!empty($filters['user_id_distinct']), function ($query) use (&$filters) {
+            return $query->distinct();
+        })->when(!empty($filters['only_fallback']), function ($query) use (&$filters) {
+            return $query->where('fallback', '=', strtolower($filters['only_fallback']));
+        })->when(!empty($filters['sort']), function ($query) use (&$filters) {
+            $query->sortable($filters['sort'], ($filters['direction'] ?? 'asc'));
+        })->when(AuthenticatedSessionService::isSuperAdmin(), function ($query) use (&$filters) {
+            $query->withTrashed();
+        });
+    }
+
+    /************************ Relations ************************/
 
     /**
      * @return BelongsTo

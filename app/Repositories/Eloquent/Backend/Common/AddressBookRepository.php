@@ -4,7 +4,6 @@ namespace App\Repositories\Eloquent\Backend\Common;
 
 use App\Abstracts\Repository\EloquentRepository;
 use App\Models\Backend\Common\Address;
-use App\Services\Auth\AuthenticatedSessionService;
 use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
@@ -38,40 +37,7 @@ class AddressBookRepository extends EloquentRepository
     {
         $query = $this->getQueryBuilder();
 
-        if (!empty($filters['search'])) :
-            $query->where('name', 'like', "%{$filters['search']}%")
-                ->orWhere('enabled', '=', "%{$filters['search']}%");
-        endif;
 
-        if (!empty($filters['enabled'])) :
-            $query->where('enabled', '=', $filters['enabled']);
-        endif;
-
-        if (!empty($filters['user_id'])) :
-            $query->where('user_id', '=', $filters['user_id']);
-        endif;
-
-        if (!empty($filters['user_id_distinct'])) :
-            $query->distinct();
-        endif;
-
-        if (!empty($filters['only_fallback'])) :
-            $query->where('fallback', '=', strtolower($filters['only_fallback']));
-        endif;
-
-        if (!empty($filters['sort']) && !empty($filters['direction'])) :
-            $query->orderBy($filters['sort'], $filters['direction']);
-        endif;
-
-        if ($is_sortable == true) :
-            $query->sortable();
-        endif;
-
-        if (AuthenticatedSessionService::isSuperAdmin()) :
-            $query->withTrashed();
-        endif;
-
-        return $query;
     }
 
     /**
