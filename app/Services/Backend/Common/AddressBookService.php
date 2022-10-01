@@ -7,6 +7,7 @@ use App\Exports\Backend\Common\AddressBookExport;
 use App\Models\Backend\Common\Address;
 use App\Services\Auth\AuthenticatedSessionService;
 use App\Supports\Constant;
+use Box\Spout\Common\Exception\InvalidArgumentException;
 use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
@@ -35,7 +36,6 @@ class AddressBookService extends Service
      * @param array $filters
      * @param array $eagerRelations
      * @return Builder[]|Collection
-     * @throws Exception
      */
     public function getAllAddressBooks(array $filters = [], array $eagerRelations = [])
     {
@@ -208,11 +208,12 @@ class AddressBookService extends Service
      * Export Object for Export Download
      *
      * @param array $filters
+     * @param array $eagerRelations
      * @return AddressBookExport
-     * @throws Exception
+     * @throws InvalidArgumentException
      */
-    public function exportAddressBook(array $filters = []): AddressBookExport
+    public function exportAddressBook(array $filters = [], array $eagerRelations = []): AddressBookExport
     {
-        return (new AddressBookExport($this->getAllAddressBooks()$filters)));
+        return (new AddressBookExport($this->getAllAddressBooks($filters, $eagerRelations)));
     }
 }
