@@ -53,7 +53,7 @@ class VehicleController extends Controller
      */
     public function index(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
         $vehicles = $this->vehicleService->vehiclePaginate($filters);
 
         return view('backend.transport.vehicle.index', [
@@ -204,7 +204,7 @@ class VehicleController extends Controller
      */
     public function export(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
 
         $vehicleExport = $this->vehicleService->exportVehicle($filters);
 
@@ -234,7 +234,7 @@ class VehicleController extends Controller
      */
     public function importBulk(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
         $vehicles = $this->vehicleService->getAllVehicles($filters);
 
         return view('backend.transport.vehicleindex', [
@@ -250,7 +250,7 @@ class VehicleController extends Controller
      */
     public function print(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
 
         $vehicleExport = $this->vehicleService->exportVehicle($filters);
 

@@ -53,7 +53,7 @@ class CheckPointController extends Controller
      */
     public function index(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
         $checkpoints = $this->checkpointService->checkpointPaginate($filters);
 
         return view('backend.transport.checkpoint.index', [
@@ -204,7 +204,7 @@ class CheckPointController extends Controller
      */
     public function export(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
 
         $checkpointExport = $this->checkpointService->exportCheckPoint($filters);
 
@@ -234,7 +234,7 @@ class CheckPointController extends Controller
      */
     public function importBulk(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
         $checkpoints = $this->checkpointService->getAllCheckPoints($filters);
 
         return view('backend.transport.checkpointindex', [
@@ -250,7 +250,7 @@ class CheckPointController extends Controller
      */
     public function print(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
 
         $checkpointExport = $this->checkpointService->exportCheckPoint($filters);
 

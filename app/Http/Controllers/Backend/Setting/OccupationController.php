@@ -53,7 +53,7 @@ class OccupationController extends Controller
      */
     public function index(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
         $occupations = $this->occupationService->occupationPaginate($filters);
 
         return view('setting.occupation.index', [
@@ -204,7 +204,7 @@ class OccupationController extends Controller
      */
     public function export(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
 
         $occupationExport = $this->occupationService->exportOccupation($filters);
 
@@ -234,7 +234,7 @@ class OccupationController extends Controller
      */
     public function importBulk(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
         $occupations = $this->occupationService->getAllOccupations($filters);
 
         return view('setting.occupation.index', [
@@ -250,7 +250,7 @@ class OccupationController extends Controller
      */
     public function print(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
 
         $occupationExport = $this->occupationService->exportOccupation($filters);
 

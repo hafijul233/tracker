@@ -71,7 +71,7 @@ class CustomerController extends Controller
      */
     public function index(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
         $customers = $this->customerService->customerPaginate($filters);
 
         return view('backend.shipment.customer.index', [
@@ -240,7 +240,7 @@ class CustomerController extends Controller
      */
     public function export(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
 
         $customerExport = $this->customerService->exportCustomer($filters);
 
@@ -270,7 +270,7 @@ class CustomerController extends Controller
      */
     public function importBulk(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
         $customers = $this->customerService->getAllCustomers($filters);
 
         return view('backend.shipment.customerindex', [
@@ -286,7 +286,7 @@ class CustomerController extends Controller
      */
     public function print(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
 
         $customerExport = $this->customerService->exportCustomer($filters);
 
@@ -307,7 +307,7 @@ class CustomerController extends Controller
      */
     public function ajax(Request $request): JsonResponse
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
         $customers = $this->customerService->getAllCustomers($filters, ['media', 'roles']);
 
         if(count($customers) > 0):

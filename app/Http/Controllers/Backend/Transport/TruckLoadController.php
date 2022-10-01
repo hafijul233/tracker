@@ -53,7 +53,7 @@ class TruckLoadController extends Controller
      */
     public function index(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
         $truckloads = $this->truckloadService->truckloadPaginate($filters);
 
         return view('backend.transport.truck-load.index', [
@@ -204,7 +204,7 @@ class TruckLoadController extends Controller
      */
     public function export(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
 
         $truckloadExport = $this->truckloadService->exportTrackLoad($filters);
 
@@ -234,7 +234,7 @@ class TruckLoadController extends Controller
      */
     public function importBulk(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
         $truckloads = $this->truckloadService->getAllTrackLoads($filters);
 
         return view('backend.shipment.truck-load.index', [
@@ -250,7 +250,7 @@ class TruckLoadController extends Controller
      */
     public function print(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
 
         $truckloadExport = $this->truckloadService->exportTrackLoad($filters);
 

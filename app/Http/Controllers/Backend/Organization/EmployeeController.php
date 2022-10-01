@@ -53,7 +53,7 @@ class EmployeeController extends Controller
      */
     public function index(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
         $employees = $this->employeeService->employeePaginate($filters);
 
         return view('backend.organization.employee.index', [
@@ -204,7 +204,7 @@ class EmployeeController extends Controller
      */
     public function export(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
 
         $employeeExport = $this->employeeService->exportEmployee($filters);
 
@@ -234,7 +234,7 @@ class EmployeeController extends Controller
      */
     public function importBulk(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
         $employees = $this->employeeService->getAllEmployees($filters);
 
         return view('backend.organization.employeeindex', [
@@ -250,7 +250,7 @@ class EmployeeController extends Controller
      */
     public function print(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
 
         $employeeExport = $this->employeeService->exportEmployee($filters);
 

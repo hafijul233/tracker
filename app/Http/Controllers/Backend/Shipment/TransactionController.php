@@ -53,7 +53,7 @@ class TransactionController extends Controller
      */
     public function index(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
         $transactions = $this->transactionService->transactionPaginate($filters);
 
         return view('backend.shipment.transaction.index', [
@@ -204,7 +204,7 @@ class TransactionController extends Controller
      */
     public function export(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
 
         $transactionExport = $this->transactionService->exportTransaction($filters);
 
@@ -234,7 +234,7 @@ class TransactionController extends Controller
      */
     public function importBulk(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
         $transactions = $this->transactionService->getAllTransactions($filters);
 
         return view('backend.shipment.transactionindex', [
@@ -250,7 +250,7 @@ class TransactionController extends Controller
      */
     public function print(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
 
         $transactionExport = $this->transactionService->exportTransaction($filters);
 

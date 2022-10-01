@@ -63,7 +63,7 @@ class InvoiceController extends Controller
      */
     public function index(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
         $invoices = $this->invoiceService->invoicePaginate($filters);
 
         return view('backend.shipment.invoice.index', [
@@ -217,7 +217,7 @@ class InvoiceController extends Controller
      */
     public function export(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
 
         $invoiceExport = $this->invoiceService->exportInvoice($filters);
 
@@ -247,7 +247,7 @@ class InvoiceController extends Controller
      */
     public function importBulk(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
         $invoices = $this->invoiceService->getAllInvoices($filters);
 
         return view('backend.shipment.invoiceindex', [
@@ -263,7 +263,7 @@ class InvoiceController extends Controller
      */
     public function print(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
 
         $invoiceExport = $this->invoiceService->exportInvoice($filters);
 

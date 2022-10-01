@@ -53,7 +53,7 @@ class DriverController extends Controller
      */
     public function index(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
         $drivers = $this->driverService->driverPaginate($filters);
 
         return view('backend.transport.driver.index', [
@@ -204,7 +204,7 @@ class DriverController extends Controller
      */
     public function export(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
 
         $driverExport = $this->driverService->exportDriver($filters);
 
@@ -234,7 +234,7 @@ class DriverController extends Controller
      */
     public function importBulk(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
         $drivers = $this->driverService->getAllDrivers($filters);
 
         return view('backend.transport.driverindex', [
@@ -250,7 +250,7 @@ class DriverController extends Controller
      */
     public function print(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
 
         $driverExport = $this->driverService->exportDriver($filters);
 

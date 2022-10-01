@@ -227,7 +227,7 @@ class RoleController extends Controller
      */
     public function importBulk(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
         $permissions = $this->permissionService->getAllPermissions($filters);
 
         return view('backend.setting.permission.index', [
@@ -243,7 +243,7 @@ class RoleController extends Controller
      */
     public function export(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
 
         $roleExport = $this->roleService->exportRole($filters);
 
@@ -264,7 +264,7 @@ class RoleController extends Controller
     public function print(Request $request)
     {
 
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
 
         $roleExport = $this->roleService->exportRole($filters);
 

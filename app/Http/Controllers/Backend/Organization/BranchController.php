@@ -53,7 +53,7 @@ class BranchController extends Controller
      */
     public function index(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
         $branchs = $this->branchService->branchPaginate($filters);
 
         return view('backend.organization.branch.index', [
@@ -204,7 +204,7 @@ class BranchController extends Controller
      */
     public function export(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
 
         $branchExport = $this->branchService->exportBranch($filters);
 
@@ -234,7 +234,7 @@ class BranchController extends Controller
      */
     public function importBulk(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
         $branchs = $this->branchService->getAllBranchs($filters);
 
         return view('backend.organization.branchindex', [
@@ -250,7 +250,7 @@ class BranchController extends Controller
      */
     public function print(Request $request)
     {
-        $filters = $request->except('page', 'sort', 'direction');
+        $filters = $request->except('page');
 
         $branchExport = $this->branchService->exportBranch($filters);
 
