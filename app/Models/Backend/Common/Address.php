@@ -75,17 +75,23 @@ class Address extends Model implements Auditable
         return $query->when(!empty($filters['search']), function ($query) use (&$filters) {
             return $query->where('name', 'like', "%{$filters['search']}%")
                 ->orWhere('enabled', '=', "%{$filters['search']}%");
-        })->when(!empty($filters['enabled']), function ($query) use (&$filters) {
+        })
+            ->when(!empty($filters['enabled']), function ($query) use (&$filters) {
             return $query->where('enabled', '=', $filters['enabled']);
-        })->when(!empty($filters['user_id']), function ($query) use (&$filters) {
+        })
+            ->when(!empty($filters['user_id']), function ($query) use (&$filters) {
             return $query->where('user_id', '=', $filters['user_id']);
-        })->when(!empty($filters['user_id_distinct']), function ($query) use (&$filters) {
+        })
+            ->when(!empty($filters['user_id_distinct']), function ($query) use (&$filters) {
             return $query->distinct();
-        })->when(!empty($filters['only_fallback']), function ($query) use (&$filters) {
+        })
+            ->when(!empty($filters['only_fallback']), function ($query) use (&$filters) {
             return $query->where('fallback', '=', strtolower($filters['only_fallback']));
-        })->when(!empty($filters['sort']), function ($query) use (&$filters) {
+        })
+            ->when(!empty($filters['sort']), function ($query) use (&$filters) {
             $query->sortable($filters['sort'], ($filters['direction'] ?? 'asc'));
-        })->when(AuthenticatedSessionService::isSuperAdmin(), function ($query) use (&$filters) {
+        })
+            ->when(AuthenticatedSessionService::isSuperAdmin(), function ($query) use (&$filters) {
             $query->withTrashed();
         });
     }

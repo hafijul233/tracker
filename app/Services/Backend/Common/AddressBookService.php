@@ -87,7 +87,6 @@ class AddressBookService extends Service
      * @param array $inputs
      * @return array
      * @throws Exception
-     * @throws Throwable
      */
     public function storeAddressBook(array $inputs): array
     {

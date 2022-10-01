@@ -10,7 +10,6 @@ use App\Services\Auth\AuthenticatedSessionService;
 use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Collection;
 
 
 class UserRepository extends EloquentRepository
@@ -26,61 +25,6 @@ class UserRepository extends EloquentRepository
         $model = $model ?? new User();
 
         parent::__construct($model);
-    }
-
-    /**
-     * @param User|null $user
-     * @return Collection
-     */
-    public function getAssignedRoles(User $user = null): ?Collection
-    {
-        if (is_null($user)) {
-            return $this->model->roles;
-        }
-
-        return $user->roles;
-    }
-
-
-    /**
-     * @param array $roles
-     * @param bool $detachOldRoles
-     * @return bool
-     */
-    public function manageRoles(array $roles = [], bool $detachOldRoles = false): bool
-    {
-
-        $alreadyAssignedRoles = [];
-
-        $roleCollection = $this->getAssignedRoles();
-
-        if ($roleCollection != null):
-            $alreadyAssignedRoles = $roleCollection->pluck('id')->toArray();
-        endif;
-
-        $roleIds = ($detachOldRoles) ? $roles : array_unique(array_merge($alreadyAssignedRoles, $roles));
-
-
-        return (bool)$this->model->roles()->sync($roleIds, ['model_type' => get_class($this->model)]);
-    }
-
-    /**
-     * @param string $roleName
-     * @return mixed
-     */
-    public function usersByRole(string $roleName)
-    {
-        return $this->model->role($roleName)->get();
-    }
-
-    /**
-     * @param string $testUserName
-     * @return bool
-     * @throws \Exception
-     */
-    public function verifyUniqueUsername(string $testUserName): bool
-    {
-        return ($this->findFirstWhere('username', '=', $testUserName) == null);
     }
 
     /**

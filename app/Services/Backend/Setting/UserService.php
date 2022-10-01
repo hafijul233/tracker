@@ -7,7 +7,6 @@ namespace App\Services\Backend\Setting;
 use App\Abstracts\Service\Service;
 use App\Exports\Backend\Setting\UserExport;
 use App\Models\Backend\Setting\User;
-use App\Repositories\Eloquent\Backend\Setting\UserRepository;
 use App\Services\Backend\Common\FileUploadService;
 use App\Supports\Constant;
 use App\Supports\Utility;
@@ -28,23 +27,17 @@ use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 class UserService extends Service
 {
     /**
-     * @var UserRepository
-     */
-    private $userRepository;
-    /**
      * @var FileUploadService
      */
     private $fileUploadService;
 
     /**
      * UserService constructor.
-     * @param UserRepository $userRepository
      * @param FileUploadService $fileUploadService
      */
-    public function __construct(UserRepository    $userRepository,
-                                FileUploadService $fileUploadService)
+    public function __construct(FileUploadService $fileUploadService)
     {
-        $this->userRepository = $userRepository;
+        $this->setModel(User::class);
         $this->fileUploadService = $fileUploadService;
     }
 
@@ -52,11 +45,13 @@ class UserService extends Service
      * @param array $filters
      * @param array $eagerRelations
      * @return Builder[]|Collection
-     * @throws Exception
      */
     public function getAllUsers(array $filters = [], array $eagerRelations = [])
     {
-        return $this->userRepository->getWith($filters, $eagerRelations, true);
+        return $this->model
+            ->applyFilter($filters)
+            ->with($eagerRelations)
+            ->get();
     }
 
     /**
@@ -67,7 +62,27 @@ class UserService extends Service
      */
     public function userPaginate(array $filters = [], array $eagerRelations = []): LengthAwarePaginator
     {
-        return $this->userRepository->paginateWith($filters, $eagerRelations, true);
+        return $this->model
+            ->applyFilter($filters)
+            ->with($eagerRelations)
+            ->paginate();
+    }
+
+    /**
+     * @param User $user
+     * @param array $roles
+     * @param bool $detachOldRoles
+     * @return bool
+     */
+    private function manageRoles(User $user, array $roles = [], bool $detachOldRoles = false): bool
+    {
+        $roleCollection = $user->roles()->exists() ? $user->roles : collect();
+
+        $alreadyAssignedRoles = $roleCollection->pluck('id')->toArray();
+
+        $roleIds = ($detachOldRoles) ? $roles : array_unique(array_merge($alreadyAssignedRoles, $roles));
+
+        return (bool)$user->roles()->sync($roleIds, ['model_type' => get_class($user)]);
     }
 
     /**
@@ -94,9 +109,9 @@ class UserService extends Service
 
         DB::beginTransaction();
         try {
-            if ($newUser = $this->userRepository->create($requestData)) {
+            if ($newUser = $this->create($requestData)) {
                 if (($newUser instanceof User) &&
-                    $this->userRepository->manageRoles($roleId) &&
+                    $this->manageRoles($newUser, $roleId) &&
                     $this->attachAvatarImage($newUser, $photo)) {
                     DB::commit();
                     return ['status' => true, 'message' => __('New User Created'),
@@ -113,7 +128,7 @@ class UserService extends Service
                 'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
         } catch (Exception $exception) {
             DB::rollBack();
-            $this->userRepository->handleException($exception);
+            $this->handleException($exception);
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
         }
@@ -127,9 +142,9 @@ class UserService extends Service
     public function getUsersByRoleName(string $roleName)
     {
         try {
-            return $this->userRepository->usersByRole($roleName);
+            return $this->getAllUsers(['role_name' => $roleName]);
         } catch (Exception $exception) {
-            $this->userRepository->handleException($exception);
+            $this->handleException($exception);
             return [];
         }
     }
@@ -142,7 +157,7 @@ class UserService extends Service
      */
     public function getUserById($id, bool $purge = false)
     {
-        return $this->userRepository->show($id, $purge);
+        return $this->show($id, $purge);
     }
 
     /**
@@ -175,9 +190,9 @@ class UserService extends Service
         try {
             //check if user is available or not
             if ($selectUserModel = $this->getUserById($id)) {
-                $this->userRepository->setModel($selectUserModel);
-                if ($this->userRepository->update($requestData, $id) &&
-                    $this->userRepository->manageRoles($roleId) &&
+                $this->setModel($selectUserModel);
+                if ($this->update($requestData, $id) &&
+                    $this->manageRoles($selectUserModel, $roleId, true) &&
                     $this->attachAvatarImage($selectUserModel, $photo, true)
                 ) {
                     $selectUserModel->save();
@@ -195,7 +210,7 @@ class UserService extends Service
                     'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Alert!'];
             }
         } catch (Exception $exception) {
-            $this->userRepository->handleException($exception);
+            $this->handleException($exception);
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
@@ -211,7 +226,7 @@ class UserService extends Service
     {
         DB::beginTransaction();
         try {
-            if ($this->userRepository->delete($id)) {
+            if ($this->delete($id)) {
                 DB::commit();
                 return ['status' => true, 'message' => __('User is Trashed'),
                     'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
@@ -221,7 +236,7 @@ class UserService extends Service
                     'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
             }
         } catch (\Exception $exception) {
-            $this->userRepository->handleException($exception);
+            $this->handleException($exception);
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
@@ -244,9 +259,11 @@ class UserService extends Service
         if ($photo == null && $replace == true)
             return true;
         else {
+
             $profileImagePath = ($photo != null)
                 ? $this->fileUploadService->createAvatarImageFromInput($photo)
                 : $this->fileUploadService->createAvatarImageFromText($user->name);
+
             return (bool)$user->addMedia($profileImagePath)->toMediaCollection('avatars');
         }
     }
@@ -260,7 +277,7 @@ class UserService extends Service
     {
         DB::beginTransaction();
         try {
-            if ($this->userRepository->restore($id)) {
+            if ($this->restore($id)) {
                 DB::commit();
                 return ['status' => true, 'message' => __('User is Restored'),
                     'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
@@ -271,7 +288,7 @@ class UserService extends Service
                     'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
             }
         } catch (Exception $exception) {
-            $this->userRepository->handleException($exception);
+            $this->handleException($exception);
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
@@ -288,6 +305,6 @@ class UserService extends Service
      */
     public function exportUser(array $filters = []): UserExport
     {
-        return (new UserExport($this->userRepository->getWith($filters)));
+        return (new UserExport($this->getAllUsers($filters)));
     }
 }

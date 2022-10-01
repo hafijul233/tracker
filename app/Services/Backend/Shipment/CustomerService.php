@@ -5,10 +5,9 @@ namespace App\Services\Backend\Shipment;
 use App\Abstracts\Service\Service;
 use App\Exports\Backend\Shipment\CustomerExport;
 use App\Models\Backend\Setting\User;
-use App\Repositories\Eloquent\Backend\Common\AddressBookRepository;
-use App\Repositories\Eloquent\Backend\Setting\UserRepository;
 use App\Services\Auth\AuthenticatedSessionService;
-use App\Services\Backend\Common\FileUploadService;
+use App\Services\Backend\Common\AddressBookService;
+use App\Services\Backend\Setting\UserService;
 use App\Supports\Constant;
 use App\Supports\Utility;
 use Exception;
@@ -18,8 +17,6 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 use Throwable;
 
 /**
@@ -29,33 +26,26 @@ use Throwable;
 class CustomerService extends Service
 {
     /**
-     * @var UserRepository
+     * @var UserService
      */
-    private $userRepository;
+    private $userService;
     /**
-     * @var FileUploadService
+     * @var AddressBookService
      */
-    private $fileUploadService;
-    /**
-     * @var AddressBookRepository
-     */
-    private $addressBookRepository;
-
+    private $addressBookService;
 
     /**
      * CustomerService constructor.
-     * @param UserRepository $userRepository
-     * @param FileUploadService $fileUploadService
-     * @param AddressBookRepository $addressBookRepository
+     *
+     * @param UserService $userService
+     * @param AddressBookService $addressBookService
      */
-    public function __construct(UserRepository        $userRepository,
-                                FileUploadService     $fileUploadService,
-                                AddressBookRepository $addressBookRepository)
+    public function __construct(
+        UserService $userService,
+        AddressBookService $addressBookService)
     {
-        $this->userRepository = $userRepository;
-        $this->userRepository->itemsPerPage = 10;
-        $this->fileUploadService = $fileUploadService;
-        $this->addressBookRepository = $addressBookRepository;
+        $this->userService = $userService;
+        $this->addressBookService = $addressBookService;
     }
 
     /**
@@ -71,10 +61,10 @@ class CustomerService extends Service
         $filters['role'] = [Constant::SENDER_ROLE_ID, Constant::RECEIVER_ROLE_ID];
 
         if (!AuthenticatedSessionService::isSuperAdmin()) :
-        $filters['parent_id'] = Auth::user()->id;
+            $filters['parent_id'] = Auth::user()->id;
         endif;
 
-        return $this->userRepository->getWith($filters, $eagerRelations, true);
+        return $this->userService->getAllUsers($filters, $eagerRelations);
     }
 
     /**
@@ -93,7 +83,7 @@ class CustomerService extends Service
             $filters['parent_id'] = Auth::user()->id;
         endif;
 
-        return $this->userRepository->paginateWith($filters, $eagerRelations, true);
+        return $this->userService->userPaginate($filters, $eagerRelations);
     }
 
     /**
@@ -106,7 +96,7 @@ class CustomerService extends Service
      */
     public function getCustomerById($id, bool $purge = false)
     {
-        return $this->userRepository->show($id, $purge);
+        return $this->userService->show($id, $purge);
     }
 
     /**
@@ -119,13 +109,7 @@ class CustomerService extends Service
      */
     public function storeCustomer(array $requestData, UploadedFile $photo = null): array
     {
-        $roleId = [Constant::SENDER_ROLE_ID];
-
-        //extract role id
-        if (!empty($requestData['role_id'])) {
-            $roleId = $requestData['role_id'];
-            unset($requestData['role_id']);
-        }
+        $requestData['role_id'] = $requestData['role_id'] ?? [Constant::SENDER_ROLE_ID];
 
         //hash user password
         $requestData['password'] = Utility::hashPassword(($requestData['password'] ?? Constant::PASSWORD));
@@ -135,11 +119,9 @@ class CustomerService extends Service
 
         DB::beginTransaction();
         try {
-            if ($newCustomer = $this->userRepository->create($requestData)) {
+            if ($newCustomer = $this->userService->storeUser($requestData, $photo)) {
                 if (($newCustomer instanceof User) &&
-                    $this->userRepository->manageRoles($roleId) &&
-                    $this->attachAvatarImage($newCustomer, $photo) &&
-                $this->storeCustomerAddress($newCustomer, $requestData)) {
+                    $this->storeCustomerAddress($newCustomer, $requestData)) {
                     DB::commit();
                     return ['status' => true, 'message' => __('New Customer Created'),
                         'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
@@ -155,7 +137,7 @@ class CustomerService extends Service
                 'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
         } catch (Exception $exception) {
             DB::rollBack();
-            $this->userRepository->handleException($exception);
+            $this->handleException($exception);
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
         }
@@ -186,12 +168,12 @@ class CustomerService extends Service
                     'country_id' => $requestData['address']['country_id'] ?? config('contact.default.country')
                 ];
 
-                if (!$this->addressBookRepository->create($address)):
+                if (!$this->addressBookService->storeAddressBook($address)):
                     return false;
                 endif;
 
             } catch (Exception $exception) {
-                $this->userRepository->handleException($exception);
+                $this->handleException($exception);
                 return false;
             }
         endforeach;
@@ -211,9 +193,9 @@ class CustomerService extends Service
     {
         DB::beginTransaction();
         try {
-            $user = $this->userRepository->show($id);
+            $user = $this->getCustomerById($id);
             if ($user instanceof User) {
-                if ($this->userRepository->update($inputs, $id)) {
+                if ($this->userService->updateUser($inputs, $id)) {
                     DB::commit();
                     return ['status' => true, 'message' => __('Customer Info Updated'),
                         'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
@@ -228,33 +210,10 @@ class CustomerService extends Service
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Alert!'];
 
         } catch (Exception $exception) {
-            $this->userRepository->handleException($exception);
+            $this->handleException($exception);
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
-        }
-    }
-
-    /**
-     * Attach avatar image to model
-     *
-     * @param User $user
-     * @param UploadedFile|null $photo
-     * @param bool $replace
-     * @return bool
-     * @throws FileDoesNotExist
-     * @throws FileIsTooBig
-     * @throws Exception
-     */
-    protected function attachAvatarImage(User $user, UploadedFile $photo = null, bool $replace = false): bool
-    {
-        if ($photo == null && $replace == true)
-            return true;
-        else {
-            $profileImagePath = ($photo != null)
-                ? $this->fileUploadService->createAvatarImageFromInput($photo)
-                : $this->fileUploadService->createAvatarImageFromText($user->name);
-            return (bool)$user->addMedia($profileImagePath)->toMediaCollection('avatars');
         }
     }
 
@@ -269,7 +228,7 @@ class CustomerService extends Service
     {
         DB::beginTransaction();
         try {
-            if ($this->userRepository->delete($id)) {
+            if ($this->userService->destroyUser($id)) {
                 DB::commit();
                 return ['status' => true, 'message' => __('Customer is Trashed'),
                     'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
@@ -281,7 +240,7 @@ class CustomerService extends Service
                 'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
 
         } catch (Exception $exception) {
-            $this->userRepository->handleException($exception);
+            $this->handleException($exception);
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
@@ -299,7 +258,7 @@ class CustomerService extends Service
     {
         DB::beginTransaction();
         try {
-            if ($this->userRepository->restore($id)) {
+            if ($this->userService->restoreUser($id)) {
                 DB::commit();
                 return ['status' => true, 'message' => __('Customer is Restored'),
                     'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
@@ -311,7 +270,7 @@ class CustomerService extends Service
                 'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
 
         } catch (Exception $exception) {
-            $this->userRepository->handleException($exception);
+            $this->handleException($exception);
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
@@ -327,6 +286,6 @@ class CustomerService extends Service
      */
     public function exportCustomer(array $filters = []): CustomerExport
     {
-        return (new CustomerExport($this->userRepository->getWith($filters)));
+        return (new CustomerExport($this->userService->getAllUsers($filters)));
     }
 }
