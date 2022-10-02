@@ -4,12 +4,10 @@
 namespace App\Supports;
 
 use App\Models\Backend\Common\Address;
-use App\Repositories\Eloquent\Backend\Setting\UserRepository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Str;
 
 /***
  * Class Utility
@@ -27,32 +25,6 @@ class Utility
     public static function hashPassword(string $password): string
     {
         return Hash::make($password);
-    }
-
-    /**
-     * Create a unique random username with given having input
-     * As prefix text and a random number
-     *
-     * @param string $name
-     * @param UserRepository|null $userRepository
-     * @return string
-     * @throws \Exception
-     */
-    public static function generateUsername(string $name, UserRepository $userRepository = null): string
-    {
-        if (is_null($userRepository)) {
-            $userRepository = new UserRepository;
-        }
-
-        //removed white space from name
-        $firstPart = preg_replace("([\s]+)", '-', Str::lower($name));
-
-        //add a random number to end
-        $username = trim($firstPart) . random_int(100, 1000);
-
-        //verify generated username is unique
-        return ($userRepository->verifyUniqueUsername($username)) ? $username : self::generateUsername($name, $userRepository);
-
     }
 
     /**
