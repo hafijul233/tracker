@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Backend\Setting;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Setting\RolePermissionRequest;
-use App\Http\Requests\Setting\RoleRequest;
+use App\Http\Requests\Backend\Setting\RolePermissionRequest;
+use App\Http\Requests\Backend\Setting\RoleRequest;
 use App\Services\Auth\AuthenticatedSessionService;
 use App\Services\Backend\Setting\PermissionService;
 use App\Services\Backend\Setting\RoleService;
