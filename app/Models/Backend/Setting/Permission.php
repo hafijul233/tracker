@@ -2,6 +2,8 @@
 
 namespace App\Models\Backend\Setting;
 
+use App\Services\Auth\AuthenticatedSessionService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -57,6 +59,24 @@ class Permission extends SpatiePermission implements Auditable
         'guard_name' => 'web',
         'enabled' => 'yes'
     ];
+
+    /************************ Scopes ************************/
+
+    public function scopeApplyFilter(Builder $query, array $filters = [])
+    {
+        return $query->when(!empty($filters['search']), function ($query) use (&$filters) {
+            return $query->where('name', 'like', "%{$filters['search']}%")
+                ->orWhere('display_name', 'like', "%{$filters['search']}%")
+                ->orWhere('guard_name', 'like', "%{$filters['search']}%")
+                ->orWhere('enabled', '=', "%{$filters['search']}%");
+        })->when(!empty($filters['enabled']), function ($query) use (&$filters) {
+            return $query->where('enabled', '=', $filters['enabled']);
+        })->when(!empty($filters['sort']), function ($query) use (&$filters) {
+            return $query->sortable($filters['sort'], ($filters['direction'] ?? 'asc'));
+        })->when(AuthenticatedSessionService::isSuperAdmin(), function ($query) use (&$filters) {
+            return $query->withTrashed();
+        });
+    }
 
     /************************ Audit Relations ************************/
 

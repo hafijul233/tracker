@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backend\Setting;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Setting\PermissionRequest;
+use App\Http\Requests\Backend\Setting\PermissionRequest;
 use App\Services\Auth\AuthenticatedSessionService;
 use App\Services\Backend\Setting\PermissionService;
 use App\Supports\Utility;
@@ -14,6 +14,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Throwable;
 
 class PermissionController extends Controller
 {
@@ -31,7 +32,7 @@ class PermissionController extends Controller
      * @param PermissionService $permissionService
      */
     public function __construct(AuthenticatedSessionService $authenticatedSessionService,
-                                PermissionService              $permissionService)
+                                PermissionService $permissionService)
     {
 
         $this->authenticatedSessionService = $authenticatedSessionService;
@@ -69,7 +70,7 @@ class PermissionController extends Controller
      *
      * @param PermissionRequest $request
      * @return RedirectResponse
-     * @throws Exception|\Throwable
+     * @throws Throwable
      */
     public function store(PermissionRequest $request): RedirectResponse
     {
@@ -126,7 +127,7 @@ class PermissionController extends Controller
      * @param PermissionRequest $request
      * @param  $id
      * @return RedirectResponse
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function update(PermissionRequest $request, $id): RedirectResponse
     {
@@ -147,7 +148,7 @@ class PermissionController extends Controller
      * @param $id
      * @param Request $request
      * @return RedirectResponse
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function destroy($id, Request $request)
     {
@@ -171,7 +172,7 @@ class PermissionController extends Controller
      * @param $id
      * @param Request $request
      * @return RedirectResponse|void
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function restore($id, Request $request)
     {

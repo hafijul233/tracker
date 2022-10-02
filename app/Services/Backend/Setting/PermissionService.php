@@ -4,33 +4,24 @@ namespace App\Services\Backend\Setting;
 
 
 use App\Abstracts\Service\Service;
-use App\Exports\Backend\Setting\CountryExport;
-use App\Models\Setting\Permission;
-use App\Repositories\Eloquent\Backend\Setting\PermissionRepository;
+use App\Exports\Backend\Setting\PermissionExport;
+use App\Models\Backend\Setting\Permission;
 use App\Supports\Constant;
 use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Throwable;
-use function __;
 
 
 class PermissionService extends Service
 {
     /**
-     * @var PermissionRepository
-     */
-    private $permissionRepository;
-
-    /**
      * PermissionService constructor.
-     * @param PermissionRepository $permissionRepository
      */
-    public function __construct(PermissionRepository $permissionRepository)
+    public function __construct()
     {
-        $this->permissionRepository = $permissionRepository;
-        $this->permissionRepository->itemsPerPage = 10;
+        $this->setModel(Permission::class);
     }
 
     /**
@@ -43,7 +34,10 @@ class PermissionService extends Service
      */
     public function getAllPermissions(array $filters = [], array $eagerRelations = [])
     {
-        return $this->permissionRepository->getAllPermissionWith($filters, $eagerRelations, true);
+        return $this->model
+            ->applyFilter($filters)
+            ->with($eagerRelations)
+            ->get();
     }
 
     /**
@@ -56,7 +50,10 @@ class PermissionService extends Service
      */
     public function permissionPaginate(array $filters = [], array $eagerRelations = [])
     {
-        return $this->permissionRepository->paginateWith($filters, $eagerRelations, true);
+        return $this->model
+            ->applyFilter($filters)
+            ->with($eagerRelations)
+            ->paginate();
     }
 
     /**
@@ -69,7 +66,7 @@ class PermissionService extends Service
      */
     public function getPermissionById($id, bool $purge = false)
     {
-        return $this->permissionRepository->show($id, $purge);
+        return $this->show($id, $purge);
     }
 
     /**
@@ -84,7 +81,8 @@ class PermissionService extends Service
     {
         \DB::beginTransaction();
         try {
-            $newPermission = $this->permissionRepository->create($inputs);
+            $newPermission = $this->create($inputs);
+
             if ($newPermission instanceof Permission) {
                 \DB::commit();
                 return ['status' => true, 'message' => __('New Permission Created'),
@@ -95,7 +93,7 @@ class PermissionService extends Service
                     'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
             }
         } catch (Exception $exception) {
-            $this->permissionRepository->handleException($exception);
+            $this->handleException($exception);
             \DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
@@ -114,9 +112,9 @@ class PermissionService extends Service
     {
         \DB::beginTransaction();
         try {
-            $permission = $this->permissionRepository->show($id);
+            $permission = $this->getPermissionById($id);
             if ($permission instanceof Permission) {
-                if ($this->permissionRepository->update($inputs, $id)) {
+                if ($this->update($inputs, $id)) {
                     \DB::commit();
                     return ['status' => true, 'message' => __('Permission Info Updated'),
                         'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
@@ -130,7 +128,7 @@ class PermissionService extends Service
                     'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Alert!'];
             }
         } catch (Exception $exception) {
-            $this->permissionRepository->handleException($exception);
+            $this->handleException($exception);
             \DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
@@ -148,7 +146,7 @@ class PermissionService extends Service
     {
         \DB::beginTransaction();
         try {
-            if ($this->permissionRepository->delete($id)) {
+            if ($this->delete($id)) {
                 \DB::commit();
                 return ['status' => true, 'message' => __('Permission is Trashed'),
                     'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
@@ -159,7 +157,7 @@ class PermissionService extends Service
                     'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
             }
         } catch (Exception $exception) {
-            $this->permissionRepository->handleException($exception);
+            $this->handleException($exception);
             \DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
@@ -177,7 +175,7 @@ class PermissionService extends Service
     {
         \DB::beginTransaction();
         try {
-            if ($this->permissionRepository->restore($id)) {
+            if ($this->restore($id)) {
                 \DB::commit();
                 return ['status' => true, 'message' => __('Permission is Restored'),
                     'level' => Constant::MSG_TOASTR_SUCCESS, 'title' => 'Notification!'];
@@ -188,7 +186,7 @@ class PermissionService extends Service
                     'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Alert!'];
             }
         } catch (Exception $exception) {
-            $this->permissionRepository->handleException($exception);
+            $this->handleException($exception);
             \DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
@@ -199,11 +197,11 @@ class PermissionService extends Service
      * Export Object for Export Download
      *
      * @param array $filters
-     * @return CountryExport
+     * @return PermissionExport
      * @throws Exception
      */
-    public function exportPermission(array $filters = []): CountryExport
+    public function exportPermission(array $filters = []): PermissionExport
     {
-        return (new CountryExport($this->permissionRepository->getAllPermissionWith($filters)));
+        return (new PermissionExport($this->getAllPermissions($filters)));
     }
 }

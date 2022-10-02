@@ -43,17 +43,16 @@
                         required: true,
                         minlength: 3,
                         maxlength: 255,
-                        regex:'{{ \App\Supports\Constant::PERMISSION_NAME_ALLOW_CHAR }}',
+                        regex: '{{ \App\Supports\Constant::PERMISSION_NAME_ALLOW_CHAR }}',
                     },
                     enabled: {
                         required: true
                     },
-                    remarks: {
-                    },
+                    remarks: {},
                 },
-                messages : {
-                    name : {
-                        regex : 'Only Alphanumeric, Hyphen(-), uUnderScope(_), Fullstops(.) Allowed'
+                messages: {
+                    name: {
+                        regex: 'Only Alphanumeric, Hyphen(-), uUnderScope(_), Fullstops(.) Allowed'
                     }
                 }
             });
