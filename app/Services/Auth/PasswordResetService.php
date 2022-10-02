@@ -4,7 +4,7 @@ namespace App\Services\Auth;
 
 
 use App\Models\Backend\Setting\User;
-use App\Repositories\Eloquent\Backend\Setting\UserRepository;
+use App\Services\Backend\Setting\UserService;
 use App\Supports\Constant;
 use App\Supports\Utility;
 use Illuminate\Support\Facades\Auth;
@@ -14,16 +14,17 @@ use Illuminate\Support\Str;
 class PasswordResetService
 {
     /**
-     * @var UserRepository
+     * @var UserService
      */
-    private $userRepository;
+    private $userService;
 
     /**
-     * @param UserRepository $userRepository
+     * PasswordResetService constructor.
+     * @param UserService $userService
      */
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserService $userService)
     {
-        $this->userRepository = $userRepository;
+        $this->userService = $userService;
     }
 
     /**
@@ -50,7 +51,7 @@ class PasswordResetService
         $status = Password::reset(
             $credentials,
             function ($user) use ($credentials) {
-                $confirmation = $this->userRepository->update([
+                $confirmation = $this->userService->updateUser([
                     'password' => Utility::hashPassword($credentials['password']),
                     'force_pass_reset' => 0,
                     'remember_token' => Str::random(60),

@@ -4,16 +4,11 @@ namespace App\Services\Backend\Transport;
 
 use App\Abstracts\Service\Service;
 use App\Exports\Backend\Transport\DriverExport;
-use App\Models\Backend\Setting\User;
-use App\Repositories\Eloquent\Backend\Setting\UserRepository;
-use App\Services\Auth\AuthenticatedSessionService;
-use App\Supports\Constant;
+use App\Services\Backend\Setting\UserService;
 use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Throwable;
 
 /**
@@ -23,23 +18,22 @@ use Throwable;
 class DriverService extends Service
 {
     /**
-     * @var UserRepository
+     * @var UserService
      */
-    private $userRepository;
+    private $userService;
 
     /**
      * DriverService constructor.
-     * @param UserRepository $userRepository
+     * @param UserService $userService
      */
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserService $userService)
     {
-        $this->userRepository = $userRepository;
-        $this->userRepository->itemsPerPage = 10;
+        $this->userService = $userService;
     }
 
     /**
      * Get All Driver models as collection
-     * 
+     *
      * @param array $filters
      * @param array $eagerRelations
      * @return Builder[]|Collection
@@ -47,18 +41,18 @@ class DriverService extends Service
      */
     public function getAllDrivers(array $filters = [], array $eagerRelations = [])
     {
-        $filters['role'] = [Constant::DRIVER_ROLE_ID, Constant::HELPER_ROLE_ID];
+        /*        $filters['role'] = [Constant::DRIVER_ROLE_ID, Constant::HELPER_ROLE_ID];
 
-        if (!AuthenticatedSessionService::isSuperAdmin()) :
-            $filters['parent_id'] = Auth::user()->id;
-        endif;
+                if (!AuthenticatedSessionService::isSuperAdmin()) :
+                    $filters['parent_id'] = Auth::user()->id;
+                endif;
 
-        return $this->userRepository->getWith($filters, $eagerRelations, true);
+                return $this->userRepository->getWith($filters, $eagerRelations, true);*/
     }
 
     /**
      * Create Driver Model Pagination
-     * 
+     *
      * @param array $filters
      * @param array $eagerRelations
      * @return LengthAwarePaginator
@@ -66,18 +60,18 @@ class DriverService extends Service
      */
     public function driverPaginate(array $filters = [], array $eagerRelations = []): LengthAwarePaginator
     {
-        $filters['role'] = [Constant::DRIVER_ROLE_ID, Constant::HELPER_ROLE_ID];
+        /*        $filters['role'] = [Constant::DRIVER_ROLE_ID, Constant::HELPER_ROLE_ID];
 
-        if (!AuthenticatedSessionService::isSuperAdmin()) :
-            $filters['parent_id'] = Auth::user()->id;
-        endif;
+                if (!AuthenticatedSessionService::isSuperAdmin()) :
+                    $filters['parent_id'] = Auth::user()->id;
+                endif;
 
-        return $this->userRepository->paginateWith($filters, $eagerRelations, true);
+                return $this->userRepository->paginateWith($filters, $eagerRelations, true);*/
     }
 
     /**
      * Show Driver Model
-     * 
+     *
      * @param int $id
      * @param bool $purge
      * @return mixed
@@ -85,12 +79,12 @@ class DriverService extends Service
      */
     public function getDriverById($id, bool $purge = false)
     {
-        return $this->userRepository->show($id, $purge);
+        /*        return $this->userRepository->show($id, $purge);*/
     }
 
     /**
      * Save Driver Model
-     * 
+     *
      * @param array $inputs
      * @return array
      * @throws Exception
@@ -98,7 +92,7 @@ class DriverService extends Service
      */
     public function storeDriver(array $inputs): array
     {
-        DB::beginTransaction();
+        /*DB::beginTransaction();
         try {
             $newDriver = $this->userRepository->create($inputs);
             if ($newDriver instanceof User) {
@@ -115,12 +109,12 @@ class DriverService extends Service
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
-        }
+        }*/
     }
 
     /**
      * Update Driver Model
-     * 
+     *
      * @param array $inputs
      * @param $id
      * @return array
@@ -128,7 +122,7 @@ class DriverService extends Service
      */
     public function updateDriver(array $inputs, $id): array
     {
-        DB::beginTransaction();
+        /*DB::beginTransaction();
         try {
             $driver = $this->userRepository->show($id);
             if ($driver instanceof User) {
@@ -150,19 +144,19 @@ class DriverService extends Service
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
-        }
+        }*/
     }
 
     /**
      * Destroy Driver Model
-     * 
+     *
      * @param $id
      * @return array
      * @throws Throwable
      */
     public function destroyDriver($id): array
     {
-        DB::beginTransaction();
+        /*DB::beginTransaction();
         try {
             if ($this->userRepository->delete($id)) {
                 DB::commit();
@@ -179,19 +173,19 @@ class DriverService extends Service
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
-        }
+        }*/
     }
 
     /**
      * Restore Driver Model
-     * 
+     *
      * @param $id
      * @return array
      * @throws Throwable
      */
     public function restoreDriver($id): array
     {
-        DB::beginTransaction();
+        /*DB::beginTransaction();
         try {
             if ($this->userRepository->restore($id)) {
                 DB::commit();
@@ -208,7 +202,7 @@ class DriverService extends Service
             DB::rollBack();
             return ['status' => false, 'message' => $exception->getMessage(),
                 'level' => Constant::MSG_TOASTR_WARNING, 'title' => 'Error!'];
-        }
+        }*/
     }
 
     /**
@@ -220,6 +214,6 @@ class DriverService extends Service
      */
     public function exportDriver(array $filters = []): DriverExport
     {
-        return (new DriverExport($this->userRepository->getWith($filters)));
+        /* return (new DriverExport($this->userRepository->getWith($filters)));*/
     }
 }

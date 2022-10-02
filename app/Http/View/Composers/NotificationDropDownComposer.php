@@ -2,26 +2,24 @@
 
 namespace App\Http\View\Composers;
 
-use App\Repositories\Eloquent\UserRepository;
+use App\Services\Backend\Setting\UserService;
 use Illuminate\View\View;
 
 class NotificationDropDownComposer
 {
     /**
-     * The user repository implementation.
-     *
-     * @var UserRepository
+     * @var UserService
      */
-    protected $users;
+    private $userService;
 
     /**
      * Create a new profile composer.
      *
-     * @return void
+     * @param UserService $userService
      */
-    public function __construct()
+    public function __construct(UserService $userService)
     {
-
+        $this->userService = $userService;
     }
 
     /**

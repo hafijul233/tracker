@@ -74,7 +74,7 @@ class UserService extends Service
      * @param bool $detachOldRoles
      * @return bool
      */
-    private function manageRoles(User $user, array $roles = [], bool $detachOldRoles = false): bool
+    public function manageRoles(User $user, array $roles = [], bool $detachOldRoles = false): bool
     {
         $roleCollection = $user->roles()->exists() ? $user->roles : collect();
 

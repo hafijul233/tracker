@@ -2,9 +2,9 @@
 
 namespace App\Services\Auth;
 
-use App\Models\Setting\User;
-use App\Repositories\Eloquent\Backend\Setting\UserRepository;
+use App\Models\Backend\Setting\User;
 use App\Services\Backend\Common\FileUploadService;
+use App\Services\Backend\Setting\UserService;
 use App\Supports\Constant;
 use App\Supports\Utility;
 use Exception;
@@ -16,24 +16,23 @@ use function __;
 class RegisteredUserService
 {
     /**
-     * @var UserRepository
+     * @var UserService
      */
-    public $userRepository;
-
+    private $userService;
     /**
      * @var FileUploadService
      */
-    public $fileUploadService;
+    private $fileUploadService;
 
     /**
      * RegisteredUserService constructor.
-     * @param UserRepository $userRepository
+     * @param UserService $userService
      * @param FileUploadService $fileUploadService
      */
-    public function __construct(UserRepository    $userRepository,
+    public function __construct(UserService $userService,
                                 FileUploadService $fileUploadService)
     {
-        $this->userRepository = $userRepository;
+        $this->userService = $userService;
         $this->fileUploadService = $fileUploadService;
     }
 
@@ -49,7 +48,7 @@ class RegisteredUserService
         $inputs = $this->formatRegistrationInfo($registerFormInputs);
         try {
             //create new user
-            $newUser = $this->userRepository->create($inputs);
+            $newUser = $this->userService->storeUser($inputs);
             if ($newUser instanceof User) {
                 if ($this->attachAvatarImage($newUser) && $this->attachDefaultRoles($newUser)) {
                     \DB::commit();
@@ -65,7 +64,7 @@ class RegisteredUserService
                 return ['status' => false, 'message' => 'User model creation failed', 'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Error!'];
             }
         } catch (\Exception $exception) {
-            $this->userRepository->handleException($exception);
+            $this->handleException($exception);
             return ['status' => false, 'message' => __($exception->getMessage()), 'level' => Constant::MSG_TOASTR_ERROR, 'title' => 'Error!'];
         }
     }
@@ -81,7 +80,7 @@ class RegisteredUserService
         return [
             'name' => $request['name'],
             'password' => Utility::hashPassword(($request['password'] ?? Constant::PASSWORD)),
-            'username' => ($request['username'] ?? Utility::generateUsername($request['name'])),
+            'username' => ($request['username'] ?? User::generateUsername($request['name'])),
             'mobile' => ($request['mobile'] ?? null),
             'email' => ($request['email'] ?? null),
             'remarks' => 'self-registered',
@@ -111,7 +110,6 @@ class RegisteredUserService
      */
     protected function attachDefaultRoles(User $user): bool
     {
-        $this->userRepository->setModel($user);
-        return $this->userRepository->manageRoles([Constant::GUEST_ROLE_ID]);
+        return $this->userService->manageRoles($user, [Constant::GUEST_ROLE_ID]);
     }
 }
